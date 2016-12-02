@@ -436,6 +436,7 @@
 				6628E5381DF07836006C7213 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
