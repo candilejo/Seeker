@@ -21,7 +21,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="emailGrande2" translatesAutoresizingMaskIntoConstraints="NO" id="SJC-B3-9o8">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="usuarioGrande" translatesAutoresizingMaskIntoConstraints="NO" id="SJC-B3-9o8">
                                 <rect key="frame" x="16" y="229" width="30" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="A1h-td-4jc"/>
@@ -35,7 +35,7 @@
                                     <constraint firstAttribute="height" constant="30" id="ajh-di-Prh"/>
                                 </constraints>
                             </imageView>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="6bw-lS-ve8">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Usuario" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="6bw-lS-ve8">
                                 <rect key="frame" x="54" y="230" width="250" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="2oT-tF-Tgo"/>
@@ -43,9 +43,10 @@
                                 </constraints>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" autocorrectionType="no" keyboardType="emailAddress" keyboardAppearance="alert" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no" keyboardAppearance="alert" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
                                 <connections>
                                     <action selector="cierraTecladoACTION:" destination="dkx-z0-nzr" eventType="editingDidEndOnExit" id="GFI-xp-SvV"/>
+                                    <action selector="compruebaCamposACTION:" destination="BYZ-38-t0r" eventType="editingChanged" id="BT1-Oc-U9L"/>
                                 </connections>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AeL-Xa-MGi">
@@ -59,6 +60,9 @@
                                 <state key="normal" title="Acceder">
                                     <color key="titleColor" red="0.21415761110000001" green="0.2041827142" blue="0.19669404630000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
+                                <connections>
+                                    <action selector="loginACTION:" destination="BYZ-38-t0r" eventType="touchUpInside" id="0co-8I-PDd"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qz6-0I-PgP">
                                 <rect key="frame" x="16" y="410" width="288" height="30"/>
@@ -108,6 +112,9 @@
                                     <constraint firstAttribute="width" constant="30" id="zay-2a-jka"/>
                                 </constraints>
                                 <state key="normal" image="alertaGrande"/>
+                                <connections>
+                                    <action selector="informacionPasswordACTION:" destination="BYZ-38-t0r" eventType="touchUpInside" id="BkZ-lX-gWg"/>
+                                </connections>
                             </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="front" translatesAutoresizingMaskIntoConstraints="NO" id="8fZ-OC-RGw">
                                 <rect key="frame" x="48" y="63" width="224" height="107"/>
@@ -117,7 +124,7 @@
                                 </constraints>
                             </imageView>
                         </subviews>
-                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="IC7-K1-bBU" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="89X-LV-cp3"/>
                             <constraint firstItem="bJP-8R-VfM" firstAttribute="top" secondItem="IC7-K1-bBU" secondAttribute="bottom" constant="8" id="AlC-36-K2g"/>
@@ -151,6 +158,12 @@
                             <constraint firstItem="mZ2-jZ-jyh" firstAttribute="leading" secondItem="bJP-8R-VfM" secondAttribute="trailing" constant="8" id="wcr-L8-YZd"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="myActivityIndicatorAI" destination="Sxk-dA-YId" id="7jd-oR-Gps"/>
+                        <outlet property="myBotonAccederBTN" destination="AeL-Xa-MGi" id="RMp-Nl-reS"/>
+                        <outlet property="myPasswordTF" destination="mZ2-jZ-jyh" id="8dI-mJ-YPH"/>
+                        <outlet property="myUsuarioTF" destination="6bw-lS-ve8" id="O57-LG-utQ"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
@@ -159,8 +172,8 @@
     </scenes>
     <resources>
         <image name="alertaGrande" width="389" height="379"/>
-        <image name="emailGrande2" width="389" height="379"/>
         <image name="front" width="450" height="280"/>
         <image name="passwordGrande" width="389" height="379"/>
+        <image name="usuarioGrande" width="389" height="379"/>
     </resources>
 </document>

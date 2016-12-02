@@ -6,8 +6,12 @@
 //  Copyright © 2016 Jose Candilejo. All rights reserved.
 //
 
-import UIKit
 
+//MARK: - LIBRERIAS
+import UIKit
+import Parse
+
+//MARK: - INICIO DE LA CLASE
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
@@ -16,7 +20,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
-        UIApplication.shared.isStatusBarHidden = false
+        //Inicializacion de "Parse"
+        let configuration = ParseClientConfiguration {
+            $0.applicationId = "0JSEQFffZkMs2TWhXf7Z4YsGC4vrD7VSBWRKwJoM"
+            $0.clientKey = "UO996t25i4WmpJQh5bC7yA9HJg9gVxsKUm0pxhl0"
+            $0.server = "https://parseapi.back4app.com"
+        }
+        Parse.initialize(with: configuration)
+        
+        // Establecemos la configuración de los NavigationBar.
+        configuracionNavigationBar()
         
         return true
     }
@@ -41,6 +54,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+    }
+    
+    
+    //MARK -------------------------- UTILIDADES --------------------------
+    
+    // CONFIGURA LOS NAVIGATIONBAR
+    func configuracionNavigationBar(){
+        
+        let naviBar = UINavigationBar.appearance()
+        let colorNB = UIColor(red:0.20, green:0.20, blue:0.20, alpha:1.0)
+        let shadow = NSShadow()
+        
+        naviBar.tintColor = UIColor.white
+        naviBar.barTintColor = colorNB
+        
+        shadow.shadowColor = UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 0.7)
+        shadow.shadowOffset = CGSize(width: 2.0, height: 2.0)
+        
+        naviBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.white, NSShadowAttributeName : shadow]
     }
 
 
