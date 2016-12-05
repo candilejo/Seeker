@@ -45,7 +45,6 @@ class SK_Acceso_ViewController: UIViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
-
     
     
     
@@ -98,6 +97,9 @@ class SK_Acceso_ViewController: UIViewController {
         }
     }
     
+    // CIERRA EL TECLADO AL PULSAR ACEPTAR.
+    @IBAction func cierraTecladoACTION(_ sender: Any) {
+    }
     
     
     //MARK -------------------------- UTILIDADES --------------------------
