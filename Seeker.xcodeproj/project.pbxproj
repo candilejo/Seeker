@@ -30,6 +30,10 @@
 		6628E55E1DF08427006C7213 /* ParseTwitterUtils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6628E5581DF08427006C7213 /* ParseTwitterUtils.framework */; };
 		6628E55F1DF08427006C7213 /* ParseUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6628E5591DF08427006C7213 /* ParseUI.framework */; };
 		6628E5641DF0865F006C7213 /* SK_Utilidades.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6628E5631DF0865F006C7213 /* SK_Utilidades.swift */; };
+		6682AE241DF597F500C20582 /* SK_Yo_ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6682AE231DF597F500C20582 /* SK_Yo_ViewController.swift */; };
+		6682AE281DF5B36900C20582 /* SK_Yo_Editar_ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6682AE271DF5B36900C20582 /* SK_Yo_Editar_ViewController.swift */; };
+		6682AE2B1DF5BC8B00C20582 /* SK_Yo_Editar_Ubicacion_ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6682AE2A1DF5BC8B00C20582 /* SK_Yo_Editar_Ubicacion_ViewController.swift */; };
+		6682AE2D1DF5BEF800C20582 /* SK_Yo_Editar_SearchLocationTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6682AE2C1DF5BEF800C20582 /* SK_Yo_Editar_SearchLocationTableViewController.swift */; };
 		66AA0B341DF18D6200C4F7C2 /* SK_Registro_ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66AA0B331DF18D6200C4F7C2 /* SK_Registro_ViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -59,6 +63,10 @@
 		6628E5581DF08427006C7213 /* ParseTwitterUtils.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ParseTwitterUtils.framework; sourceTree = "<group>"; };
 		6628E5591DF08427006C7213 /* ParseUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ParseUI.framework; sourceTree = "<group>"; };
 		6628E5631DF0865F006C7213 /* SK_Utilidades.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SK_Utilidades.swift; sourceTree = "<group>"; };
+		6682AE231DF597F500C20582 /* SK_Yo_ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SK_Yo_ViewController.swift; sourceTree = "<group>"; };
+		6682AE271DF5B36900C20582 /* SK_Yo_Editar_ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SK_Yo_Editar_ViewController.swift; sourceTree = "<group>"; };
+		6682AE2A1DF5BC8B00C20582 /* SK_Yo_Editar_Ubicacion_ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SK_Yo_Editar_Ubicacion_ViewController.swift; sourceTree = "<group>"; };
+		6682AE2C1DF5BEF800C20582 /* SK_Yo_Editar_SearchLocationTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SK_Yo_Editar_SearchLocationTableViewController.swift; sourceTree = "<group>"; };
 		66AA0B331DF18D6200C4F7C2 /* SK_Registro_ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SK_Registro_ViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -113,6 +121,7 @@
 				6628E5391DF07994006C7213 /* OTROS */,
 				6628E5651DF08663006C7213 /* UTILIDADES */,
 				6628E53C1DF08085006C7213 /* ACCESO/REGISTRO */,
+				6682AE261DF5980700C20582 /* TABAR */,
 				6628E52B1DF07836006C7213 /* Main.storyboard */,
 			);
 			path = Seeker;
@@ -192,6 +201,33 @@
 				6628E5631DF0865F006C7213 /* SK_Utilidades.swift */,
 			);
 			name = UTILIDADES;
+			sourceTree = "<group>";
+		};
+		6682AE251DF597FA00C20582 /* Yo */ = {
+			isa = PBXGroup;
+			children = (
+				6682AE231DF597F500C20582 /* SK_Yo_ViewController.swift */,
+				6682AE291DF5B37100C20582 /* Editar */,
+			);
+			name = Yo;
+			sourceTree = "<group>";
+		};
+		6682AE261DF5980700C20582 /* TABAR */ = {
+			isa = PBXGroup;
+			children = (
+				6682AE251DF597FA00C20582 /* Yo */,
+			);
+			name = TABAR;
+			sourceTree = "<group>";
+		};
+		6682AE291DF5B37100C20582 /* Editar */ = {
+			isa = PBXGroup;
+			children = (
+				6682AE271DF5B36900C20582 /* SK_Yo_Editar_ViewController.swift */,
+				6682AE2A1DF5BC8B00C20582 /* SK_Yo_Editar_Ubicacion_ViewController.swift */,
+				6682AE2C1DF5BEF800C20582 /* SK_Yo_Editar_SearchLocationTableViewController.swift */,
+			);
+			name = Editar;
 			sourceTree = "<group>";
 		};
 		66AA0B351DF18EC200C4F7C2 /* Registro */ = {
@@ -276,8 +312,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				6628E5641DF0865F006C7213 /* SK_Utilidades.swift in Sources */,
+				6682AE2D1DF5BEF800C20582 /* SK_Yo_Editar_SearchLocationTableViewController.swift in Sources */,
+				6682AE281DF5B36900C20582 /* SK_Yo_Editar_ViewController.swift in Sources */,
 				6628E53B1DF08047006C7213 /* SK_Acceso_ViewController.swift in Sources */,
 				66AA0B341DF18D6200C4F7C2 /* SK_Registro_ViewController.swift in Sources */,
+				6682AE2B1DF5BC8B00C20582 /* SK_Yo_Editar_Ubicacion_ViewController.swift in Sources */,
+				6682AE241DF597F500C20582 /* SK_Yo_ViewController.swift in Sources */,
 				6628E5281DF07836006C7213 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

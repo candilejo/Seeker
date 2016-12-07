@@ -36,14 +36,28 @@ class SK_Acceso_ViewController: UIViewController {
         // Creamos el gesto y se lo añadimos al View.
         let viewGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(SK_Acceso_ViewController.hideKeyBoard))
         view.addGestureRecognizer(viewGestureRecognizer)
-        
-        
     }
 
     
     //MARK: - SE EJECUTA AL RECIBIR UNA ALERTA DE MEMORIA
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
+    }
+    
+    
+    //MARK: - ACCESO A LA APP SI LA SESION ESTA ABIERTA
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        // Mostramos la barra de estado.
+        UIApplication.shared.statusBarStyle = .default
+        
+        // Si la sesión del usuario está activa accedemos a la App.
+        if PFUser.current()?.username != nil{
+            performSegue(withIdentifier: "presentTabBarController", sender: self)
+        }else{
+            print ("El usuario no exite.")
+        }
     }
     
     

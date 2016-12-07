@@ -69,7 +69,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         naviBar.tintColor = UIColor.white
         naviBar.barTintColor = colorNB
         
-        shadow.shadowColor = UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 0.7)
+        //shadow.shadowColor = UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 0.7)
+        shadow.shadowColor = UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 0.0)
         shadow.shadowOffset = CGSize(width: 2.0, height: 2.0)
         
         naviBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.white, NSShadowAttributeName : shadow]

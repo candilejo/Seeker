@@ -45,8 +45,8 @@ class SK_Registro_ViewController: UIViewController {
         cambiaEstadoBTN(boton: myBotonRegistrarseBTN, estado: false)
         
         // Configuramos el borde de myImagenUsuarioIV y myImagenCamaraIV.
-        configuraBordesImagenes(myImagenUsuarioIV, redondo: true, borde: true)
-        configuraBordesImagenes(myImagenCamaraIV, redondo: true, borde: false)
+        configuraBordesImagenes(myImagenUsuarioIV, redondo: true, borde: false)
+        configuraBordesImagenes(myImagenCamaraIV, redondo: true, borde: true)
         
         // Hacemos interactiva la imagen.
         myImagenCamaraIV.isUserInteractionEnabled = true
@@ -95,6 +95,49 @@ class SK_Registro_ViewController: UIViewController {
     @IBAction func cerrarTecladoACTION(_ sender: Any) {
     }
     
+    // UNIRSE A LA APLICACIÓN.
+    @IBAction func uneteACTION(_ sender: Any) {
+        // Creamos la instancia del usuario.
+        let usuarioData = PFUser()
+        
+        // Asignamos el valor del registro.
+        usuarioData.username = myUsuarioTF.text
+        usuarioData.password = myPasswordTF.text
+        usuarioData["passwordEmpresa"] = myPasswordTF.text
+        usuarioData.email = myEmailTF.text
+        usuarioData["nombreEmpresa"] = myNombreEmpresaTF.text
+        
+        // Hacemos visible e iniciamos myActivityIndicator e ignoramos la interacción con eventos.
+        myActivityIndicatorAI.isHidden = false
+        myActivityIndicatorAI.startAnimating()
+        UIApplication.shared.beginIgnoringInteractionEvents()
+        
+        // Comprobamos que el registro del usuario se puede efectuar.
+        usuarioData.signUpInBackground(block: { (envioExitoso, errorRegistro) in
+            
+            // Ocultamos y paramos myActivityIndicator y reanudamos la interacción con eventos.
+            self.myActivityIndicatorAI.isHidden = true
+            self.myActivityIndicatorAI.stopAnimating()
+            UIApplication.shared.endIgnoringInteractionEvents()
+            
+            // Si existe un error, mostramos el tipo de error que es.
+            if errorRegistro != nil{
+                if let errorString = (errorRegistro! as NSError).userInfo["error"] as? NSString{
+                    self.present(showAlertVC("ATENCION", messageData: errorString as String), animated: true, completion: nil)
+                }else{
+                    self.present(showAlertVC("ATENCION", messageData: "Error en el registro"), animated: true, completion: nil)
+                }
+                
+            }else{ // Sino
+                
+                // Salvamos el usuario y la imagen y accedemos a la App.
+                self.salvarImagenEnBackgroundWhitBlock()
+                self.performSegue(withIdentifier: "presentTabBarController", sender: self)
+                print("El usuario se ha salvado exitosamente")
+            }
+        })
+        
+    }
     
     //MARK -------------------------- UTILIDADES --------------------------
     
@@ -109,8 +152,8 @@ class SK_Registro_ViewController: UIViewController {
         // Declaramos el estado de los campos.
         var estado = true
         
-        // Si myEmailTF o myNombreEmpresaTF estan vacios o myPasswordTF tiene menos de 6 caracteres devolvemos 'false'.
-        if myEmailTF.text! == "" || (myPasswordTF.text?.characters.count)! < 6 || myNombreEmpresaTF.text! == ""{
+        // Si  myUsuarioTF o myEmailTF o myNombreEmpresaTF estan vacios o myPasswordTF tiene menos de 6 caracteres devolvemos 'false'.
+        if myUsuarioTF.text! == "" || myEmailTF.text! == "" || (myPasswordTF.text?.characters.count)! < 6 || myNombreEmpresaTF.text! == ""{
             estado = false
         }
         
@@ -123,7 +166,7 @@ class SK_Registro_ViewController: UIViewController {
         // Declaramos la clase, el formato de la imagen y el fichero donde se guarda.
         let postImagen = PFObject(className: "ImageProfile")
         let imageData = UIImageJPEGRepresentation(myImagenUsuarioIV.image!, 0.2)
-        let imageFile = PFFile(name: "imagePerfilusuario" + myEmailTF.text! + ".jpg", data: imageData!)
+        let imageFile = PFFile(name: "imagePerfilusuario" + myUsuarioTF.text! + ".jpg", data: imageData!)
         
         // Asignamos el fichero y el usuario.
         postImagen["imageFile"] = imageFile
@@ -138,7 +181,7 @@ class SK_Registro_ViewController: UIViewController {
                 self.present(showAlertVC("ATENCION", messageData: "Datos salvados exitosamente"), animated: true, completion: nil)
                 
                 print("usuario registrado correctamente")
-                limpiaCampos([self.myPasswordTF, self.myNombreEmpresaTF, self.myEmailTF])
+                limpiaCampos([self.myUsuarioTF, self.myPasswordTF, self.myNombreEmpresaTF, self.myEmailTF])
                 self.myImagenUsuarioIV.image = UIImage(named: "placeholder")
                 
                 

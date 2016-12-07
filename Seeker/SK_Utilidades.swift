@@ -32,7 +32,7 @@ func configuraBordesImagenes(_ imagen: UIImageView, redondo: Bool, borde: Bool){
         imagen.layer.cornerRadius = 10
     }
     if borde{
-        imagen.layer.borderColor = UIColor.darkGray.cgColor
+        imagen.layer.borderColor = UIColor.white.cgColor
         imagen.layer.borderWidth = 3
     }
 }
