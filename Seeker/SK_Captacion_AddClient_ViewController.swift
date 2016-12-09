@@ -1,0 +1,254 @@
+//
+//  SK_Captacion_AddClient_ViewController.swift
+//  Seeker
+//
+//  Created by Jose Candilejo on 7/12/16.
+//  Copyright © 2016 Jose Candilejo. All rights reserved.
+//
+
+
+//MARK: - LIBRERIAS
+import UIKit
+import Parse
+
+class SK_Captacion_AddClient_ViewController: UIViewController {
+
+    //MARK: - VARIABLES LOCALES GLOBALES
+    var fotoSeleccionada = false
+    var latitud : Double?
+    var longitud : Double?
+    var calle : String?
+    
+    
+    //MARK: - IBOUTLETS
+    @IBOutlet weak var myImagenClienteIV: UIImageView!
+    @IBOutlet weak var myImagenCamaraIV: UIImageView!
+    @IBOutlet weak var myNombreClienteTF: UITextField!
+    @IBOutlet weak var myTelefonoClienteTF: UITextField!
+    @IBOutlet weak var myCalleClienteTF: UITextField!
+    @IBOutlet weak var myObservacionesClienteTF: UITextField!
+    
+    
+    
+    //MARK: - LIFE VC
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        // Mostramos la barra de estado.
+        UIApplication.shared.statusBarStyle = .lightContent
+        
+        // Configuramos el borde de myImagenUsuarioIV y myImagenCamaraIV.
+        configuraBordesImagenes(myImagenClienteIV, redondo: true, borde: true)
+        configuraBordesImagenes(myImagenCamaraIV, redondo: true, borde: false)
+        
+        // Hacemos interactiva a myImagenCamaraIV.
+        myImagenCamaraIV.isUserInteractionEnabled = true
+        
+        // Añadimos el gesto a la myImagenCamaraIV para que se habra la camara de fotos.
+        let imageGestureReconize = UITapGestureRecognizer(target: self, action: #selector(SK_Captacion_AddClient_ViewController.showCamaraFotos))
+        myImagenCamaraIV.addGestureRecognizer(imageGestureReconize)
+        
+        // Creamos el gesto y se lo añadimos al View.
+        let viewGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(SK_Captacion_AddClient_ViewController.hideKeyBoard))
+        view.addGestureRecognizer(viewGestureRecognizer)
+        
+        // Añadimos el boton al teclado.
+        addBotonOkAlTeclado()
+        
+        // Cargamos los datos de la localización del cliente.
+        myCalleClienteTF.text = calle
+
+    }
+
+
+    //MARK: - SE EJECUTA AL RECIBIR UNA ALERTA DE MEMORIA
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+    }
+    
+    //MARK -------------------------- ACCIONES --------------------------
+    
+    // GUARDAR CLIENTE.
+    @IBAction func guardarClienteACTION(_ sender: Any) {
+        
+        // Si los campos son correctos, coprobamos si el usuario existe.
+        if compruebaCampos(){
+            existeCliente()
+        }
+    }
+
+    // CERRAR TECLADO AL CLICAR EN ACEPTAR.
+    @IBAction func cerrarTcladoACTION(_ sender: Any) {
+    }
+    
+    
+    //MARK -------------------------- UTILIDADES --------------------------
+    
+    // SELECCIONAR FOTO DEL CLIENTE
+    func showCamaraFotos(){
+        pickerPhoto()
+    }
+    
+    // CIERRA TECLADO
+    func hideKeyBoard(){
+        view.endEditing(true)
+    }
+    
+    // AÑADIMOS LOS BOTONES AL TECLADO
+    func addBotonOkAlTeclado(){
+        // Creamos la barra de herramientas y le damos un formato.
+        let aceptarToolbar: UIToolbar = UIToolbar(frame: CGRect(x: 0, y: 0, width: 320, height: 50))
+        aceptarToolbar.barStyle = UIBarStyle.blackTranslucent
+        
+        // Creamos los botones que añadiremos a la barra de herramientas.
+        let flexSpace = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
+        let done: UIBarButtonItem = UIBarButtonItem(title: "OK", style: UIBarButtonItemStyle.done, target: self, action: #selector(SK_Captacion_AddClient_ViewController.doneButtonAction))
+        
+        // Establecemos el color del texto.
+        done.tintColor = UIColor(red:0.53, green:0.91, blue:0.45, alpha:1.0)
+        
+        // Añadimos los botones a la barra de herramientas.
+        var items = [UIBarButtonItem]()
+        items.append(flexSpace)
+        items.append(done)
+        
+        aceptarToolbar.items = items
+        aceptarToolbar.sizeToFit()
+        
+        // Añadimos el accesorio a myNumeroEmpresaTF.
+        myTelefonoClienteTF.inputAccessoryView = aceptarToolbar
+    }
+    
+    
+    // ESTABLECEMOS COMO RESPONDEDOR A myTelefonoEmpresaTF.
+    func doneButtonAction(){
+        myTelefonoClienteTF.resignFirstResponder()
+    }
+    
+    
+    // COMPROBAR CAMPOS PARA AÑADIR AL CLIENTE.
+    func compruebaCampos() -> Bool{
+        // Comprobamos que el campo telefono tiene que estar relleno.
+        if myTelefonoClienteTF.text == ""{
+            present(showAlertVC("ATENCIÓN", messageData: "El cliente debe contener un número de teléfono."), animated: true, completion: nil)
+            return false
+        }else{
+            return true
+        }
+    }
+    
+    
+    // GUARDA AL NUEVO CLIENTE.
+    func guardarDatos(){
+        // Actualizamos los datos del cliente si los campos no están vacíos.
+        let userData = PFObject(className: "Client")
+        if myNombreClienteTF.text != ""{
+            userData["nombreCliente"] = myNombreClienteTF.text
+        }
+        if myTelefonoClienteTF.text != ""{
+            userData["telefonoCliente"] = myTelefonoClienteTF.text
+        }
+        if myCalleClienteTF.text != ""{
+            userData["calleCliente"] = myCalleClienteTF.text
+            userData["latitudCliente"] = latitud!
+            userData["longitudCliente"] = longitud!
+        }
+        if myObservacionesClienteTF.text != ""{
+            userData["observacionesCliente"] = myObservacionesClienteTF.text
+        }
+        
+        // Ignoramos cualquier evento.
+        UIApplication.shared.beginIgnoringInteractionEvents()
+        // Salvamos los datos y si todo es correcto también salvamos la imagen.
+        userData.saveInBackground { (actualizacionExitosa, errorActualizacion) in
+            // Dejamos de ignorar los eventos
+            UIApplication.shared.endIgnoringInteractionEvents()
+            if actualizacionExitosa{
+                self.salvarImagenEnBackgroundWhitBlock()
+            }else{
+                print("error")
+            }
+        }
+    }
+
+    
+    // SALVAR IMAGEN EN PARSE
+    func salvarImagenEnBackgroundWhitBlock(){
+        // Declaramos la clase, el formato de la imagen y el fichero donde se guarda.
+        let postImagen = PFObject(className: "imageClient")
+        let imageData = UIImageJPEGRepresentation(myImagenClienteIV.image!, 0.2)
+        let imageFile = PFFile(name: "imagePerfilCliente" + myTelefonoClienteTF.text! + ".jpg", data: imageData!)
+        
+        // Asignamos el fichero y el usuario.
+        postImagen["imagenCliente"] = imageFile
+        postImagen["telefonoCliente"] = myTelefonoClienteTF.text!
+        
+        // Comprobamos si se puede guardar la imagen.
+        postImagen.saveInBackground{ (salvadoExitoso, errorDeSubidaImagen) in
+            
+            // Si todo es correcto, lanzamos un mensaje de registro correcto y limpiamos los campos.
+            if salvadoExitoso{
+                self.present(showAlertVC("ATENCION", messageData: "Datos salvados exitosamente"), animated: true, completion: nil)
+                limpiaCampos([self.myNombreClienteTF, self.myTelefonoClienteTF, self.myCalleClienteTF, self.myObservacionesClienteTF])
+                self.myImagenClienteIV.image = UIImage(named: "placeholderGrande")
+            }else{ // Sino lanzamos un mensaje de error.
+                self.present(showAlertVC("ATENCION", messageData: "Error en el registro"), animated: true, completion: nil)
+            }
+        }
+    }
+    
+    // COMPRUEBA SI EL CLIENTE EXISTE.
+    func existeCliente(){
+        // Realizamos la consulta de los datos del cliente.
+        let queryUser = PFQuery(className: "Client")
+        queryUser.whereKey("telefonoCliente", equalTo: myTelefonoClienteTF.text!)
+        
+        // Buscamos todos los objetos de la consulta comprobando que no existe el cliente.
+        queryUser.findObjectsInBackground { (objectUno, errorUno) in
+            if errorUno == nil{
+                if let objectUnoDes = objectUno{
+                    for objectDataUnoDes  in objectUnoDes{
+                        // Si el cliente existe lanzamos un error sino lo guardamos.
+                        if self.myTelefonoClienteTF.text! == objectDataUnoDes["telefonoCliente"] as? String{
+                            self.present(showAlertVC("ATENCIÓN", messageData: "El número ya esta dado de alta en la base de datos"), animated: true, completion: nil)
+                        }else{
+                            self.guardarDatos()
+                        }
+                    }
+                }
+            }
+        }
+        
+    }
+}
+
+
+
+//MARK: - DELEGATE UIIMAGEPICKER / PHOTO
+extension SK_Captacion_AddClient_ViewController : UIImagePickerControllerDelegate, UINavigationControllerDelegate{
+    
+    
+    // SELECCIONAMOS LA CAMARA O LA LIBRERIA
+    func pickerPhoto(){
+        if UIImagePickerController.isSourceTypeAvailable(.camera){
+            takePhotowithCamera()
+        }
+    }
+    
+    // LANZAMOS LA CAMARA PARA TOMAR UNA FOTO
+    func takePhotowithCamera(){
+        let imagePicker = UIImagePickerController()
+        imagePicker.sourceType = .camera
+        imagePicker.delegate = self
+        imagePicker.allowsEditing = true
+        present(imagePicker, animated: true, completion: nil)
+    }
+    
+    // CERRAMOS LA CAMARA CUANDO SELECCIONEMOS LA IMAGEN
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingImage image: UIImage, editingInfo: [String : AnyObject]?) {
+        fotoSeleccionada = true
+        myImagenClienteIV.image = image
+        self.dismiss(animated: true, completion: nil)
+    }
+}
+

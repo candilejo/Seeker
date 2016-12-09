@@ -34,6 +34,8 @@
 		6682AE281DF5B36900C20582 /* SK_Yo_Editar_ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6682AE271DF5B36900C20582 /* SK_Yo_Editar_ViewController.swift */; };
 		6682AE2B1DF5BC8B00C20582 /* SK_Yo_Editar_Ubicacion_ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6682AE2A1DF5BC8B00C20582 /* SK_Yo_Editar_Ubicacion_ViewController.swift */; };
 		6682AE2D1DF5BEF800C20582 /* SK_Yo_Editar_SearchLocationTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6682AE2C1DF5BEF800C20582 /* SK_Yo_Editar_SearchLocationTableViewController.swift */; };
+		6682AE2F1DF80B9E00C20582 /* SK_Captacion_ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6682AE2E1DF80B9E00C20582 /* SK_Captacion_ViewController.swift */; };
+		6682AE321DF80F5300C20582 /* SK_Captacion_AddClient_ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6682AE311DF80F5300C20582 /* SK_Captacion_AddClient_ViewController.swift */; };
 		66AA0B341DF18D6200C4F7C2 /* SK_Registro_ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66AA0B331DF18D6200C4F7C2 /* SK_Registro_ViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -67,6 +69,8 @@
 		6682AE271DF5B36900C20582 /* SK_Yo_Editar_ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SK_Yo_Editar_ViewController.swift; sourceTree = "<group>"; };
 		6682AE2A1DF5BC8B00C20582 /* SK_Yo_Editar_Ubicacion_ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SK_Yo_Editar_Ubicacion_ViewController.swift; sourceTree = "<group>"; };
 		6682AE2C1DF5BEF800C20582 /* SK_Yo_Editar_SearchLocationTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SK_Yo_Editar_SearchLocationTableViewController.swift; sourceTree = "<group>"; };
+		6682AE2E1DF80B9E00C20582 /* SK_Captacion_ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SK_Captacion_ViewController.swift; sourceTree = "<group>"; };
+		6682AE311DF80F5300C20582 /* SK_Captacion_AddClient_ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SK_Captacion_AddClient_ViewController.swift; sourceTree = "<group>"; };
 		66AA0B331DF18D6200C4F7C2 /* SK_Registro_ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SK_Registro_ViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -216,6 +220,7 @@
 			isa = PBXGroup;
 			children = (
 				6682AE251DF597FA00C20582 /* Yo */,
+				6682AE301DF80BA300C20582 /* Captacion */,
 			);
 			name = TABAR;
 			sourceTree = "<group>";
@@ -228,6 +233,23 @@
 				6682AE2C1DF5BEF800C20582 /* SK_Yo_Editar_SearchLocationTableViewController.swift */,
 			);
 			name = Editar;
+			sourceTree = "<group>";
+		};
+		6682AE301DF80BA300C20582 /* Captacion */ = {
+			isa = PBXGroup;
+			children = (
+				6682AE2E1DF80B9E00C20582 /* SK_Captacion_ViewController.swift */,
+				6682AE331DF80FB500C20582 /* Nuevo Cliente */,
+			);
+			name = Captacion;
+			sourceTree = "<group>";
+		};
+		6682AE331DF80FB500C20582 /* Nuevo Cliente */ = {
+			isa = PBXGroup;
+			children = (
+				6682AE311DF80F5300C20582 /* SK_Captacion_AddClient_ViewController.swift */,
+			);
+			name = "Nuevo Cliente";
 			sourceTree = "<group>";
 		};
 		66AA0B351DF18EC200C4F7C2 /* Registro */ = {
@@ -316,8 +338,10 @@
 				6682AE281DF5B36900C20582 /* SK_Yo_Editar_ViewController.swift in Sources */,
 				6628E53B1DF08047006C7213 /* SK_Acceso_ViewController.swift in Sources */,
 				66AA0B341DF18D6200C4F7C2 /* SK_Registro_ViewController.swift in Sources */,
+				6682AE2F1DF80B9E00C20582 /* SK_Captacion_ViewController.swift in Sources */,
 				6682AE2B1DF5BC8B00C20582 /* SK_Yo_Editar_Ubicacion_ViewController.swift in Sources */,
 				6682AE241DF597F500C20582 /* SK_Yo_ViewController.swift in Sources */,
+				6682AE321DF80F5300C20582 /* SK_Captacion_AddClient_ViewController.swift in Sources */,
 				6628E5281DF07836006C7213 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
