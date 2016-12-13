@@ -66,16 +66,17 @@ class SK_Captacion_AddClient_ViewController: UIViewController {
         super.didReceiveMemoryWarning()
     }
     
+    
     //MARK -------------------------- ACCIONES --------------------------
     
     // GUARDAR CLIENTE.
     @IBAction func guardarClienteACTION(_ sender: Any) {
-        
         // Si los campos son correctos, coprobamos si el usuario existe.
         if compruebaCampos(){
             existeCliente()
         }
     }
+
 
     // CERRAR TECLADO AL CLICAR EN ACEPTAR.
     @IBAction func cerrarTcladoACTION(_ sender: Any) {
@@ -137,6 +138,32 @@ class SK_Captacion_AddClient_ViewController: UIViewController {
         }
     }
     
+    // COMPRUEBA SI EL CLIENTE EXISTE.
+    func existeCliente(){
+        print("llega")
+        // Realizamos la consulta de los datos del cliente.
+        let queryUser = PFQuery(className: "Client")
+        queryUser.whereKey("telefonoCliente", equalTo: myTelefonoClienteTF.text!)
+        
+        // Buscamos todos los objetos de la consulta comprobando que no existe el cliente.
+        queryUser.findObjectsInBackground { (objectUno, errorUno) in
+            if errorUno == nil{
+                if let objectUnoDes = objectUno{
+                    if objectUnoDes.count != 0{
+                        for objectDataUnoDes  in objectUnoDes{
+                            // Si el cliente existe lanzamos un error sino lo guardamos.
+                            if self.myTelefonoClienteTF.text! == objectDataUnoDes["telefonoCliente"] as? String{
+                                self.present(showAlertVC("ATENCIÓN", messageData: "El número ya esta dado de alta en la base de datos"), animated: true, completion: nil)
+                            }
+                        }
+                    }else{
+                        self.guardarDatos()
+                    }
+                }
+            }
+        }
+    }
+    
     
     // GUARDA AL NUEVO CLIENTE.
     func guardarDatos(){
@@ -195,30 +222,6 @@ class SK_Captacion_AddClient_ViewController: UIViewController {
                 self.present(showAlertVC("ATENCION", messageData: "Error en el registro"), animated: true, completion: nil)
             }
         }
-    }
-    
-    // COMPRUEBA SI EL CLIENTE EXISTE.
-    func existeCliente(){
-        // Realizamos la consulta de los datos del cliente.
-        let queryUser = PFQuery(className: "Client")
-        queryUser.whereKey("telefonoCliente", equalTo: myTelefonoClienteTF.text!)
-        
-        // Buscamos todos los objetos de la consulta comprobando que no existe el cliente.
-        queryUser.findObjectsInBackground { (objectUno, errorUno) in
-            if errorUno == nil{
-                if let objectUnoDes = objectUno{
-                    for objectDataUnoDes  in objectUnoDes{
-                        // Si el cliente existe lanzamos un error sino lo guardamos.
-                        if self.myTelefonoClienteTF.text! == objectDataUnoDes["telefonoCliente"] as? String{
-                            self.present(showAlertVC("ATENCIÓN", messageData: "El número ya esta dado de alta en la base de datos"), animated: true, completion: nil)
-                        }else{
-                            self.guardarDatos()
-                        }
-                    }
-                }
-            }
-        }
-        
     }
 }
 

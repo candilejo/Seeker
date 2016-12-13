@@ -182,7 +182,7 @@ class SK_Registro_ViewController: UIViewController {
                 
                 print("usuario registrado correctamente")
                 limpiaCampos([self.myUsuarioTF, self.myPasswordTF, self.myNombreEmpresaTF, self.myEmailTF])
-                self.myImagenUsuarioIV.image = UIImage(named: "placeholder")
+                self.myImagenUsuarioIV.image = UIImage(named: "negocioGrande2")
                 
                 
             }else{ // Sino lanzamos un mensaje de error.
