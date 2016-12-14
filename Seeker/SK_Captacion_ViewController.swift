@@ -12,6 +12,9 @@ import UIKit
 import MapKit
 import Parse
 
+
+var haPasado : Bool?
+
 class SK_Captacion_ViewController: UIViewController {
 
     
@@ -30,9 +33,10 @@ class SK_Captacion_ViewController: UIViewController {
     var imagenCliente = [UIImage]()
     var imagen = UIImage()
     
-    var titulo = ""
+    var telefCliente = ""
     
     var oculto = true
+    
     
     //MARK: - IBOUTLETS
     @IBOutlet weak var myMapaCaptacionMV: MKMapView!
@@ -74,6 +78,7 @@ class SK_Captacion_ViewController: UIViewController {
         // Establecemos que myMapaCaptacionMV sea su propio delegado.
         myMapaCaptacionMV.delegate = self
         
+        // Cargamos los clientes
         cargarClientes()
         
     }
@@ -84,11 +89,23 @@ class SK_Captacion_ViewController: UIViewController {
         super.didReceiveMemoryWarning()
     }
     
+    //MARK: - CARGAMOS LOS CLIENTES CUANDO RECUPERAMOS EL VIEW
+    override func viewDidAppear(_ animated: Bool) {
+        if haPasado == true{
+            print("Entra")
+            cargarClientes()
+            haPasado = false
+        }
+    }
+    
     
     //MARK -------------------------- ACCIONES --------------------------
     
     // AÑADIR CLIENTE.
     @IBAction func addClienteACTION(_ sender: Any) {
+        
+        // Marcamos como que ha pasado ha otro View .
+        haPasado = true
         
         // Ocultamos las anotaciones
         myMapaCaptacionMV.removeAnnotations(myMapaCaptacionMV.annotations)
@@ -141,17 +158,19 @@ class SK_Captacion_ViewController: UIViewController {
     // MOSTRAR CLIENTES
     @IBAction func verClientesACTION(_ sender: Any) {
         
-        // Silos clientes estan ocultos los mostramos
+        // Si los clientes estan ocultos los mostramos
         if oculto{
-            for i in 1...longitudCliente.count{
-                let center = CLLocationCoordinate2DMake(latitudCliente[i - 1], longitudCliente[i - 1])
             
+            for i in 1...self.longitudCliente.count{
+                let center = CLLocationCoordinate2DMake(self.latitudCliente[i - 1], self.longitudCliente[i - 1])
+                
                 let annotation = MKPointAnnotation()
                 annotation.coordinate = center
-                annotation.title = telefonoCliente[i - 1]
-                annotation.subtitle = calleCliente[i - 1]
-                imagen = imagenCliente[i - 1]
-                myMapaCaptacionMV.addAnnotation(annotation)
+                annotation.title = self.telefonoCliente[i - 1]
+                annotation.subtitle = self.calleCliente[i - 1]
+                self.imagen = self.imagenCliente[i - 1]
+                print (imagen)
+                self.myMapaCaptacionMV.addAnnotation(annotation)
             }
             oculto = false
         }else{ // Si no los ocultamos.
@@ -164,11 +183,21 @@ class SK_Captacion_ViewController: UIViewController {
     
     // CARGAMOS CLIENTES
     func cargarClientes(){
+        // Limpiamos los array antes de cargarlos de nuevo.
+        imagenCliente.removeAll()
+        telefonoCliente.removeAll()
+        latitudCliente.removeAll()
+        longitudCliente.removeAll()
+        calleCliente.removeAll()
+        
         // Realizamos la consulta de los datos del cliente.
         let queryClient = PFQuery(className: "Client")
         
+        UIApplication.shared.beginIgnoringInteractionEvents()
+        
         // Buscamos todos los objetos.
         queryClient.findObjectsInBackground { (objectUno, errorUno) in
+            
             if errorUno == nil{
                 if let objectUnoDes = objectUno{
                     for objectDataUnoDes  in objectUnoDes{
@@ -197,6 +226,7 @@ class SK_Captacion_ViewController: UIViewController {
                                 }
                             }
                         })
+                        UIApplication.shared.endIgnoringInteractionEvents()
                         // Cargamos los datos del cliente.
                         if objectDataUnoDes["telefonoCliente"] != nil{
                             self.telefonoCliente.append(objectDataUnoDes["telefonoCliente"] as! String)
@@ -237,6 +267,9 @@ class SK_Captacion_ViewController: UIViewController {
     // MOSTRAR DATOS DEL CLIENTE
     func cargaDatosCliente(){
         
+        // Marcamos como que ha pasado ha otro View .
+        haPasado = true
+        
         // Ocultamos las anotaciones.
         myMapaCaptacionMV.removeAnnotations(myMapaCaptacionMV.annotations)
         oculto = true
@@ -246,7 +279,7 @@ class SK_Captacion_ViewController: UIViewController {
         let infoCliente = self.storyboard?.instantiateViewController(withIdentifier: "informationClient") as! SK_Captacion_InfoCliente_ViewController
         
         // Pasamos los datos a la Segunda Ventana.
-        infoCliente.titulo = self.titulo
+        infoCliente.telefonoCliente = self.telefCliente
 
         
         self.navigationController?.pushViewController(infoCliente, animated: true)
@@ -278,8 +311,6 @@ extension SK_Captacion_ViewController : CLLocationManagerDelegate {
             self.cargarCalle(location: location)
         }
         
-        
-        
         let region = MKCoordinateRegion(center: center, span: span)
         myMapaCaptacionMV.setRegion(region, animated: true)
     }
@@ -307,6 +338,7 @@ extension SK_Captacion_ViewController : MKMapViewDelegate {
             let smallSquare = CGSize(width: 30, height: 30)
             let button = UIButton(frame: CGRect(origin: CGPoint.zero, size: smallSquare))
             button.setBackgroundImage(self.imagen, for: UIControlState())
+            print(self.imagen)
             button.addTarget(self, action: #selector(SK_Captacion_ViewController.cargaDatosCliente), for: .touchUpInside)
             anotacionView!.leftCalloutAccessoryView = button
         }
@@ -318,7 +350,7 @@ extension SK_Captacion_ViewController : MKMapViewDelegate {
     
     
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
-        self.titulo = ((view.annotation?.title)!)!
+        self.telefCliente = ((view.annotation?.title)!)!
     }
     
 }
