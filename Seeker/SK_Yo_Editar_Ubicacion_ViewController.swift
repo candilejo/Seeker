@@ -134,7 +134,6 @@ class SK_Yo_Editar_Ubicacion_ViewController: UIViewController {
         
         // Actualizamos los datos del usuario si los campos no están vacíos.
         let userData = PFUser.current()!
-        print(userData)
         userData["calleEmpresa"] = calle
         userData["postalEmpresa"] = postal
         userData["localidadEmpresa"] = localidad

@@ -63,9 +63,9 @@ class SK_Yo_Editar_ViewController: UIViewController {
     
     
     //MARK: - ACTUALIZAMOS LOS DATOS CUANDO RECUPERAMOS EL VIEW
-    override func viewDidAppear(_ animated: Bool) {
+    /*override func viewDidAppear(_ animated: Bool) {
         cargarDatos()
-    }
+    }*/
     
     
     
@@ -190,6 +190,7 @@ class SK_Yo_Editar_ViewController: UIViewController {
         
         // Actualizamos los datos del usuario si los campos no están vacíos.
         let userData = PFUser.current()!
+        print (PFUser.current()!)
         if myNombreEmpresaTF.text != ""{
             userData["nombreEmpresa"] = myNombreEmpresaTF.text
         }
@@ -215,7 +216,7 @@ class SK_Yo_Editar_ViewController: UIViewController {
             if actualizacionExitosa{
                 self.upatePhoto()
             }else{
-                print("error")
+                print((errorActualizacion! as NSError).userInfo)
             }
         }
     }

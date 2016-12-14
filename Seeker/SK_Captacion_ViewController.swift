@@ -30,7 +30,8 @@ class SK_Captacion_ViewController: UIViewController {
     var latitudCliente = [Double]()
     var longitudCliente = [Double]()
     var calleCliente = [String]()
-    var imagenCliente = [UIImage]()
+    //var imagenCliente = [UIImage]()
+    var dicImagen = [String : UIImage]()
     var imagen = UIImage()
     
     var telefCliente = ""
@@ -74,6 +75,7 @@ class SK_Captacion_ViewController: UIViewController {
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.requestWhenInUseAuthorization()
         locationManager.requestLocation()
+        locationManager.stopUpdatingLocation()
         
         // Establecemos que myMapaCaptacionMV sea su propio delegado.
         myMapaCaptacionMV.delegate = self
@@ -92,7 +94,7 @@ class SK_Captacion_ViewController: UIViewController {
     //MARK: - CARGAMOS LOS CLIENTES CUANDO RECUPERAMOS EL VIEW
     override func viewDidAppear(_ animated: Bool) {
         if haPasado == true{
-            print("Entra")
+            print("pasa")
             cargarClientes()
             haPasado = false
         }
@@ -168,8 +170,6 @@ class SK_Captacion_ViewController: UIViewController {
                 annotation.coordinate = center
                 annotation.title = self.telefonoCliente[i - 1]
                 annotation.subtitle = self.calleCliente[i - 1]
-                self.imagen = self.imagenCliente[i - 1]
-                print (imagen)
                 self.myMapaCaptacionMV.addAnnotation(annotation)
             }
             oculto = false
@@ -184,11 +184,12 @@ class SK_Captacion_ViewController: UIViewController {
     // CARGAMOS CLIENTES
     func cargarClientes(){
         // Limpiamos los array antes de cargarlos de nuevo.
-        imagenCliente.removeAll()
+        //imagenCliente.removeAll()
         telefonoCliente.removeAll()
         latitudCliente.removeAll()
         longitudCliente.removeAll()
         calleCliente.removeAll()
+        dicImagen.removeAll()
         
         // Realizamos la consulta de los datos del cliente.
         let queryClient = PFQuery(className: "Client")
@@ -218,7 +219,8 @@ class SK_Captacion_ViewController: UIViewController {
                                             if imageError == nil{
                                                 if let imageDataDes = imageData{
                                                     let image = UIImage(data: imageDataDes)
-                                                    self.imagenCliente.append(image!)
+                                                    //self.imagenCliente.append(image!)
+                                                    self.dicImagen[objectDataUnoDes["telefonoCliente"] as! String] = image!
                                                 }
                                             }
                                         })
@@ -267,9 +269,6 @@ class SK_Captacion_ViewController: UIViewController {
     // MOSTRAR DATOS DEL CLIENTE
     func cargaDatosCliente(){
         
-        // Marcamos como que ha pasado ha otro View .
-        haPasado = true
-        
         // Ocultamos las anotaciones.
         myMapaCaptacionMV.removeAnnotations(myMapaCaptacionMV.annotations)
         oculto = true
@@ -281,7 +280,6 @@ class SK_Captacion_ViewController: UIViewController {
         // Pasamos los datos a la Segunda Ventana.
         infoCliente.telefonoCliente = self.telefCliente
 
-        
         self.navigationController?.pushViewController(infoCliente, animated: true)
     }
 }
@@ -332,13 +330,13 @@ extension SK_Captacion_ViewController : MKMapViewDelegate {
         
         var anotacionView = mapView.dequeueReusableAnnotationView(withIdentifier: reusarId)
         if anotacionView == nil {
+            self.imagen = self.dicImagen[annotation.title!!]!
             anotacionView = MKAnnotationView(annotation: annotation, reuseIdentifier: reusarId)
             anotacionView!.image = UIImage(named:"pinCliente")
             anotacionView!.canShowCallout = true
             let smallSquare = CGSize(width: 30, height: 30)
             let button = UIButton(frame: CGRect(origin: CGPoint.zero, size: smallSquare))
             button.setBackgroundImage(self.imagen, for: UIControlState())
-            print(self.imagen)
             button.addTarget(self, action: #selector(SK_Captacion_ViewController.cargaDatosCliente), for: .touchUpInside)
             anotacionView!.leftCalloutAccessoryView = button
         }
