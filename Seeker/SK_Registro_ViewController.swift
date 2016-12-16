@@ -26,7 +26,6 @@ class SK_Registro_ViewController: UIViewController {
     @IBOutlet weak var myEmailTF: UITextField!
     @IBOutlet weak var myNombreEmpresaTF: UITextField!
     @IBOutlet weak var myBotonRegistrarseBTN: UIButton!
-    @IBOutlet weak var myActivityIndicatorAI: UIActivityIndicatorView!
     
     
     
@@ -36,9 +35,6 @@ class SK_Registro_ViewController: UIViewController {
         
         // Mostramos la barra de estado.
         UIApplication.shared.statusBarStyle = .lightContent
-        
-        // Ocultamos myActivityIndicatorAI.
-        myActivityIndicatorAI.isHidden = true
         
         // Configuramos la sombra de myBotonRegistrarseBTN y le bloqueamos.
         configuraSombraAspectoBotones(boton: myBotonRegistrarseBTN, redondo: false)
@@ -107,33 +103,24 @@ class SK_Registro_ViewController: UIViewController {
         usuarioData.email = myEmailTF.text
         usuarioData["nombreEmpresa"] = myNombreEmpresaTF.text
         
-        // Hacemos visible e iniciamos myActivityIndicator e ignoramos la interacción con eventos.
-        myActivityIndicatorAI.isHidden = false
-        myActivityIndicatorAI.startAnimating()
+        // Ocultamos la carga y lanzamos los eventos.
+        muestraCarga(muestra: true, view: self.view, imageGroupTag: 1)
         UIApplication.shared.beginIgnoringInteractionEvents()
         
         // Comprobamos que el registro del usuario se puede efectuar.
         usuarioData.signUpInBackground(block: { (envioExitoso, errorRegistro) in
             
-            // Ocultamos y paramos myActivityIndicator y reanudamos la interacción con eventos.
-            self.myActivityIndicatorAI.isHidden = true
-            self.myActivityIndicatorAI.stopAnimating()
-            UIApplication.shared.endIgnoringInteractionEvents()
-            
             // Si existe un error, mostramos el tipo de error que es.
             if errorRegistro != nil{
-                if let errorString = (errorRegistro! as NSError).userInfo["error"] as? NSString{
-                    self.present(showAlertVC("ATENCION", messageData: errorString as String), animated: true, completion: nil)
+                let error =  erroresUser(code: (errorRegistro! as NSError).code)
+                if error != ""{
+                    self.present(showAlertVC("ATENCION", messageData: error), animated: true, completion: nil)
                 }else{
                     self.present(showAlertVC("ATENCION", messageData: "Error en el registro"), animated: true, completion: nil)
                 }
-                
             }else{ // Sino
-                
                 // Salvamos el usuario y la imagen y accedemos a la App.
                 self.salvarImagenEnBackgroundWhitBlock()
-                self.performSegue(withIdentifier: "presentTabBarController", sender: self)
-                print("El usuario se ha salvado exitosamente")
             }
         })
         
@@ -175,26 +162,25 @@ class SK_Registro_ViewController: UIViewController {
         // Comprobamos si se puede guardar la imagen.
         postImagen.saveInBackground{ (salvadoExitoso, errorDeSubidaImagen) in
             
+            // Ocultamos y paramos myActivityIndicator y reanudamos la interacción con eventos.
+            muestraCarga(muestra: false, view: self.view, imageGroupTag: 1)
+            UIApplication.shared.endIgnoringInteractionEvents()
+            
             // Si todo es correcto, lanzamos un mensaje de registro correcto y limpiamos los campos.
             if salvadoExitoso{
-                
-                self.present(showAlertVC("ATENCION", messageData: "Datos salvados exitosamente"), animated: true, completion: nil)
-                
-                print("usuario registrado correctamente")
-                limpiaCampos([self.myUsuarioTF, self.myPasswordTF, self.myNombreEmpresaTF, self.myEmailTF])
-                self.myImagenUsuarioIV.image = UIImage(named: "negocioGrande2")
-                
-                
+                let alertVC = UIAlertController(title: "ATENCION", message: "Datos salvados exitosamente", preferredStyle: .alert)
+                let okAction = UIAlertAction(title: "OK", style: .default, handler: { (OKAction) in
+                    self.performSegue(withIdentifier: "presentTabBarController", sender: self)
+                    limpiaCampos([self.myUsuarioTF, self.myPasswordTF, self.myNombreEmpresaTF, self.myEmailTF])
+                    self.myImagenUsuarioIV.image = UIImage(named: "negocioGrande2")
+                })
+                alertVC.addAction(okAction)
+                self.present(alertVC, animated: true, completion: nil)
             }else{ // Sino lanzamos un mensaje de error.
-                
                 self.present(showAlertVC("ATENCION", messageData: "Error en el registro"), animated: true, completion: nil)
-                
             }
         }
     }
-    
-    
-    
     
     // SELECCIONAR FOTO DEL LOGO
     func showCamaraFotos(){
@@ -217,8 +203,6 @@ extension SK_Registro_ViewController : UIImagePickerControllerDelegate, UINaviga
             choosePhotoFromLibrary()
         }
     }
-    
-    
     
     // MENU DE SELECCION DE LA CAMARA O DE LA LIBRERIA
     func showPhotoMenu(){

@@ -190,7 +190,6 @@ class SK_Yo_Editar_ViewController: UIViewController {
         
         // Actualizamos los datos del usuario si los campos no están vacíos.
         let userData = PFUser.current()!
-        print (PFUser.current()!)
         if myNombreEmpresaTF.text != ""{
             userData["nombreEmpresa"] = myNombreEmpresaTF.text
         }

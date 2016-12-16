@@ -140,7 +140,6 @@ class SK_Captacion_AddClient_ViewController: UIViewController {
     
     // COMPRUEBA SI EL CLIENTE EXISTE.
     func existeCliente(){
-        print("llega")
         // Realizamos la consulta de los datos del cliente.
         let queryUser = PFQuery(className: "Client")
         queryUser.whereKey("telefonoCliente", equalTo: myTelefonoClienteTF.text!)

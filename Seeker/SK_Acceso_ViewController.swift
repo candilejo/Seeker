@@ -11,13 +11,11 @@ import UIKit
 import Parse
 
 class SK_Acceso_ViewController: UIViewController {
-
     
     //MARK: - IBOUTLETS
     @IBOutlet weak var myUsuarioTF: UITextField!
     @IBOutlet weak var myPasswordTF: UITextField!
     @IBOutlet weak var myBotonAccederBTN: UIButton!
-    @IBOutlet weak var myActivityIndicatorAI: UIActivityIndicatorView!
     
     //MARK: - LIFE VC
     override func viewDidLoad() {
@@ -25,9 +23,6 @@ class SK_Acceso_ViewController: UIViewController {
         
         // Mostramos la StatusBar por defecto.
         UIApplication.shared.statusBarStyle = .default
-        
-        // Ocultamos myActivityIndicatorAI.
-        myActivityIndicatorAI.isHidden = true
         
         // Configuramos el estado y la sombra de myBotonAccederBTN.
         cambiaEstadoBTN(boton: myBotonAccederBTN, estado: false)
@@ -45,23 +40,6 @@ class SK_Acceso_ViewController: UIViewController {
     }
     
     
-    //MARK: - ACCESO A LA APP SI LA SESION ESTA ABIERTA
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
-        // Mostramos la barra de estado.
-        UIApplication.shared.statusBarStyle = .default
-        
-        // Si la sesión del usuario está activa accedemos a la App.
-        if PFUser.current()?.username != nil{
-            performSegue(withIdentifier: "presentTabBarController", sender: self)
-        }else{
-            print ("El usuario no exite.")
-        }
-    }
-    
-    
-    
     //MARK -------------------------- ACCIONES --------------------------
     
     // MUESTRA INFORMACIÓN DE LA PASSWORD.
@@ -71,17 +49,15 @@ class SK_Acceso_ViewController: UIViewController {
     
     // ACCESO A LA APLICACIÓN.
     @IBAction func loginACTION(_ sender: Any) {
-        // Hacemos visible e iniciamos myActivityIndicator e ignoramos la interacción con eventos.
-        self.myActivityIndicatorAI.isHidden = false
-        self.myActivityIndicatorAI.startAnimating()
+        // Lanzamos la carga e ignoramos los eventos.
+        muestraCarga(muestra: true, view: self.view, imageGroupTag: 1)
         UIApplication.shared.beginIgnoringInteractionEvents()
         
         // Comprobamos que el usuario y contraseña son correctos.
         PFUser.logInWithUsername(inBackground: myUsuarioTF.text!, password: myPasswordTF.text!) { (UserFromParse, errorLogIn) in
             
-            // Ocultamos y paramos myActivityIndicator y reanudamos la interacción con eventos.
-            self.myActivityIndicatorAI.isHidden = true
-            self.myActivityIndicatorAI.stopAnimating()
+            // Ocultamos la carga y lanzamos los eventos.
+            muestraCarga(muestra: false, view: self.view, imageGroupTag: 1)
             UIApplication.shared.endIgnoringInteractionEvents()
             
             // Si el usuasio no esta vacío accedemos a la App.
@@ -91,13 +67,15 @@ class SK_Acceso_ViewController: UIViewController {
                 
             }else{ // Sino.
                 //Lanzamos el error de porque no hemos podido logarnos.
-                if let errorString = (errorLogIn! as NSError).userInfo["error"] as? NSString{
-                    self.present(showAlertVC("ATENCION", messageData: errorString as String), animated: true, completion: nil)
-                    
+                let error =  erroresUser(code: (errorLogIn! as NSError).code)
+                if error != ""{
+                    self.present(showAlertVC("ATENCION", messageData: error), animated: true, completion: nil)
                 }else{
-                    self.present(showAlertVC("Error", messageData: "Error en el registro."), animated: true, completion: nil)
+                    self.present(showAlertVC("Error", messageData: "Error en el Login."), animated: true, completion: nil)
                 }
             }
+            // Limpiamos los campos.
+            limpiaCampos([self.myUsuarioTF, self.myPasswordTF])
         }
     }
 
@@ -124,8 +102,7 @@ class SK_Acceso_ViewController: UIViewController {
     }
     
     // COMPRUEBA EL ESTADO DE LOS CAMPOS
-    func estadoCampos() -> Bool{
-        
+    func estadoCampos() -> Bool{        
         // Declaramos el estado de los campos.
         var estado = true
         
@@ -136,4 +113,5 @@ class SK_Acceso_ViewController: UIViewController {
         
         return estado
     }
+    
 }

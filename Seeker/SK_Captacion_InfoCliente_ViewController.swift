@@ -69,7 +69,9 @@ class SK_Captacion_InfoCliente_ViewController: UIViewController {
         view.addGestureRecognizer(viewGestureRecognizer)
         
         // Cargamos los datos del Cliente.
+        myTelefonoClienteTF.text = telefonoCliente!
         cargarDatosCliente()
+        
     }
 
     //MARK: - SE EJECUTA AL RECIBIR UNA ALERTA DE MEMORIA
@@ -81,9 +83,49 @@ class SK_Captacion_InfoCliente_ViewController: UIViewController {
     
     //MARK -------------------------- ACCIONES --------------------------
 
+    // ELIMINAR CLIENTE
     @IBAction func eliminarClienteACTION(_ sender: Any) {
+        var error = false
+        
+        // Eliminamos el cliente.
+        let queryRemover = PFQuery(className: "Client")
+        queryRemover.whereKey("telefonoCliente", equalTo: self.myTelefonoClienteTF.text!)
+        queryRemover.findObjectsInBackground(block: { (objectRemove, errorRemove) in
+            if errorRemove == nil{
+                for objectRemoverDes in objectRemove!{
+                    objectRemoverDes.deleteInBackground(block: nil)
+                }
+            }else{
+                print("Error \((errorRemove! as NSError).userInfo)")
+                error = true
+            }
+        })
+        if error == false{
+            // Eliminamos la foto antigua si existe.
+            let queryRemoverImage = PFQuery(className: "imageClient")
+            queryRemoverImage.whereKey("telefonoCliente", equalTo: self.myTelefonoClienteTF.text!)
+            queryRemoverImage.findObjectsInBackground(block: { (objectRemove, errorRemove) in
+                if errorRemove == nil{
+                    for objectRemoverDes in objectRemove!{
+                        objectRemoverDes.deleteInBackground(block: nil)
+                    }
+                    haPasado = true
+                    self.present(showAlertVC("ATENCION", messageData: "Cliente eliminado."), animated: true, completion: nil)
+                }else{
+                    print("Error \((errorRemove! as NSError).userInfo)")
+                }
+            })
+        }else{
+            present(showAlertVC("ATENCION", messageData: "Error al eliminar el cliente."), animated: true, completion: nil)
+        }
     }
+    
+    // LLAMAR AL CLIENTE
     @IBAction func llamarClienteACTION(_ sender: Any) {
+        //UIApplication.sharedApplication().openURL(NSURL(scheme: NSString(), host: "tel://", path: busPhone)!)
+        
+        let url = URL(fileURLWithPath: "tel://\(myTelefonoClienteTF.text!)")
+        UIApplication.shared.open(url, options: [:], completionHandler: nil)
     }
     
     // ACTUALIZA LOS CAMPOS
@@ -94,7 +136,7 @@ class SK_Captacion_InfoCliente_ViewController: UIViewController {
     
     // COMPRUEBA SI LOS CAMPOS SON IGUALES.
     @IBAction func compruebaCamposACTION(_ sender: Any) {
-        if myNombreClienteTF.text != nombreCliente || myObservacionesTF.text != observacionesCliente || myImagenClienteIV.image != image{
+        if myNombreClienteTF.text != nombreCliente || myObservacionesTF.text != observacionesCliente || myImagenClienteIV.image != image || myTelefonoClienteTF.text != telefonoCliente{
             cambiaEstadoBTN(boton: myBotonActualizarBTN, estado: true)
         }
     }
@@ -120,7 +162,7 @@ class SK_Captacion_InfoCliente_ViewController: UIViewController {
     func cargarDatosCliente(){
         // Realizamos la consulta de los datos del cliente.
         let queryClient = PFQuery(className: "Client")
-        queryClient.whereKey("telefonoCliente", equalTo: telefonoCliente!)
+        queryClient.whereKey("telefonoCliente", equalTo: self.myTelefonoClienteTF.text!)
         
         // Buscamos todos los objetos de la consulta comprobando que no hay errores.
         queryClient.findObjectsInBackground { (objectUno, errorUno) in
@@ -130,7 +172,7 @@ class SK_Captacion_InfoCliente_ViewController: UIViewController {
                         
                         // Realizamos la consulta de las imagenes del cliente.
                         let queryImage = PFQuery(className: "imageClient")
-                        queryImage.whereKey("telefonoCliente", equalTo: self.telefonoCliente!)
+                        queryImage.whereKey("telefonoCliente", equalTo: self.myTelefonoClienteTF.text!)
                         
                         // Buscamos los objetos del cliente comprobando si hay errores.
                         queryImage.findObjectsInBackground(block: { (objectDos, errorDos) in
@@ -144,7 +186,7 @@ class SK_Captacion_InfoCliente_ViewController: UIViewController {
                                             if imageError == nil{
                                                 if let imageDataDes = imageData{
                                                     self.image = UIImage(data: imageDataDes)
-                                                    self.myImagenClienteIV.image = self.image
+                                                    self.myImagenClienteIV.image = UIImage(data: imageDataDes)
                                                 }
                                             }
                                         })
@@ -185,9 +227,9 @@ class SK_Captacion_InfoCliente_ViewController: UIViewController {
     }
     
     
-    // ACTUALIZAR DATOS DEL USUARIO
+    // ACTUALIZAR DATOS DEL CLIENTE
     func actualizarDatos(){
-        // Eliminamos la foto antigua si existe.
+        // Eliminamos el cliente si existe.
         let queryRemover = PFQuery(className: "Client")
         queryRemover.whereKey("telefonoCliente", equalTo: telefonoCliente!)
         queryRemover.findObjectsInBackground(block: { (objectRemove, errorRemove) in
@@ -205,7 +247,7 @@ class SK_Captacion_InfoCliente_ViewController: UIViewController {
         if myNombreClienteTF.text != "" {
             clientData["nombreCliente"] = myNombreClienteTF.text
         }
-        clientData["telefonoCliente"] = telefonoCliente
+        clientData["telefonoCliente"] = myTelefonoClienteTF.text
         clientData["calleCliente"] = myCalleClienteTF.text
         if myObservacionesTF.text != ""{
             clientData["observacionesCliente"] = myObservacionesTF.text
@@ -253,6 +295,7 @@ class SK_Captacion_InfoCliente_ViewController: UIViewController {
         })
         
         // Cargamos de nuevo la imagen.
+        telefonoCliente = myTelefonoClienteTF.text
         let postImagen = PFObject(className: "imageClient")
         let imagenData = UIImageJPEGRepresentation(myImagenClienteIV.image!, 0.2)
         let imageFile = PFFile(name: "imagePerfilCliente" + myTelefonoClienteTF.text! + ".jpg", data: imagenData!)
