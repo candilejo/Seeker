@@ -57,7 +57,9 @@ class SK_Captacion_AddClient_ViewController: UIViewController {
         
         // Cargamos los datos de la localización del cliente.
         myCalleClienteTF.text = calle
-
+        
+        // Indicamos que ha pasado de view.
+        haPasado = true
     }
 
 
@@ -129,11 +131,14 @@ class SK_Captacion_AddClient_ViewController: UIViewController {
     
     // COMPROBAR CAMPOS PARA AÑADIR AL CLIENTE.
     func compruebaCampos() -> Bool{
-        // Comprobamos que el campo telefono tiene que estar relleno.
+        // Comprobamos que el campo telefono tiene que estar relleno y tener los caracteres correctos.
         if myTelefonoClienteTF.text == ""{
             present(showAlertVC("ATENCIÓN", messageData: "El cliente debe contener un número de teléfono."), animated: true, completion: nil)
             return false
-        }else{
+        }else if myTelefonoClienteTF.text?.characters.count != 9 {
+            present(showAlertVC("ATENCIÓN", messageData: "El número de Telefono no es correcto."), animated: true, completion: nil)
+            return false
+        }else {
             return true
         }
     }

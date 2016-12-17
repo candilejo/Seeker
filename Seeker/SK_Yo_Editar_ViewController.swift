@@ -61,12 +61,10 @@ class SK_Yo_Editar_ViewController: UIViewController {
         super.didReceiveMemoryWarning()
     }
     
-    
     //MARK: - ACTUALIZAMOS LOS DATOS CUANDO RECUPERAMOS EL VIEW
-    /*override func viewDidAppear(_ animated: Bool) {
-        cargarDatos()
-    }*/
-    
+    override func viewDidAppear(_ animated: Bool) {
+        cargarNuevaUbicacion()
+    }
     
     
     //MARK -------------------------- ACCIONES --------------------------
@@ -131,6 +129,10 @@ class SK_Yo_Editar_ViewController: UIViewController {
         let queryUser = PFUser.query()!
         queryUser.whereKey("username", equalTo: (PFUser.current()?.username)!)
         
+        // Lanzamos la carga e ignoramos los eventos.
+        muestraCarga(muestra: true, view: self.view, imageGroupTag: 1)
+        UIApplication.shared.beginIgnoringInteractionEvents()
+        
         // Buscamos todos los objetos de la consulta comprobando que no hay errores.
         queryUser.findObjectsInBackground { (objectUno, errorUno) in
             if errorUno == nil{
@@ -143,6 +145,11 @@ class SK_Yo_Editar_ViewController: UIViewController {
                         
                         // Buscamos los objetos del usuario comprobando si hay errores.
                         queryImage.findObjectsInBackground(block: { (objectDos, errorDos) in
+                            
+                            // Ocultamos la carga y lanzamos los eventos.
+                            muestraCarga(muestra: false, view: self.view, imageGroupTag: 1)
+                            UIApplication.shared.endIgnoringInteractionEvents()
+                            
                             if errorDos == nil{
                                 if let objectDosDes = objectDos{
                                     for objectDataDosDes in objectDosDes{
@@ -184,6 +191,45 @@ class SK_Yo_Editar_ViewController: UIViewController {
         }
     }
     
+    // CARGAR LA NUEVA UBICACION
+    func cargarNuevaUbicacion(){
+        // Realizamos la consulta de los datos del usuario.
+        let queryUser = PFUser.query()!
+        queryUser.whereKey("username", equalTo: (PFUser.current()?.username)!)
+        
+        // Lanzamos la carga e ignoramos los eventos.
+        muestraCarga(muestra: true, view: self.view, imageGroupTag: 1)
+        UIApplication.shared.beginIgnoringInteractionEvents()
+        
+        // Buscamos todos los objetos de la consulta comprobando que no hay errores.
+        queryUser.findObjectsInBackground { (objectUno, errorUno) in
+
+            // Ocultamos la carga y lanzamos los eventos.
+            muestraCarga(muestra: false, view: self.view, imageGroupTag: 1)
+            UIApplication.shared.endIgnoringInteractionEvents()
+            
+            if errorUno == nil{
+                if let objectUnoDes = objectUno{
+                    for objectDataUnoDes  in objectUnoDes{
+                        
+                        // Cargamos la ubicación del usuario.
+                        if objectDataUnoDes["calleEmpresa"] != nil{
+                            self.myCalleEmpresaTF.text = objectDataUnoDes["calleEmpresa"] as? String
+                        }
+                        if objectDataUnoDes["postalEmpresa"] != nil{
+                            self.myPostalEmpresaTF.text = objectDataUnoDes["postalEmpresa"] as? String
+                        }
+                        if objectDataUnoDes["localidadEmpresa"] != nil{
+                            self.myLocalidadEmpresaTF.text = objectDataUnoDes["localidadEmpresa"] as? String
+                        }
+                        if objectDataUnoDes["provinciaEmpresa"] != nil{
+                            self.myProvinciaEmpresaTF.text = objectDataUnoDes["provinciaEmpresa"] as? String
+                        }
+                    }
+                }
+            }
+        }
+    }
     
     // ACTUALIZAR DATOS DEL USUARIO
     func actualizarDatos(){
@@ -203,15 +249,14 @@ class SK_Yo_Editar_ViewController: UIViewController {
             userData["provinciaEmpresa"] = myProvinciaEmpresaTF.text
         }
         
-        // Ignoramos cualquier evento.
+        // Lanzamos la carga e ignoramos los eventos.
+        muestraCarga(muestra: true, view: self.view, imageGroupTag: 1)
         UIApplication.shared.beginIgnoringInteractionEvents()
         
         // Salvamos los datos y si todo es correcto también salvamos la imagen.
         userData.saveInBackground { (actualizacionExitosa, errorActualizacion) in
             
-            // Dejamos de ignorar los eventos
-            UIApplication.shared.endIgnoringInteractionEvents()
-            
+            // Si la actualización es exitosa, actualizamos la foto.
             if actualizacionExitosa{
                 self.upatePhoto()
             }else{
@@ -245,7 +290,13 @@ class SK_Yo_Editar_ViewController: UIViewController {
         postImagen["imageFile"] = imageFile
         postImagen["username"] = PFUser.current()?.username
         postImagen.saveInBackground { (salvadoExitoso, errorDeSubida) in
+            
+            // Lanzamos la carga e ignoramos los eventos.
+            muestraCarga(muestra: false, view: self.view, imageGroupTag: 1)
+            UIApplication.shared.endIgnoringInteractionEvents()
+            
             if salvadoExitoso{
+                UIApplication.shared.endIgnoringInteractionEvents()
                 self.present(showAlertVC("ATENCION", messageData: "Datos actualizados exitosamente."), animated: true, completion: nil)
             }else{
                 if let errorString = (errorDeSubida! as NSError).userInfo["error"] as? NSString{

@@ -239,7 +239,7 @@
                                     <segue destination="UEt-1V-KiR" kind="show" action="showDetailViewController:sender:" id="XRa-lZ-G37"/>
                                 </connections>
                             </button>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="placeholderGrande" translatesAutoresizingMaskIntoConstraints="NO" id="pkG-ah-GWu">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="negocioGrande2" translatesAutoresizingMaskIntoConstraints="NO" id="pkG-ah-GWu">
                                 <rect key="frame" x="115" y="72" width="89" height="89"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="89" id="Yam-Ma-tWh"/>
@@ -1704,7 +1704,6 @@
         <image name="llamar" width="30" height="30"/>
         <image name="negocioGrande2" width="389" height="379"/>
         <image name="passwordGrande" width="389" height="379"/>
-        <image name="placeholderGrande" width="389" height="379"/>
         <image name="telefonoGrande" width="389" height="379"/>
         <image name="ubicacionGrande" width="389" height="379"/>
         <image name="usuario" width="30" height="30"/>

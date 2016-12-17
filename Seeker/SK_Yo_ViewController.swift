@@ -13,6 +13,8 @@ import Parse
 
 class SK_Yo_ViewController: UIViewController {
 
+    //MARK: - VARIABLES LOCALES GLOBALES
+    var esInicial = true
     
     //MARK: - IBOUTLETS
     @IBOutlet weak var myImagenUsuarioIV: UIImageView!
@@ -46,7 +48,9 @@ class SK_Yo_ViewController: UIViewController {
     
     //MARK: - ACTUALIZAMOS LOS DATOS CUANDO RECUPERAMOS EL VIEW
     override func viewDidAppear(_ animated: Bool) {
-        cargarDatos()
+        if esInicial == false{
+            cargarDatos()
+        }
     }
     
 
@@ -58,18 +62,27 @@ class SK_Yo_ViewController: UIViewController {
         let queryUser = PFUser.query()!
         queryUser.whereKey("username", equalTo: (PFUser.current()?.username)!)
         
+        // Lanzamos la carga e ignoramos los eventos.
+        muestraCarga(muestra: true, view: self.view, imageGroupTag: 1)
+        UIApplication.shared.beginIgnoringInteractionEvents()
+        
         // Buscamos todos los objetos de la consulta comprobando que no hay errores.
         queryUser.findObjectsInBackground { (objectUno, errorUno) in
             if errorUno == nil{
                 if let objectUnoDes = objectUno{
                     for objectDataUnoDes  in objectUnoDes{
-                        
                         // Realizamos la consulta de las imagenes del usuario.
                         let queryImage = PFQuery(className: "ImageProfile")
                         queryImage.whereKey("username", equalTo: (PFUser.current()?.username)!)
                         
                         // Buscamos los objetos del usuario comprobando si hay errores.
                         queryImage.findObjectsInBackground(block: { (objectDos, errorDos) in
+                            
+                            // Ocultamos la carga y lanzamos los eventos.
+                            muestraCarga(muestra: false, view: self.view, imageGroupTag: 1)
+                            UIApplication.shared.endIgnoringInteractionEvents()
+                            self.esInicial = false
+                            
                             if errorDos == nil{
                                 if let objectDosDes = objectDos{
                                     for objectDataDosDes in objectDosDes{

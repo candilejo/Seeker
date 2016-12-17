@@ -110,9 +110,11 @@ class SK_Yo_Editar_Ubicacion_ViewController: UIViewController {
     // MUESTRA UN ALERT CON LA UBICACION
     func mostrarUbicacion(){
         let userData = PFUser.current()!
+        
+        // Si alguno de los campos coincide con los ya cargados lanzamos un error.
         if userData["calleEmpresa"] as? String == calle && userData["postalEmpresa"] as? String == postal && userData["localidadEmpresa"] as? String == localidad && userData["provinciaEmpresa"] as? String == provincia && userData["latitudEmpresa"] as? Double == latitud! && userData["longitudEmpresa"] as! Double == longitud!{
             present(showAlertVC("ATENCION", messageData: "La ubicación ya esta seleccionada."), animated: true, completion: nil)
-        }else{
+        }else{// Sino mostramos una alerta con varias acciones.
             let alert = UIAlertController(title: "UBICACIÓN SELECCIONADA",message: "Calle: \(calle) \n Código Postal: \(postal) \n Localidad: \(localidad) \n Provincia: \(provincia)",preferredStyle: UIAlertControllerStyle.alert)
             let saveAction = UIAlertAction(title: "Guardar", style: UIAlertActionStyle.default, handler: { (guardarAccion) in
                 self.actualizarUbicacionActual()
@@ -141,14 +143,26 @@ class SK_Yo_Editar_Ubicacion_ViewController: UIViewController {
         userData["latitudEmpresa"] = latitud
         userData["longitudEmpresa"] = longitud
         
-        // Ignoramos cualquier evento.
+        // Mostramos la carga e ignoramos los eventos
+        muestraCarga(muestra: true, view: self.view, imageGroupTag: 1)
         UIApplication.shared.beginIgnoringInteractionEvents()
         
         // Salvamos los datos.
-        userData.saveInBackground(block: nil)
-        
-        // Lanzamos los eventos.
-        UIApplication.shared.endIgnoringInteractionEvents()
+        userData.saveInBackground { (seActualiza, errorActualizacion) in
+            // Ocultamos la carga y lanzamos los eventos.
+            UIApplication.shared.endIgnoringInteractionEvents()
+            muestraCarga(muestra: false, view: self.view, imageGroupTag: 1)
+            // Si existe algún error.
+            if errorActualizacion != nil{
+                //Lanzamos el error de porque no hemos podido actualizarlo.
+                let error =  erroresUser(code: (errorActualizacion! as NSError).code)
+                if error != ""{
+                    self.present(showAlertVC("ATENCION", messageData: error), animated: true, completion: nil)
+                }else{
+                    self.present(showAlertVC("Error", messageData: "Error al actualizar."), animated: true, completion: nil)
+                }
+            }
+        }
     }
     
 }

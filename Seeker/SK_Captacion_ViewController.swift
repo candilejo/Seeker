@@ -89,13 +89,7 @@ class SK_Captacion_ViewController: UIViewController {
     //MARK: - CARGAMOS LOS CLIENTES CUANDO RECUPERAMOS EL VIEW
     override func viewDidAppear(_ animated: Bool) {
         if haPasado == true{
-            telefonoCliente.removeAll()
-            latitudCliente.removeAll()
-            longitudCliente.removeAll()
-            calleCliente.removeAll()
-            dicImagen.removeAll()
             cargarClientes()
-            myMapaCaptacionMV.delegate = self
             haPasado = false
         }
     }
@@ -105,17 +99,15 @@ class SK_Captacion_ViewController: UIViewController {
     
     // AÑADIR CLIENTE.
     @IBAction func addClienteACTION(_ sender: Any) {
-        // Marcamos como que ha pasado ha otro View .
-        haPasado = true
-        
-        // Ocultamos las anotaciones
+        // Ocultamos las anotaciones y paramos la actualización de la posición.
         myMapaCaptacionMV.removeAnnotations(myMapaCaptacionMV.annotations)
+        locationManager.stopUpdatingLocation()
         oculto = true
         
         // Creamos la instacia de SK_Captacion_AddClient_ViewController.
         let addCliente = self.storyboard?.instantiateViewController(withIdentifier: "addClient") as! SK_Captacion_AddClient_ViewController
         
-        // Pasamos los datos a la Segunda Ventana.
+        // Pasamos los datos a la SK_Captacion_AddClient_ViewController.
         addCliente.latitud = self.latitud
         addCliente.longitud = self.longitud
         addCliente.calle = "\(self.calle), \(self.localidad))"
@@ -157,7 +149,6 @@ class SK_Captacion_ViewController: UIViewController {
     // MOSTRAR CLIENTES
     @IBAction func verClientesACTION(_ sender: Any) {
         
-        print(self.dicImagen)
         // Si los clientes estan ocultos los mostramos
         if existeCliente{
             if oculto{
@@ -184,23 +175,16 @@ class SK_Captacion_ViewController: UIViewController {
     
     // CARGAMOS CLIENTES
     func cargarClientes(){
-        // Limpiamos los array antes de cargarlos de nuevo.
-        telefonoCliente.removeAll()
-        latitudCliente.removeAll()
-        longitudCliente.removeAll()
-        calleCliente.removeAll()
-        dicImagen.removeAll()
-        
         // Realizamos la consulta de los datos del cliente.
         let queryClient = PFQuery(className: "Client")
         
+        // Mostramos la carga y paramos los eventos.
+        muestraCarga(muestra: true, view: self.view, imageGroupTag: 1)
         UIApplication.shared.beginIgnoringInteractionEvents()
         
         // Buscamos todos los objetos.
         queryClient.findObjectsInBackground { (objectUno, errorUno) in
             if errorUno == nil && objectUno! != []{
-                self.existeCliente = true
-                print(self.existeCliente)
                 if let objectUnoDes = objectUno{
                     for objectDataUnoDes  in objectUnoDes{
                         // Realizamos la consulta de las imagenes de los clientes.
@@ -209,6 +193,11 @@ class SK_Captacion_ViewController: UIViewController {
                         
                         // Buscamos los objetos del cliente comprobando si hay errores.
                         queryImage.findObjectsInBackground(block: { (objectDos, errorDos) in
+                            
+                            //// Ocultamos la carga y lanzamos los eventos.
+                            muestraCarga(muestra: false, view: self.view, imageGroupTag: 1)
+                            UIApplication.shared.endIgnoringInteractionEvents()
+                            self.existeCliente = true
                             if errorDos == nil{
                                 if let objectDosDes = objectDos{
                                     for objectDataDosDes in objectDosDes{
@@ -219,7 +208,6 @@ class SK_Captacion_ViewController: UIViewController {
                                             if imageError == nil{
                                                 if let imageDataDes = imageData{
                                                     let image = UIImage(data: imageDataDes)
-                                                    //self.imagenCliente.append(image!)
                                                     self.dicImagen[objectDataUnoDes["telefonoCliente"] as! String] = image!
                                                 }
                                             }
@@ -228,7 +216,6 @@ class SK_Captacion_ViewController: UIViewController {
                                 }
                             }
                         })
-                        UIApplication.shared.endIgnoringInteractionEvents()
                         // Cargamos los datos del cliente.
                         if objectDataUnoDes["telefonoCliente"] != nil{
                             self.telefonoCliente.append(objectDataUnoDes["telefonoCliente"] as! String)
@@ -245,6 +232,8 @@ class SK_Captacion_ViewController: UIViewController {
                     }
                 }
             }else{
+                // Ocultamos la carga y lanzamos los eventos.
+                muestraCarga(muestra: false, view: self.view, imageGroupTag: 1)
                 UIApplication.shared.endIgnoringInteractionEvents()
                 self.existeCliente = false
             }
@@ -264,8 +253,7 @@ class SK_Captacion_ViewController: UIViewController {
                 self.localidad = placeMarksData.locality!
                 self.provincia = placeMarksData.administrativeArea!
             }
-        })
-        
+        })        
     }
     
     // MOSTRAR DATOS DEL CLIENTE
@@ -275,10 +263,11 @@ class SK_Captacion_ViewController: UIViewController {
         myMapaCaptacionMV.removeAnnotations(myMapaCaptacionMV.annotations)
         oculto = true
         locationManager.stopUpdatingLocation()
+        
         // Creamos la instacia de SK_Captacion_InfoCliente_ViewController.
         let infoCliente = self.storyboard?.instantiateViewController(withIdentifier: "informationClient") as! SK_Captacion_InfoCliente_ViewController
         
-        // Pasamos los datos a la Segunda Ventana.
+        // Pasamos los datos a la SK_Captacion_InfoCliente_ViewController.
         infoCliente.telefonoCliente = self.telefCliente
 
         self.navigationController?.pushViewController(infoCliente, animated: true)
