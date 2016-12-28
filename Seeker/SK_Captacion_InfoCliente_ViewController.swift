@@ -35,7 +35,6 @@ class SK_Captacion_InfoCliente_ViewController: UIViewController {
     @IBOutlet weak var myCalleClienteTF: UITextField!
     @IBOutlet weak var myObservacionesTF: UITextField!
     @IBOutlet weak var myBotonActualizarBTN: UIButton!
-    @IBOutlet weak var myActivityIndicatorAI: UIActivityIndicatorView!
     
     
     
@@ -45,9 +44,6 @@ class SK_Captacion_InfoCliente_ViewController: UIViewController {
         
         // Mostramos la barra de estado.
         UIApplication.shared.statusBarStyle = .lightContent
-        
-        // Ocultamos myActivityIndicatorAI.
-        myActivityIndicatorAI.isHidden = true
         
         // Configuramos los bordes  y bloqueamos myBotonActualizarBTN.
         configuraSombraAspectoBotones(boton: myBotonActualizarBTN, redondo: false)
@@ -67,6 +63,9 @@ class SK_Captacion_InfoCliente_ViewController: UIViewController {
         // Creamos el gesto y se lo añadimos al View.
         let viewGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(SK_Captacion_InfoCliente_ViewController.hideKeyBoard))
         view.addGestureRecognizer(viewGestureRecognizer)
+        
+        // Añadimos el boton al teclado.
+        addBotonOkAlTeclado()
         
         // Cargamos los datos del Cliente.
         myTelefonoClienteTF.text = telefonoCliente!
@@ -90,6 +89,11 @@ class SK_Captacion_InfoCliente_ViewController: UIViewController {
         // Eliminamos el cliente.
         let queryRemover = PFQuery(className: "Client")
         queryRemover.whereKey("telefonoCliente", equalTo: self.myTelefonoClienteTF.text!)
+        
+        // Mostramos la carga e ignoramos cualquier evento.
+        muestraCarga(muestra: true, view: self.view, imageGroupTag: 1)
+        UIApplication.shared.beginIgnoringInteractionEvents()
+        
         queryRemover.findObjectsInBackground(block: { (objectRemove, errorRemove) in
             if errorRemove == nil{
                 for objectRemoverDes in objectRemove!{
@@ -97,6 +101,11 @@ class SK_Captacion_InfoCliente_ViewController: UIViewController {
                 }
             }else{
                 print("Error \((errorRemove! as NSError).userInfo)")
+                
+                // Ocultamos la carga y lanzamos cualquier evento.
+                muestraCarga(muestra: false, view: self.view, imageGroupTag: 1)
+                UIApplication.shared.endIgnoringInteractionEvents()
+                
                 error = true
             }
         })
@@ -105,18 +114,36 @@ class SK_Captacion_InfoCliente_ViewController: UIViewController {
             let queryRemoverImage = PFQuery(className: "imageClient")
             queryRemoverImage.whereKey("telefonoCliente", equalTo: self.myTelefonoClienteTF.text!)
             queryRemoverImage.findObjectsInBackground(block: { (objectRemove, errorRemove) in
+                // Ocultamos la carga y lanzamos cualquier evento.
+                muestraCarga(muestra: false, view: self.view, imageGroupTag: 1)
+                UIApplication.shared.endIgnoringInteractionEvents()
+                
                 if errorRemove == nil{
                     for objectRemoverDes in objectRemove!{
                         objectRemoverDes.deleteInBackground(block: nil)
                     }
                     haPasado = true
-                    self.present(showAlertVC("ATENCION", messageData: "Cliente eliminado."), animated: true, completion: nil)
+                    // Lanzamos un mensaje de eliminación y limpiamos los campos.
+                    let alertVC = UIAlertController(title: "INFORMACIÓN", message: "Cliente eliminado correctamente", preferredStyle: .alert)
+                    let okAction = UIAlertAction(title: "OK", style: .default, handler: { (cerrar) in
+                        self.performSegue(withIdentifier: "unWind", sender: self.view)
+                    })
+                    alertVC.addAction(okAction)
+                    limpiaCampos([self.myNombreClienteTF, self.myTelefonoClienteTF, self.myCalleClienteTF, self.myObservacionesTF])
+                    self.myImagenClienteIV.image = UIImage(named: "clienteGrande")
+                        self.present(alertVC, animated: true, completion: nil)
                 }else{
                     print("Error \((errorRemove! as NSError).userInfo)")
+                    // Ocultamos la carga y lanzamos cualquier evento.
+                    muestraCarga(muestra: false, view: self.view, imageGroupTag: 1)
+                    UIApplication.shared.endIgnoringInteractionEvents()
                 }
             })
         }else{
             present(showAlertVC("ATENCION", messageData: "Error al eliminar el cliente."), animated: true, completion: nil)
+            // Ocultamos la carga y lanzamos cualquier evento.
+            muestraCarga(muestra: false, view: self.view, imageGroupTag: 1)
+            UIApplication.shared.endIgnoringInteractionEvents()
         }
     }
     
@@ -148,6 +175,37 @@ class SK_Captacion_InfoCliente_ViewController: UIViewController {
     
     //MARK -------------------------- UTILIDADES --------------------------
 
+    // AÑADIMOS LOS BOTONES AL TECLADO
+    func addBotonOkAlTeclado(){
+        // Creamos la barra de herramientas y le damos un formato.
+        let aceptarToolbar: UIToolbar = UIToolbar(frame: CGRect(x: 0, y: 0, width: 320, height: 50))
+        aceptarToolbar.barStyle = UIBarStyle.blackTranslucent
+        
+        // Creamos los botones que añadiremos a la barra de herramientas.
+        let flexSpace = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
+        let done: UIBarButtonItem = UIBarButtonItem(title: "OK", style: UIBarButtonItemStyle.done, target: self, action: #selector(SK_Captacion_AddClient_ViewController.doneButtonAction))
+        
+        // Establecemos el color del texto.
+        done.tintColor = UIColor(red:0.53, green:0.91, blue:0.45, alpha:1.0)
+        
+        // Añadimos los botones a la barra de herramientas.
+        var items = [UIBarButtonItem]()
+        items.append(flexSpace)
+        items.append(done)
+        
+        aceptarToolbar.items = items
+        aceptarToolbar.sizeToFit()
+        
+        // Añadimos el accesorio a myNumeroEmpresaTF.
+        myTelefonoClienteTF.inputAccessoryView = aceptarToolbar
+    }
+    
+    
+    // ESTABLECEMOS COMO RESPONDEDOR A myTelefonoEmpresaTF.
+    func doneButtonAction(){
+        myTelefonoClienteTF.resignFirstResponder()
+    }
+    
     // CIERRA TECLADO
     func hideKeyBoard(){
         view.endEditing(true)
@@ -164,6 +222,10 @@ class SK_Captacion_InfoCliente_ViewController: UIViewController {
         let queryClient = PFQuery(className: "Client")
         queryClient.whereKey("telefonoCliente", equalTo: self.myTelefonoClienteTF.text!)
         
+        // Mostramos la carga e ignoramos cualquier evento.
+        muestraCarga(muestra: true, view: self.view, imageGroupTag: 1)
+        UIApplication.shared.beginIgnoringInteractionEvents()
+        
         // Buscamos todos los objetos de la consulta comprobando que no hay errores.
         queryClient.findObjectsInBackground { (objectUno, errorUno) in
             if errorUno == nil{
@@ -176,6 +238,11 @@ class SK_Captacion_InfoCliente_ViewController: UIViewController {
                         
                         // Buscamos los objetos del cliente comprobando si hay errores.
                         queryImage.findObjectsInBackground(block: { (objectDos, errorDos) in
+                            
+                            // Ocultamos la carga y lanzamos cualquier evento.
+                            muestraCarga(muestra: false, view: self.view, imageGroupTag: 1)
+                            UIApplication.shared.endIgnoringInteractionEvents()
+                            
                             if errorDos == nil{
                                 if let objectDosDes = objectDos{
                                     for objectDataDosDes in objectDosDes{
@@ -213,6 +280,10 @@ class SK_Captacion_InfoCliente_ViewController: UIViewController {
                         self.longitudCliente = objectDataUnoDes["longitudCliente"] as? Double
                     }
                 }
+            }else{
+                // Ocultamos la carga y lanzamos cualquier evento.
+                muestraCarga(muestra: false, view: self.view, imageGroupTag: 1)
+                UIApplication.shared.endIgnoringInteractionEvents()
             }
         }
     }
@@ -229,9 +300,16 @@ class SK_Captacion_InfoCliente_ViewController: UIViewController {
     
     // ACTUALIZAR DATOS DEL CLIENTE
     func actualizarDatos(){
+        var correcto = true
+        
         // Eliminamos el cliente si existe.
         let queryRemover = PFQuery(className: "Client")
         queryRemover.whereKey("telefonoCliente", equalTo: telefonoCliente!)
+        
+        // Mosetramos la carga e ignoramos cualquier evento.
+        muestraCarga(muestra: true, view: self.view, imageGroupTag: 1)
+        UIApplication.shared.beginIgnoringInteractionEvents()
+        
         queryRemover.findObjectsInBackground(block: { (objectRemove, errorRemove) in
             if errorRemove == nil{
                 for objectRemoverDes in objectRemove!{
@@ -239,40 +317,38 @@ class SK_Captacion_InfoCliente_ViewController: UIViewController {
                 }
             }else{
                 print("Error \((errorRemove! as NSError).userInfo)")
+                
+                // Ocultamos la carga y lanzamos cualquier evento.
+                muestraCarga(muestra: false, view: self.view, imageGroupTag: 1)
+                UIApplication.shared.endIgnoringInteractionEvents()
+                
+                correcto = false
             }
         })
+        if correcto{
+            // Actualizamos los datos del cliente si los campos no están vacíos.
+            let clientData = PFObject(className: "Client")
+            if myNombreClienteTF.text != "" {
+                clientData["nombreCliente"] = myNombreClienteTF.text
+            }
+            clientData["telefonoCliente"] = myTelefonoClienteTF.text
+            clientData["calleCliente"] = myCalleClienteTF.text
+            if myObservacionesTF.text != ""{
+                clientData["observacionesCliente"] = myObservacionesTF.text
+            }
+            clientData["latitudCliente"] = latitudCliente
+            clientData["longitudCliente"] = longitudCliente
         
-        // Actualizamos los datos del cliente si los campos no están vacíos.
-        let clientData = PFObject(className: "Client")
-        if myNombreClienteTF.text != "" {
-            clientData["nombreCliente"] = myNombreClienteTF.text
-        }
-        clientData["telefonoCliente"] = myTelefonoClienteTF.text
-        clientData["calleCliente"] = myCalleClienteTF.text
-        if myObservacionesTF.text != ""{
-            clientData["observacionesCliente"] = myObservacionesTF.text
-        }
-        clientData["latitudCliente"] = latitudCliente
-        clientData["longitudCliente"] = longitudCliente
-    
-        // Hacemos visible e iniciamos myActivityIndicator e ignoramos la interacción con eventos.
-        self.myActivityIndicatorAI.isHidden = false
-        self.myActivityIndicatorAI.startAnimating()
-        UIApplication.shared.beginIgnoringInteractionEvents()
-        
-        
-        // Salvamos los datos y si todo es correcto también salvamos la imagen.
-        clientData.saveInBackground { (actualizacionExitosa, errorActualizacion) in
+            // Salvamos los datos y si todo es correcto también salvamos la imagen.
+            clientData.saveInBackground { (actualizacionExitosa, errorActualizacion) in
             
-            // Hacemos visible e iniciamos myActivityIndicator y activamos los eventos.
-            self.myActivityIndicatorAI.isHidden = true
-            self.myActivityIndicatorAI.stopAnimating()
-            UIApplication.shared.endIgnoringInteractionEvents()
-            
-            if actualizacionExitosa{
-                self.upatePhoto()
-            }else{
-                print("error")
+                if actualizacionExitosa{
+                    self.upatePhoto()
+                }else{
+                    // Ocultamos la carga y lanzamos cualquier evento.
+                    muestraCarga(muestra: false, view: self.view, imageGroupTag: 1)
+                    UIApplication.shared.endIgnoringInteractionEvents()
+                }
             }
         }
     }
@@ -291,6 +367,9 @@ class SK_Captacion_InfoCliente_ViewController: UIViewController {
                 }
             }else{
                 print("Error \((errorRemove! as NSError).userInfo)")
+                // Ocultamos la carga y lanzamos cualquier evento.
+                muestraCarga(muestra: false, view: self.view, imageGroupTag: 1)
+                UIApplication.shared.endIgnoringInteractionEvents()
             }
         })
         
@@ -303,9 +382,18 @@ class SK_Captacion_InfoCliente_ViewController: UIViewController {
         postImagen["imagenCliente"] = imageFile
         postImagen["telefonoCliente"] = myTelefonoClienteTF.text
         postImagen.saveInBackground { (salvadoExitoso, errorDeSubida) in
+            
+            // Ocultamos la carga y lanzamos cualquier evento.
+            muestraCarga(muestra: false, view: self.view, imageGroupTag: 1)
+            UIApplication.shared.endIgnoringInteractionEvents()
+            
             if salvadoExitoso{
                 self.present(showAlertVC("ATENCION", messageData: "Datos actualizados exitosamente."), animated: true, completion: nil)
             }else{
+                // Ocultamos la carga y lanzamos cualquier evento.
+                muestraCarga(muestra: false, view: self.view, imageGroupTag: 1)
+                UIApplication.shared.endIgnoringInteractionEvents()
+                
                 if let errorString = (errorDeSubida! as NSError).userInfo["error"] as? NSString{
                     self.present(showAlertVC("ATENCION", messageData: errorString as String), animated: true, completion: nil)
                 }

@@ -45,6 +45,8 @@
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>¿Desea Permitir que accedamos a su ubicación cuando utilice la aplicación?</string>
 	<key>NSLocationUsageDescription</key>
-	<string></string>
+	<string>Acceder a la ubicación</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Acceder a la ubicacion</string>
 </dict>
 </plist>

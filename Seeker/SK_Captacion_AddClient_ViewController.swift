@@ -146,6 +146,7 @@ class SK_Captacion_AddClient_ViewController: UIViewController {
     // COMPRUEBA SI EL CLIENTE EXISTE.
     func existeCliente(){
         // Realizamos la consulta de los datos del cliente.
+        let usuario = String(describing: PFUser.current()!)
         let queryUser = PFQuery(className: "Client")
         queryUser.whereKey("telefonoCliente", equalTo: myTelefonoClienteTF.text!)
         
@@ -156,7 +157,7 @@ class SK_Captacion_AddClient_ViewController: UIViewController {
                     if objectUnoDes.count != 0{
                         for objectDataUnoDes  in objectUnoDes{
                             // Si el cliente existe lanzamos un error sino lo guardamos.
-                            if self.myTelefonoClienteTF.text! == objectDataUnoDes["telefonoCliente"] as? String{
+                            if self.myTelefonoClienteTF.text! == objectDataUnoDes["telefonoCliente"] as? String && usuario == objectDataUnoDes["usuarioCliente"] as? String{
                                 self.present(showAlertVC("ATENCIÓN", messageData: "El número ya esta dado de alta en la base de datos"), animated: true, completion: nil)
                             }
                         }
@@ -171,8 +172,11 @@ class SK_Captacion_AddClient_ViewController: UIViewController {
     
     // GUARDA AL NUEVO CLIENTE.
     func guardarDatos(){
-        // Actualizamos los datos del cliente si los campos no están vacíos.
+        // Damos de alta al cliente si no los campos no están vacíos.
         let userData = PFObject(className: "Client")
+        
+        userData["usuarioCliente"] = PFUser.current()
+        
         if myNombreClienteTF.text != ""{
             userData["nombreCliente"] = myNombreClienteTF.text
         }
@@ -188,16 +192,17 @@ class SK_Captacion_AddClient_ViewController: UIViewController {
             userData["observacionesCliente"] = myObservacionesClienteTF.text
         }
         
-        // Ignoramos cualquier evento.
+        // Mostramos la carga e ignoramos cualquier evento.
+        muestraCarga(muestra: true, view: self.view, imageGroupTag: 1)
         UIApplication.shared.beginIgnoringInteractionEvents()
         // Salvamos los datos y si todo es correcto también salvamos la imagen.
         userData.saveInBackground { (actualizacionExitosa, errorActualizacion) in
-            // Dejamos de ignorar los eventos
-            UIApplication.shared.endIgnoringInteractionEvents()
             if actualizacionExitosa{
                 self.salvarImagenEnBackgroundWhitBlock()
             }else{
-                print("error")
+                // Ocultamos la carga y lanzamos cualquier evento.
+                muestraCarga(muestra: false, view: self.view, imageGroupTag: 1)
+                UIApplication.shared.endIgnoringInteractionEvents()
             }
         }
     }
@@ -217,11 +222,20 @@ class SK_Captacion_AddClient_ViewController: UIViewController {
         // Comprobamos si se puede guardar la imagen.
         postImagen.saveInBackground{ (salvadoExitoso, errorDeSubidaImagen) in
             
+            // Ocultamos la carga y lanzamos cualquier evento.
+            muestraCarga(muestra: false, view: self.view, imageGroupTag: 1)
+            UIApplication.shared.endIgnoringInteractionEvents()
+
             // Si todo es correcto, lanzamos un mensaje de registro correcto y limpiamos los campos.
             if salvadoExitoso{
-                self.present(showAlertVC("ATENCION", messageData: "Datos salvados exitosamente"), animated: true, completion: nil)
+                let alertVC = UIAlertController(title: "ATENCION", message: "Datos salvados exitosamente", preferredStyle: .alert)
+                let okAction = UIAlertAction(title: "OK", style: .default, handler: { (cerrar) in
+                    self.performSegue(withIdentifier: "unWind", sender: self.view)
+                })
+                alertVC.addAction(okAction)
+                self.present(alertVC, animated: true, completion: nil)
                 limpiaCampos([self.myNombreClienteTF, self.myTelefonoClienteTF, self.myCalleClienteTF, self.myObservacionesClienteTF])
-                self.myImagenClienteIV.image = UIImage(named: "placeholderGrande")
+                self.myImagenClienteIV.image = UIImage(named: "clienteGrande")
             }else{ // Sino lanzamos un mensaje de error.
                 self.present(showAlertVC("ATENCION", messageData: "Error en el registro"), animated: true, completion: nil)
             }

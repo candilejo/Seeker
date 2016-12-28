@@ -20,6 +20,7 @@ class SK_Captacion_ViewController: UIViewController {
     
     //MARK: - VARIABLES LOCALES GLOBALES
     var locationManager = CLLocationManager()
+    //var myLocations = [CLLocation]()
     var latitud : Double?
     var longitud : Double?
     var calle = ""
@@ -69,8 +70,8 @@ class SK_Captacion_ViewController: UIViewController {
         // Configuración del locationManager.
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
-        locationManager.requestWhenInUseAuthorization()
         locationManager.requestLocation()
+
         
         // Establecemos que myMapaCaptacionMV sea su propio delegado.
         myMapaCaptacionMV.delegate = self
@@ -97,6 +98,9 @@ class SK_Captacion_ViewController: UIViewController {
     
     //MARK -------------------------- ACCIONES --------------------------
     
+    // UNWIND.
+    @IBAction func unWindSegue(segue: UIStoryboardSegue){}
+    
     // AÑADIR CLIENTE.
     @IBAction func addClienteACTION(_ sender: Any) {
         // Ocultamos las anotaciones y paramos la actualización de la posición.
@@ -106,7 +110,6 @@ class SK_Captacion_ViewController: UIViewController {
         
         // Creamos la instacia de SK_Captacion_AddClient_ViewController.
         let addCliente = self.storyboard?.instantiateViewController(withIdentifier: "addClient") as! SK_Captacion_AddClient_ViewController
-        
         // Pasamos los datos a la SK_Captacion_AddClient_ViewController.
         addCliente.latitud = self.latitud
         addCliente.longitud = self.longitud
@@ -175,6 +178,12 @@ class SK_Captacion_ViewController: UIViewController {
     
     // CARGAMOS CLIENTES
     func cargarClientes(){
+        telefonoCliente.removeAll()
+        latitudCliente.removeAll()
+        longitudCliente.removeAll()
+        calleCliente.removeAll()
+        dicImagen.removeAll()
+        
         // Realizamos la consulta de los datos del cliente.
         let queryClient = PFQuery(className: "Client")
         
@@ -194,9 +203,6 @@ class SK_Captacion_ViewController: UIViewController {
                         // Buscamos los objetos del cliente comprobando si hay errores.
                         queryImage.findObjectsInBackground(block: { (objectDos, errorDos) in
                             
-                            //// Ocultamos la carga y lanzamos los eventos.
-                            muestraCarga(muestra: false, view: self.view, imageGroupTag: 1)
-                            UIApplication.shared.endIgnoringInteractionEvents()
                             self.existeCliente = true
                             if errorDos == nil{
                                 if let objectDosDes = objectDos{
@@ -205,6 +211,11 @@ class SK_Captacion_ViewController: UIViewController {
                                         
                                         // Cargamos el valor a la imagen.
                                         clientFile.getDataInBackground(block: { (imageData, imageError) in
+                                            
+                                            //// Ocultamos la carga y lanzamos los eventos.
+                                            muestraCarga(muestra: false, view: self.view, imageGroupTag: 1)
+                                            UIApplication.shared.endIgnoringInteractionEvents()
+                                            
                                             if imageError == nil{
                                                 if let imageDataDes = imageData{
                                                     let image = UIImage(data: imageDataDes)
@@ -214,6 +225,10 @@ class SK_Captacion_ViewController: UIViewController {
                                         })
                                     }
                                 }
+                            }else{
+                                //// Ocultamos la carga y lanzamos los eventos.
+                                muestraCarga(muestra: false, view: self.view, imageGroupTag: 1)
+                                UIApplication.shared.endIgnoringInteractionEvents()
                             }
                         })
                         // Cargamos los datos del cliente.
@@ -276,7 +291,7 @@ class SK_Captacion_ViewController: UIViewController {
 
 
 //MARK: - EXTENSION CLLOCATIONMANAGER
-extension SK_Captacion_ViewController : CLLocationManagerDelegate {
+extension SK_Captacion_ViewController : CLLocationManagerDelegate{
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         if status == .authorizedWhenInUse {
             locationManager.requestLocation()
@@ -296,18 +311,36 @@ extension SK_Captacion_ViewController : CLLocationManagerDelegate {
             self.longitud = location.coordinate.longitude
             self.cargarCalle(location: location)
         }
+        
         let region = MKCoordinateRegion(center: center, span: span)
         myMapaCaptacionMV.setRegion(region, animated: true)
     }
     
-
+    /*func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        myLocations.append(locations[0])
+        let spanX = 0.007
+        let spanY = 0.007
+        var newRegion = MKCoordinateRegion(center: myMapaCaptacionMV.userLocation.coordinate, span: MKCoordinateSpanMake(spanX, spanY))
+        myMapaCaptacionMV.setRegion(newRegion, animated: true)
+        if (myLocations.count > 1){
+            var sourceIndex = myLocations.count - 1
+            var destinationIndex = myLocations.count - 2
+            let c1 = myLocations[sourceIndex].coordinate
+            let c2 = myLocations[destinationIndex].coordinate
+            var a = [c1, c2]
+            var polyline = MKPolyline(coordinates: &a, count: a.count)
+            myMapaCaptacionMV.add(polyline)
+        }
+    }*/
+    
+    
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         print("error: \(error)")
     }
 }
 
 //MARK: - EXTENSION PARA CREAR ANOTACIONES PERSONALIZADAS.
-extension SK_Captacion_ViewController : MKMapViewDelegate {
+extension SK_Captacion_ViewController : MKMapViewDelegate{
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView?{
         if !(annotation is MKPointAnnotation) {
             return nil
@@ -334,9 +367,17 @@ extension SK_Captacion_ViewController : MKMapViewDelegate {
         return anotacionView
     }
     
-    
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
         self.telefCliente = ((view.annotation?.title)!)!
     }
     
+    /*func mapView(_ mapView: MKMapView!, rendererFor overlay: MKOverlay!) -> MKOverlayRenderer! {
+        if overlay is MKPolyline{
+            let polyLineRender = MKPolygonRenderer(overlay: overlay)
+            polyLineRender.strokeColor = UIColor.red
+            polyLineRender.lineWidth = 4
+            return polyLineRender
+        }
+        return nil
+    }*/
 }
