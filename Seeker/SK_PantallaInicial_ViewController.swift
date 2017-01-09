@@ -39,5 +39,10 @@ class SK_PantallaInicial_ViewController: UIViewController {
             performSegue(withIdentifier: "presentViewController", sender: self)
         }
     }
+    
+    // UNWIND.
+    @IBAction func unWind(segue: UIStoryboardSegue){
+        PFUser.logOutInBackground()
+    }
 
 }

@@ -53,10 +53,10 @@ class SK_Yo_ViewController: UIViewController {
         }
     }
     
-
+    
     //MARK -------------------------- UTILIDADES --------------------------
     
-    //CARGAR DATOS DEL USUARIO
+    // CARGAR DATOS DEL USUARIO
     func cargarDatos(){
         // Realizamos la consulta de los datos del usuario.
         let queryUser = PFUser.query()!

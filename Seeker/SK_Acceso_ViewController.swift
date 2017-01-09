@@ -74,8 +74,9 @@ class SK_Acceso_ViewController: UIViewController {
                     self.present(showAlertVC("Error", messageData: "Error en el Login."), animated: true, completion: nil)
                 }
             }
-            // Limpiamos los campos.
+            // Limpiamos los campos y bloqueamos myBotonAccederBTN.
             limpiaCampos([self.myUsuarioTF, self.myPasswordTF])
+            cambiaEstadoBTN(boton: self.myBotonAccederBTN, estado: false)
         }
     }
 
@@ -110,7 +111,6 @@ class SK_Acceso_ViewController: UIViewController {
         if myUsuarioTF.text! == "" || (myPasswordTF.text?.characters.count)! < 6{
             estado = false
         }
-        
         return estado
     }
     

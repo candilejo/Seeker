@@ -117,6 +117,10 @@ func erroresUser(code : Int) -> String{
         error = "Usuario o contraseña incorrectos."
     }else if code == 202{
         error = "El usuario ya existe."
+    }else if code == 200{
+        error = "El usuario no puede estar vacío."
+    }else if code == 125{
+        error = "El email escrito no es correcto."
     }
     return error
 }

@@ -149,10 +149,9 @@ class SK_Captacion_InfoCliente_ViewController: UIViewController {
     
     // LLAMAR AL CLIENTE
     @IBAction func llamarClienteACTION(_ sender: Any) {
-        //UIApplication.sharedApplication().openURL(NSURL(scheme: NSString(), host: "tel://", path: busPhone)!)
-        
-        let url = URL(fileURLWithPath: "tel://\(myTelefonoClienteTF.text!)")
-        UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        if let url = NSURL(string: "tel://\(myTelefonoClienteTF.text!)") {
+            UIApplication.shared.open(url as URL, options: [:], completionHandler: nil)
+        }
     }
     
     // ACTUALIZA LOS CAMPOS
@@ -288,7 +287,7 @@ class SK_Captacion_InfoCliente_ViewController: UIViewController {
         }
     }
     
-    // GESTO DE RECONOCIMIENTO
+    //GESTO DE RECONOCIMIENTO
     func hideImageGroup(gesto : UIGestureRecognizer){
         for subvista in self.view.subviews{
             if subvista.tag == self.imageGroupTag{
@@ -298,7 +297,7 @@ class SK_Captacion_InfoCliente_ViewController: UIViewController {
     }
     
     
-    // ACTUALIZAR DATOS DEL CLIENTE
+    //ACTUALIZAR DATOS DEL CLIENTE
     func actualizarDatos(){
         var correcto = true
         
@@ -328,6 +327,9 @@ class SK_Captacion_InfoCliente_ViewController: UIViewController {
         if correcto{
             // Actualizamos los datos del cliente si los campos no están vacíos.
             let clientData = PFObject(className: "Client")
+            
+            clientData["usuarioCliente"] = PFUser.current()?.username
+            
             if myNombreClienteTF.text != "" {
                 clientData["nombreCliente"] = myNombreClienteTF.text
             }
@@ -355,7 +357,7 @@ class SK_Captacion_InfoCliente_ViewController: UIViewController {
     
     
     
-    // ACTUALIZAR FOTO DEL PERFIL
+    //ACTUALIZAR FOTO DEL PERFIL
     func upatePhoto(){
         // Eliminamos la foto antigua si existe.
         let queryRemover = PFQuery(className: "imageClient")

@@ -110,8 +110,9 @@ class SK_Registro_ViewController: UIViewController {
         // Comprobamos que el registro del usuario se puede efectuar.
         usuarioData.signUpInBackground(block: { (envioExitoso, errorRegistro) in
             
-            // Si existe un error, mostramos el tipo de error que es.
+            // Si existe un error, mostramos el tipo de error que es y lanzamos los eventos.
             if errorRegistro != nil{
+                UIApplication.shared.endIgnoringInteractionEvents()
                 let error =  erroresUser(code: (errorRegistro! as NSError).code)
                 if error != ""{
                     self.present(showAlertVC("ATENCION", messageData: error), animated: true, completion: nil)
@@ -193,7 +194,6 @@ class SK_Registro_ViewController: UIViewController {
 
 //MARK: - DELEGATE UIIMAGEPICKER / PHOTO
 extension SK_Registro_ViewController : UIImagePickerControllerDelegate, UINavigationControllerDelegate{
-    
     
     // SELECCIONAMOS LA CAMARA O LA LIBRERIA
     func pickerPhoto(){
