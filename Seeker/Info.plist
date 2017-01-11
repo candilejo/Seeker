@@ -22,6 +22,10 @@
 	<true/>
 	<key>NSCameraUsageDescription</key>
 	<string>¿Desea Permitir que la aplicación acceda a su cámara?</string>
+	<key>NSLocationUsageDescription</key>
+	<string>Acceder a la ubicación</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>¿Desea Permitir que accedamos a su ubicación cuando utilice la aplicación?</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>¿Desea permitir que la aplicación acceda a su galería de imágenes?</string>
 	<key>UILaunchStoryboardName</key>
@@ -35,18 +39,12 @@
 	<key>UIStatusBarHidden</key>
 	<false/>
 	<key>UIStatusBarStyle</key>
-	<string>UIStatusBarStyleLightContent</string>
+	<string>UIStatusBarStyleDefault</string>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>¿Desea Permitir que accedamos a su ubicación cuando utilice la aplicación?</string>
-	<key>NSLocationUsageDescription</key>
-	<string>Acceder a la ubicación</string>
-	<key>NSLocationAlwaysUsageDescription</key>
-	<string>Acceder a la ubicacion</string>
 </dict>
 </plist>

@@ -17,6 +17,9 @@ class SK_PantallaInicial_ViewController: UIViewController {
     //MARK: - LIFE VC
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // Mostramos la barra de estado.
+        UIApplication.shared.statusBarStyle = .lightContent
     }
 
     //MARK: - SE EJECUTA AL RECIBIR UNA ALERTA DE MEMORIA
@@ -30,7 +33,7 @@ class SK_PantallaInicial_ViewController: UIViewController {
         super.viewDidAppear(animated)
         
         // Mostramos la barra de estado.
-        UIApplication.shared.statusBarStyle = .default
+        UIApplication.shared.statusBarStyle = .lightContent
         
         // Si la sesión del usuario está activa accedemos a la App.
         if PFUser.current()?.username != nil{
@@ -38,11 +41,6 @@ class SK_PantallaInicial_ViewController: UIViewController {
         }else{
             performSegue(withIdentifier: "presentViewController", sender: self)
         }
-    }
-    
-    // UNWIND.
-    @IBAction func unWind(segue: UIStoryboardSegue){
-        PFUser.logOutInBackground()
     }
 
 }

@@ -28,7 +28,7 @@ class SK_Opciones_ViewController: UIViewController {
     //MARK -------------------------- ACCIONES --------------------------
     
     // CERRAR SESION
-    @IBAction func cerrarSesionACTION(_ sender: Any) {        
-        self.performSegue(withIdentifier: "cerrar", sender: view)
+    @IBAction func cerrarSesionACTION(_ sender: Any) {
+        self.performSegue(withIdentifier: "logout", sender: view)
     }
 }

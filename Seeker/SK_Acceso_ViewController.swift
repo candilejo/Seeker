@@ -40,6 +40,13 @@ class SK_Acceso_ViewController: UIViewController {
     }
     
     
+    //MARK: - ACTUALIZAMOS EL STATUSBAR CUANDO RECUPERAMOS EL VIEW.
+    override func viewDidAppear(_ animated: Bool) {
+        // Mostramos la StatusBar por defecto.
+        UIApplication.shared.statusBarStyle = .default
+    }
+    
+    
     //MARK -------------------------- ACCIONES --------------------------
     
     // MUESTRA INFORMACIÓN DE LA PASSWORD.
@@ -114,4 +121,9 @@ class SK_Acceso_ViewController: UIViewController {
         return estado
     }
     
+    // LOGOUT
+    @IBAction func logoutACTION(storyboard : UIStoryboardSegue){
+        PFUser.logOut()
+        present(showAlertVC("INFORMACIÓN", messageData: "La sesión se ha cerrado correctamente."), animated: true, completion: nil)
+    }
 }

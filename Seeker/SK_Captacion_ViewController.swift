@@ -113,7 +113,7 @@ class SK_Captacion_ViewController: UIViewController {
         // Pasamos los datos a la SK_Captacion_AddClient_ViewController.
         addCliente.latitud = self.latitud
         addCliente.longitud = self.longitud
-        addCliente.calle = "\(self.calle), \(self.localidad))"
+        addCliente.calle = "\(self.calle), \(self.localidad)"
     
         self.navigationController?.pushViewController(addCliente, animated: true)
     }

@@ -48,6 +48,11 @@ class SK_Yo_ViewController: UIViewController {
     
     //MARK: - ACTUALIZAMOS LOS DATOS CUANDO RECUPERAMOS EL VIEW
     override func viewDidAppear(_ animated: Bool) {
+        
+        // Mostramos la barra de estado.
+        UIApplication.shared.statusBarStyle = .lightContent
+        
+        // Cargamos los datos si no es el inicial.
         if esInicial == false{
             cargarDatos()
         }

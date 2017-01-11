@@ -1771,7 +1771,7 @@
                                 </state>
                                 <connections>
                                     <action selector="cerrarSesionACTION:" destination="NdE-Am-cb3" eventType="touchUpInside" id="7Pe-Dh-HP5"/>
-                                    <segue destination="FAi-Pv-l0b" kind="unwind" identifier="cerrar" unwindAction="unWindWithSegue:" id="Fpi-FL-MPi"/>
+                                    <segue destination="FAi-Pv-l0b" kind="unwind" identifier="logout" unwindAction="logoutACTIONWithStoryboard:" id="GJq-ey-Hfg"/>
                                 </connections>
                             </button>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="HkT-K0-Njh">
@@ -1789,11 +1789,11 @@
                                     <segue destination="UEt-1V-KiR" kind="show" id="wJd-hI-OK2"/>
                                 </connections>
                             </button>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="editar" translatesAutoresizingMaskIntoConstraints="NO" id="omI-6S-NJe">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="irGrande" translatesAutoresizingMaskIntoConstraints="NO" id="omI-6S-NJe">
                                 <rect key="frame" x="270" y="84" width="30" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="editar" translatesAutoresizingMaskIntoConstraints="NO" id="Kzk-Bo-jBI">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="irGrande" translatesAutoresizingMaskIntoConstraints="NO" id="Kzk-Bo-jBI">
                                 <rect key="frame" x="270" y="132" width="30" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
@@ -1848,6 +1848,7 @@
         <image name="emailGrande2" width="389" height="379"/>
         <image name="front" width="450" height="280"/>
         <image name="guardar2" width="30" height="30"/>
+        <image name="irGrande" width="389" height="379"/>
         <image name="llamar" width="30" height="30"/>
         <image name="negocioGrande2" width="389" height="379"/>
         <image name="passwordGrande" width="389" height="379"/>
