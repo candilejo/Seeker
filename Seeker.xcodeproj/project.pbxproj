@@ -43,6 +43,7 @@
 		6682AE321DF80F5300C20582 /* SK_Captacion_AddClient_ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6682AE311DF80F5300C20582 /* SK_Captacion_AddClient_ViewController.swift */; };
 		66AA0B341DF18D6200C4F7C2 /* SK_Registro_ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66AA0B331DF18D6200C4F7C2 /* SK_Registro_ViewController.swift */; };
 		66ECBF6D1DFEF61E0020159C /* SK_Captacion_InfoCliente_ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66ECBF6C1DFEF61E0020159C /* SK_Captacion_InfoCliente_ViewController.swift */; };
+		66FB9AD31E2687BD00BC92AC /* SK_Opciones_Terminos&Condiciones_ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66FB9AD21E2687BD00BC92AC /* SK_Opciones_Terminos&Condiciones_ViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -84,6 +85,7 @@
 		6682AE311DF80F5300C20582 /* SK_Captacion_AddClient_ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SK_Captacion_AddClient_ViewController.swift; sourceTree = "<group>"; };
 		66AA0B331DF18D6200C4F7C2 /* SK_Registro_ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SK_Registro_ViewController.swift; sourceTree = "<group>"; };
 		66ECBF6C1DFEF61E0020159C /* SK_Captacion_InfoCliente_ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SK_Captacion_InfoCliente_ViewController.swift; sourceTree = "<group>"; };
+		66FB9AD21E2687BD00BC92AC /* SK_Opciones_Terminos&Condiciones_ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SK_Opciones_Terminos&Condiciones_ViewController.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -224,6 +226,7 @@
 			isa = PBXGroup;
 			children = (
 				663E4CC41E23C38600ED1CDA /* SK_Opciones_ViewController.swift */,
+				66FB9AD41E26880400BC92AC /* Terminos y Condiciones */,
 			);
 			name = Opciones;
 			sourceTree = "<group>";
@@ -308,6 +311,14 @@
 				66ECBF6C1DFEF61E0020159C /* SK_Captacion_InfoCliente_ViewController.swift */,
 			);
 			name = "Informacion Cliente";
+			sourceTree = "<group>";
+		};
+		66FB9AD41E26880400BC92AC /* Terminos y Condiciones */ = {
+			isa = PBXGroup;
+			children = (
+				66FB9AD21E2687BD00BC92AC /* SK_Opciones_Terminos&Condiciones_ViewController.swift */,
+			);
+			name = "Terminos y Condiciones";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -396,6 +407,7 @@
 				6628E53B1DF08047006C7213 /* SK_Acceso_ViewController.swift in Sources */,
 				66AA0B341DF18D6200C4F7C2 /* SK_Registro_ViewController.swift in Sources */,
 				6682AE2F1DF80B9E00C20582 /* SK_Captacion_ViewController.swift in Sources */,
+				66FB9AD31E2687BD00BC92AC /* SK_Opciones_Terminos&Condiciones_ViewController.swift in Sources */,
 				667EEC651E03DA3F0035C3A0 /* SK_PantallaInicial_ViewController.swift in Sources */,
 				667EEC681E14256B0035C3A0 /* SK_Clientes_TableViewController.swift in Sources */,
 				6682AE2B1DF5BC8B00C20582 /* SK_Yo_Editar_Ubicacion_ViewController.swift in Sources */,

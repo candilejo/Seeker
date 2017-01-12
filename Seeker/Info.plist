@@ -24,6 +24,8 @@
 	<string>¿Desea Permitir que la aplicación acceda a su cámara?</string>
 	<key>NSLocationUsageDescription</key>
 	<string>Acceder a la ubicación</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Acceder a la ubicación</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>¿Desea Permitir que accedamos a su ubicación cuando utilice la aplicación?</string>
 	<key>NSPhotoLibraryUsageDescription</key>

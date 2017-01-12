@@ -16,7 +16,7 @@ class SK_Yo_Editar_ViewController: UIViewController {
     
     //MARK: - VARIABLES LOCALES GLOBALES
     var fotoSeleccionada = false
-    
+    var inicial = true
     
     //MARK: - IBOUTLETS
     @IBOutlet weak var myImagenUsuarioIV: UIImageView!
@@ -63,7 +63,9 @@ class SK_Yo_Editar_ViewController: UIViewController {
     
     //MARK: - ACTUALIZAMOS LOS DATOS CUANDO RECUPERAMOS EL VIEW
     override func viewDidAppear(_ animated: Bool) {
-        cargarNuevaUbicacion()
+        if inicial == false{
+            cargarNuevaUbicacion()
+        }
     }
     
     
@@ -149,6 +151,8 @@ class SK_Yo_Editar_ViewController: UIViewController {
                             // Ocultamos la carga y lanzamos los eventos.
                             muestraCarga(muestra: false, view: self.view, imageGroupTag: 1)
                             UIApplication.shared.endIgnoringInteractionEvents()
+                            
+                            self.inicial = false
                             
                             if errorDos == nil{
                                 if let objectDosDes = objectDos{

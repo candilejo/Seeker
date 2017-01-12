@@ -70,6 +70,7 @@ class SK_Captacion_ViewController: UIViewController {
         // Configuración del locationManager.
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager.requestWhenInUseAuthorization()
         locationManager.requestLocation()
 
         
