@@ -31,4 +31,9 @@ class SK_Opciones_ViewController: UIViewController {
     @IBAction func cerrarSesionACTION(_ sender: Any) {
         self.performSegue(withIdentifier: "logout", sender: view)
     }
+    
+    //MARK -------------------------- UTILIDADES --------------------------
+    
+    // UNWIND
+    @IBAction func volverOpciones(storyboard : UIStoryboardSegue){}
 }

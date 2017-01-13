@@ -473,11 +473,11 @@
                         <viewControllerLayoutGuide type="bottom" id="mb9-yv-bXS"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="Eml-eM-GaL">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="519"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" indicatorStyle="black" editable="NO" textAlignment="justified" translatesAutoresizingMaskIntoConstraints="NO" id="OdQ-W5-uQp">
-                                <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                                <rect key="frame" x="0.0" y="64" width="320" height="455"/>
                                 <color key="backgroundColor" red="0.93725490570000003" green="0.93725490570000003" blue="0.95686274770000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <string key="text">Para Seeker salvaguardar la privacidad de las personas registradas es algo fundamental.
 En el año 2017, al iniciar nuestro proyecto reafirmamos nuestro compromiso ineludible con la confidencialidad, la reserva y la protección de los datos del " Usuario " que se registre en nuestro aplicación, por lo cual recomendamos la lectura detallada del texto completo que sigue a continuación.
@@ -530,7 +530,362 @@ Ante cualquier conflicto, la Ley aplicable será la Española, con expresa renun
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Rih-5a-bAR" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3555" y="756.33802816901414"/>
+            <point key="canvasLocation" x="3724" y="1189"/>
+        </scene>
+        <!--CAMBIAR EMAIL-->
+        <scene sceneID="67q-I2-T1q">
+            <objects>
+                <viewController id="eWL-xT-gkh" customClass="SK_Opciones_CambiarEmail_ViewController" customModule="Seeker" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Crg-Id-W4T"/>
+                        <viewControllerLayoutGuide type="bottom" id="t77-go-FmY"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Mm9-H7-uM9">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="519"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Introduca su Email actúal." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lLF-Z5-wDL">
+                                <rect key="frame" x="16" y="82" width="288" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="noV-sp-4bz"/>
+                                    <constraint firstAttribute="width" constant="288" id="zY4-IT-Z8V"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="italicSystem" pointSize="15"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UW8-iM-WCI">
+                                <rect key="frame" x="16" y="409" width="288" height="37"/>
+                                <color key="backgroundColor" red="0.5342851877" green="0.91039007900000002" blue="0.4543445706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="37" id="63p-0j-EZb"/>
+                                    <constraint firstAttribute="width" constant="288" id="KQz-vU-pNu"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="28"/>
+                                <state key="normal" title="Actualizar">
+                                    <color key="titleColor" red="0.3245182633" green="0.31765627860000001" blue="0.31027534600000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="actualizarClienteACTION:" destination="ebG-dZ-ZBB" eventType="touchUpInside" id="clK-2s-wWz"/>
+                                    <action selector="actualizarEmailACTION:" destination="eWL-xT-gkh" eventType="touchUpInside" id="5de-Yt-E8f"/>
+                                </connections>
+                            </button>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2P2-DI-LZf">
+                                <rect key="frame" x="16" y="158" width="288" height="3"/>
+                                <color key="backgroundColor" red="0.3245182633" green="0.31765627860000001" blue="0.31027534600000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="3" id="hia-U3-1hJ"/>
+                                    <constraint firstAttribute="width" constant="288" id="jLX-qD-5tr"/>
+                                </constraints>
+                            </view>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="emailGrande2" translatesAutoresizingMaskIntoConstraints="NO" id="IgB-nA-tHm">
+                                <rect key="frame" x="16" y="120" width="30" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="IQL-rK-AKE"/>
+                                    <constraint firstAttribute="width" constant="30" id="eMp-RE-7eB"/>
+                                </constraints>
+                            </imageView>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Email Actúal" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="zNr-yR-wFb">
+                                <rect key="frame" x="54" y="120" width="250" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="o58-cj-mig"/>
+                                    <constraint firstAttribute="width" constant="250" id="pMJ-0e-Wg2"/>
+                                </constraints>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no" keyboardType="emailAddress" keyboardAppearance="alert" returnKeyType="done"/>
+                                <connections>
+                                    <action selector="compruebaCamposACTION:" destination="eWL-xT-gkh" eventType="editingDidEndOnExit" id="MyL-CB-2Sp"/>
+                                </connections>
+                            </textField>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Introduca su nuevo Email." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xkO-l2-BDG">
+                                <rect key="frame" x="16" y="169" width="288" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="288" id="Sh4-Dt-rcp"/>
+                                    <constraint firstAttribute="height" constant="30" id="f33-iH-AOZ"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="italicSystem" pointSize="15"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DR0-7a-gj2">
+                                <rect key="frame" x="16" y="245" width="288" height="3"/>
+                                <color key="backgroundColor" red="0.3245182633" green="0.31765627860000001" blue="0.31027534600000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="3" id="lHl-h8-VBy"/>
+                                    <constraint firstAttribute="width" constant="288" id="r9S-ed-jKi"/>
+                                </constraints>
+                            </view>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="emailGrande2" translatesAutoresizingMaskIntoConstraints="NO" id="L9j-9v-053">
+                                <rect key="frame" x="16" y="207" width="30" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="30" id="HOt-eA-rfC"/>
+                                    <constraint firstAttribute="height" constant="30" id="vXA-hS-YKb"/>
+                                </constraints>
+                            </imageView>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Nuevo Email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="K98-WU-vep">
+                                <rect key="frame" x="54" y="207" width="250" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="250" id="6lo-XU-Fnz"/>
+                                    <constraint firstAttribute="height" constant="30" id="onA-zB-7op"/>
+                                </constraints>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no" keyboardType="emailAddress" keyboardAppearance="alert" returnKeyType="done"/>
+                                <connections>
+                                    <action selector="compruebaCamposACTION:" destination="xHW-X4-zqX" eventType="editingDidEndOnExit" id="ChG-Ln-vZl"/>
+                                </connections>
+                            </textField>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Repita su nuevo Email." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WUl-dD-DHh">
+                                <rect key="frame" x="16" y="256" width="288" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="288" id="7gF-t3-EaM"/>
+                                    <constraint firstAttribute="height" constant="30" id="RuL-ug-QJa"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="italicSystem" pointSize="15"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="emailGrande2" translatesAutoresizingMaskIntoConstraints="NO" id="Y3o-tG-lTS">
+                                <rect key="frame" x="16" y="294" width="30" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="Ov7-Mz-F6R"/>
+                                    <constraint firstAttribute="width" constant="30" id="SXe-3C-Mhz"/>
+                                </constraints>
+                            </imageView>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Nuevo Email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="r1p-DJ-WiP">
+                                <rect key="frame" x="54" y="294" width="250" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="9qq-MH-y38"/>
+                                    <constraint firstAttribute="width" constant="250" id="MYl-Lw-GM7"/>
+                                </constraints>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no" keyboardType="emailAddress" keyboardAppearance="alert" returnKeyType="done"/>
+                                <connections>
+                                    <action selector="compruebaCamposACTION:" destination="xHW-X4-zqX" eventType="editingDidEndOnExit" id="Qf7-sw-Vlg"/>
+                                </connections>
+                            </textField>
+                        </subviews>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="K98-WU-vep" firstAttribute="top" secondItem="xkO-l2-BDG" secondAttribute="bottom" constant="8" id="27h-3F-45w"/>
+                            <constraint firstItem="IgB-nA-tHm" firstAttribute="top" secondItem="lLF-Z5-wDL" secondAttribute="bottom" constant="8" id="4HO-Ij-fd8"/>
+                            <constraint firstItem="zNr-yR-wFb" firstAttribute="centerX" secondItem="Mm9-H7-uM9" secondAttribute="centerX" constant="19" id="6Xd-Xr-UU8"/>
+                            <constraint firstItem="K98-WU-vep" firstAttribute="centerX" secondItem="Mm9-H7-uM9" secondAttribute="centerX" constant="19" id="7Mk-z7-VhB"/>
+                            <constraint firstItem="xkO-l2-BDG" firstAttribute="top" secondItem="2P2-DI-LZf" secondAttribute="bottom" constant="8" id="9gd-ew-OZz"/>
+                            <constraint firstItem="DR0-7a-gj2" firstAttribute="centerX" secondItem="Mm9-H7-uM9" secondAttribute="centerX" id="Bph-1S-z0r"/>
+                            <constraint firstItem="zNr-yR-wFb" firstAttribute="leading" secondItem="IgB-nA-tHm" secondAttribute="trailing" constant="8" id="BqX-cx-Yqh"/>
+                            <constraint firstItem="DR0-7a-gj2" firstAttribute="top" secondItem="K98-WU-vep" secondAttribute="bottom" constant="8" id="Cg7-Zi-ehX"/>
+                            <constraint firstItem="r1p-DJ-WiP" firstAttribute="leading" secondItem="Y3o-tG-lTS" secondAttribute="trailing" constant="8" id="Dby-oc-xuc"/>
+                            <constraint firstItem="2P2-DI-LZf" firstAttribute="centerX" secondItem="Mm9-H7-uM9" secondAttribute="centerX" id="KJe-d5-lj3"/>
+                            <constraint firstItem="lLF-Z5-wDL" firstAttribute="centerX" secondItem="Mm9-H7-uM9" secondAttribute="centerX" id="LjG-hj-jZI"/>
+                            <constraint firstItem="UW8-iM-WCI" firstAttribute="centerX" secondItem="Mm9-H7-uM9" secondAttribute="centerX" id="NAQ-m4-gGs"/>
+                            <constraint firstItem="2P2-DI-LZf" firstAttribute="top" secondItem="zNr-yR-wFb" secondAttribute="bottom" constant="8" id="ND1-ne-YCl"/>
+                            <constraint firstItem="WUl-dD-DHh" firstAttribute="top" secondItem="DR0-7a-gj2" secondAttribute="bottom" constant="8" id="PIl-2v-Xgv"/>
+                            <constraint firstItem="DR0-7a-gj2" firstAttribute="top" secondItem="L9j-9v-053" secondAttribute="bottom" constant="8" id="Qsf-fZ-s9B"/>
+                            <constraint firstItem="K98-WU-vep" firstAttribute="leading" secondItem="L9j-9v-053" secondAttribute="trailing" constant="8" id="RCz-88-BRV"/>
+                            <constraint firstItem="2P2-DI-LZf" firstAttribute="top" secondItem="zNr-yR-wFb" secondAttribute="bottom" constant="8" id="Rqb-XI-WFY"/>
+                            <constraint firstItem="K98-WU-vep" firstAttribute="leading" secondItem="L9j-9v-053" secondAttribute="trailing" constant="8" id="TQd-nc-fjJ"/>
+                            <constraint firstItem="xkO-l2-BDG" firstAttribute="centerX" secondItem="Mm9-H7-uM9" secondAttribute="centerX" id="WNC-F3-vdx"/>
+                            <constraint firstItem="K98-WU-vep" firstAttribute="top" secondItem="xkO-l2-BDG" secondAttribute="bottom" constant="8" id="dVp-bP-hG2"/>
+                            <constraint firstItem="zNr-yR-wFb" firstAttribute="top" secondItem="lLF-Z5-wDL" secondAttribute="bottom" constant="8" id="jD1-xO-PU9"/>
+                            <constraint firstItem="zNr-yR-wFb" firstAttribute="leading" secondItem="IgB-nA-tHm" secondAttribute="trailing" constant="8" id="mnY-s5-gb0"/>
+                            <constraint firstItem="r1p-DJ-WiP" firstAttribute="leading" secondItem="Y3o-tG-lTS" secondAttribute="trailing" constant="8" id="nLL-a9-AL6"/>
+                            <constraint firstItem="L9j-9v-053" firstAttribute="top" secondItem="xkO-l2-BDG" secondAttribute="bottom" constant="8" id="pEi-hE-7Y3"/>
+                            <constraint firstItem="WUl-dD-DHh" firstAttribute="centerX" secondItem="Mm9-H7-uM9" secondAttribute="centerX" id="pVH-wL-fjc"/>
+                            <constraint firstItem="2P2-DI-LZf" firstAttribute="top" secondItem="IgB-nA-tHm" secondAttribute="bottom" constant="8" id="ptS-p2-zX1"/>
+                            <constraint firstItem="DR0-7a-gj2" firstAttribute="top" secondItem="K98-WU-vep" secondAttribute="bottom" constant="8" id="w3A-9D-y5h"/>
+                            <constraint firstItem="r1p-DJ-WiP" firstAttribute="centerX" secondItem="Mm9-H7-uM9" secondAttribute="centerX" constant="19" id="w3Q-91-Vtu"/>
+                            <constraint firstItem="r1p-DJ-WiP" firstAttribute="top" secondItem="WUl-dD-DHh" secondAttribute="bottom" constant="8" id="wuc-Tc-HRe"/>
+                            <constraint firstItem="UW8-iM-WCI" firstAttribute="top" secondItem="r1p-DJ-WiP" secondAttribute="bottom" constant="85" id="xsv-ae-dbk"/>
+                            <constraint firstItem="lLF-Z5-wDL" firstAttribute="top" secondItem="Crg-Id-W4T" secondAttribute="bottom" constant="18" id="y80-uu-uLp"/>
+                            <constraint firstItem="Y3o-tG-lTS" firstAttribute="top" secondItem="WUl-dD-DHh" secondAttribute="bottom" constant="8" id="yJ4-DJ-Tq7"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="CAMBIAR EMAIL" id="zqJ-4L-XzA">
+                        <barButtonItem key="backBarButtonItem" title=" " id="jJG-3y-avh"/>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="myBotonActualizarBTN" destination="UW8-iM-WCI" id="YGP-Eg-25d"/>
+                        <outlet property="myEmailActualTF" destination="zNr-yR-wFb" id="DYf-2h-ba6"/>
+                        <outlet property="myEmailNuevoBisTF" destination="r1p-DJ-WiP" id="rql-T3-ufJ"/>
+                        <outlet property="myEmailNuevoTF" destination="K98-WU-vep" id="mLG-mf-Qlh"/>
+                        <segue destination="NZg-0u-foN" kind="unwind" identifier="volver" unwindAction="volverOpcionesWithStoryboard:" id="lv2-t3-4eX"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="xHW-X4-zqX" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="NZg-0u-foN" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="4530" y="1190"/>
+        </scene>
+        <!--CAMBIAR CONTRASEÑA-->
+        <scene sceneID="I29-Ql-Jo7">
+            <objects>
+                <viewController id="C3K-WV-UaU" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="dbD-8j-fIb"/>
+                        <viewControllerLayoutGuide type="bottom" id="M0F-Dv-dTO"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="66t-yp-OYK">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="519"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Introduca su contraseña actúal." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Eqd-LN-AD6">
+                                <rect key="frame" x="16" y="82" width="288" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="L1Q-tx-tHa"/>
+                                    <constraint firstAttribute="width" constant="288" id="sKi-sp-3aq"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="italicSystem" pointSize="15"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="g67-dv-uyS">
+                                <rect key="frame" x="16" y="409" width="288" height="37"/>
+                                <color key="backgroundColor" red="0.5342851877" green="0.91039007900000002" blue="0.4543445706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="288" id="afn-AJ-eJM"/>
+                                    <constraint firstAttribute="height" constant="37" id="qeF-sO-pfm"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="28"/>
+                                <state key="normal" title="Actualizar">
+                                    <color key="titleColor" red="0.3245182633" green="0.31765627860000001" blue="0.31027534600000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="actualizarClienteACTION:" destination="ebG-dZ-ZBB" eventType="touchUpInside" id="aHx-CI-v7s"/>
+                                </connections>
+                            </button>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="O9h-eu-U6y">
+                                <rect key="frame" x="16" y="158" width="288" height="3"/>
+                                <color key="backgroundColor" red="0.3245182633" green="0.31765627860000001" blue="0.31027534600000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="288" id="EIC-Ey-DJn"/>
+                                    <constraint firstAttribute="height" constant="3" id="JWf-wK-uzK"/>
+                                </constraints>
+                            </view>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="passwordGrande" translatesAutoresizingMaskIntoConstraints="NO" id="ggz-ht-fY4">
+                                <rect key="frame" x="16" y="120" width="30" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="D5c-5d-9lK"/>
+                                    <constraint firstAttribute="width" constant="30" id="Xa8-Gu-Qhq"/>
+                                </constraints>
+                            </imageView>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Contraseña Actúal" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="kV8-NA-rd2">
+                                <rect key="frame" x="54" y="120" width="250" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="WWu-Yd-Stf"/>
+                                    <constraint firstAttribute="width" constant="250" id="ofm-y1-o6E"/>
+                                </constraints>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no" keyboardAppearance="alert" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
+                            </textField>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Introduca su nueva contraseña." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WBk-HF-LY9">
+                                <rect key="frame" x="16" y="169" width="288" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="288" id="Bhw-GE-eKc"/>
+                                    <constraint firstAttribute="height" constant="30" id="bY7-Fd-XsT"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="italicSystem" pointSize="15"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kzC-Mv-hNc">
+                                <rect key="frame" x="16" y="245" width="288" height="3"/>
+                                <color key="backgroundColor" red="0.3245182633" green="0.31765627860000001" blue="0.31027534600000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="288" id="iiM-QA-tKI"/>
+                                    <constraint firstAttribute="height" constant="3" id="khf-r1-IxO"/>
+                                </constraints>
+                            </view>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="passwordGrande" translatesAutoresizingMaskIntoConstraints="NO" id="tIb-jR-2wl">
+                                <rect key="frame" x="16" y="207" width="30" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="30" id="6ok-ZT-7JP"/>
+                                    <constraint firstAttribute="height" constant="30" id="ETg-qu-BfJ"/>
+                                </constraints>
+                            </imageView>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Nueva Contraseña" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="58a-Qj-UO4">
+                                <rect key="frame" x="54" y="207" width="250" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="gjI-nf-mYr"/>
+                                    <constraint firstAttribute="width" constant="250" id="uil-g9-uS2"/>
+                                </constraints>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no" keyboardAppearance="alert" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
+                            </textField>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Repita su nueva contraseña." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9Zj-Rz-KaD">
+                                <rect key="frame" x="16" y="256" width="288" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="288" id="BWN-nQ-cQW"/>
+                                    <constraint firstAttribute="height" constant="30" id="XcX-Vk-izA"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="italicSystem" pointSize="15"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="passwordGrande" translatesAutoresizingMaskIntoConstraints="NO" id="MH8-Hf-ZhL">
+                                <rect key="frame" x="16" y="294" width="30" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="30" id="quh-0c-LIM"/>
+                                    <constraint firstAttribute="height" constant="30" id="riH-Pl-4NX"/>
+                                </constraints>
+                            </imageView>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Nueva Contraseña" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Xtm-Zl-F8Y">
+                                <rect key="frame" x="54" y="294" width="250" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="1Wq-My-jva"/>
+                                    <constraint firstAttribute="width" constant="250" id="40x-Vq-M03"/>
+                                </constraints>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no" keyboardAppearance="alert" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
+                            </textField>
+                        </subviews>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="58a-Qj-UO4" firstAttribute="leading" secondItem="tIb-jR-2wl" secondAttribute="trailing" constant="8" id="0Hk-5Y-J3O"/>
+                            <constraint firstItem="Xtm-Zl-F8Y" firstAttribute="leading" secondItem="MH8-Hf-ZhL" secondAttribute="trailing" constant="8" id="0dA-qc-5qf"/>
+                            <constraint firstItem="kV8-NA-rd2" firstAttribute="leading" secondItem="ggz-ht-fY4" secondAttribute="trailing" constant="8" id="1Hn-cl-aR6"/>
+                            <constraint firstItem="kzC-Mv-hNc" firstAttribute="centerX" secondItem="66t-yp-OYK" secondAttribute="centerX" id="1wB-El-b1o"/>
+                            <constraint firstItem="kzC-Mv-hNc" firstAttribute="top" secondItem="58a-Qj-UO4" secondAttribute="bottom" constant="8" id="32T-rR-bmo"/>
+                            <constraint firstItem="kV8-NA-rd2" firstAttribute="top" secondItem="Eqd-LN-AD6" secondAttribute="bottom" constant="8" id="6ZY-A0-VIp"/>
+                            <constraint firstItem="Xtm-Zl-F8Y" firstAttribute="centerX" secondItem="66t-yp-OYK" secondAttribute="centerX" constant="19" id="F56-Jd-XuZ"/>
+                            <constraint firstItem="O9h-eu-U6y" firstAttribute="top" secondItem="ggz-ht-fY4" secondAttribute="bottom" constant="8" id="Faa-ua-hVe"/>
+                            <constraint firstItem="O9h-eu-U6y" firstAttribute="top" secondItem="kV8-NA-rd2" secondAttribute="bottom" constant="8" id="GC3-Ar-4b6"/>
+                            <constraint firstItem="58a-Qj-UO4" firstAttribute="leading" secondItem="tIb-jR-2wl" secondAttribute="trailing" constant="8" id="KJl-TO-vG1"/>
+                            <constraint firstItem="9Zj-Rz-KaD" firstAttribute="centerX" secondItem="66t-yp-OYK" secondAttribute="centerX" id="KPd-6G-ty6"/>
+                            <constraint firstItem="Eqd-LN-AD6" firstAttribute="centerX" secondItem="66t-yp-OYK" secondAttribute="centerX" id="Mt4-vg-dp7"/>
+                            <constraint firstItem="Xtm-Zl-F8Y" firstAttribute="top" secondItem="9Zj-Rz-KaD" secondAttribute="bottom" constant="8" id="RgV-2p-6DE"/>
+                            <constraint firstItem="kV8-NA-rd2" firstAttribute="centerX" secondItem="66t-yp-OYK" secondAttribute="centerX" constant="19" id="Sck-SQ-gPm"/>
+                            <constraint firstItem="ggz-ht-fY4" firstAttribute="top" secondItem="Eqd-LN-AD6" secondAttribute="bottom" constant="8" id="TWc-4h-mfT"/>
+                            <constraint firstItem="MH8-Hf-ZhL" firstAttribute="top" secondItem="9Zj-Rz-KaD" secondAttribute="bottom" constant="8" id="Tl4-Kg-eno"/>
+                            <constraint firstItem="WBk-HF-LY9" firstAttribute="centerX" secondItem="66t-yp-OYK" secondAttribute="centerX" id="U4s-Te-a3K"/>
+                            <constraint firstItem="9Zj-Rz-KaD" firstAttribute="top" secondItem="kzC-Mv-hNc" secondAttribute="bottom" constant="8" id="UVE-27-1C4"/>
+                            <constraint firstItem="kV8-NA-rd2" firstAttribute="leading" secondItem="ggz-ht-fY4" secondAttribute="trailing" constant="8" id="YFt-oE-RvH"/>
+                            <constraint firstItem="g67-dv-uyS" firstAttribute="centerX" secondItem="66t-yp-OYK" secondAttribute="centerX" id="bBD-yo-eiV"/>
+                            <constraint firstItem="g67-dv-uyS" firstAttribute="top" secondItem="Xtm-Zl-F8Y" secondAttribute="bottom" constant="85" id="bQs-d0-7T6"/>
+                            <constraint firstItem="kzC-Mv-hNc" firstAttribute="top" secondItem="58a-Qj-UO4" secondAttribute="bottom" constant="8" id="dvH-m1-O0b"/>
+                            <constraint firstItem="Eqd-LN-AD6" firstAttribute="top" secondItem="dbD-8j-fIb" secondAttribute="bottom" constant="18" id="eiF-GE-pln"/>
+                            <constraint firstItem="Xtm-Zl-F8Y" firstAttribute="leading" secondItem="MH8-Hf-ZhL" secondAttribute="trailing" constant="8" id="jkp-aq-0OZ"/>
+                            <constraint firstItem="kzC-Mv-hNc" firstAttribute="top" secondItem="tIb-jR-2wl" secondAttribute="bottom" constant="8" id="ka1-Is-WZ4"/>
+                            <constraint firstItem="WBk-HF-LY9" firstAttribute="top" secondItem="O9h-eu-U6y" secondAttribute="bottom" constant="8" id="otm-rR-CtZ"/>
+                            <constraint firstItem="tIb-jR-2wl" firstAttribute="top" secondItem="WBk-HF-LY9" secondAttribute="bottom" constant="8" id="owe-Kx-2ff"/>
+                            <constraint firstItem="58a-Qj-UO4" firstAttribute="top" secondItem="WBk-HF-LY9" secondAttribute="bottom" constant="8" id="p4y-el-peT"/>
+                            <constraint firstItem="O9h-eu-U6y" firstAttribute="top" secondItem="kV8-NA-rd2" secondAttribute="bottom" constant="8" id="qWM-22-47L"/>
+                            <constraint firstItem="O9h-eu-U6y" firstAttribute="centerX" secondItem="66t-yp-OYK" secondAttribute="centerX" id="rL8-wW-ECi"/>
+                            <constraint firstItem="58a-Qj-UO4" firstAttribute="centerX" secondItem="66t-yp-OYK" secondAttribute="centerX" constant="19" id="zQ3-hh-1sG"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="CAMBIAR CONTRASEÑA" id="iDy-Q6-nAd">
+                        <barButtonItem key="backBarButtonItem" title=" " id="Ghl-Qr-Smx"/>
+                    </navigationItem>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ZNl-bY-lfz" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="5291" y="1190"/>
         </scene>
         <!--CAPTACIÓN-->
         <scene sceneID="o6w-rW-gvS">
@@ -652,7 +1007,7 @@ Ante cualquier conflicto, la Ley aplicable será la Española, con expresa renun
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="AXT-Ly-Lnx" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2768" y="-601"/>
+            <point key="canvasLocation" x="2936" y="-168"/>
         </scene>
         <!--NUEVO CLIENTE-->
         <scene sceneID="raK-9h-elj">
@@ -778,7 +1133,7 @@ Ante cualquier conflicto, la Ley aplicable será la Española, con expresa renun
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="alertaGrande" translatesAutoresizingMaskIntoConstraints="NO" id="lIY-xI-jE5">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="observacionesGrande" translatesAutoresizingMaskIntoConstraints="NO" id="lIY-xI-jE5">
                                 <rect key="frame" x="16" y="352" width="20" height="20"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="20" id="mfg-6G-46g"/>
@@ -866,7 +1221,7 @@ Ante cualquier conflicto, la Ley aplicable será la Española, con expresa renun
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fIk-OG-kRJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="5N6-rm-t6N" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="3602" y="-209"/>
+            <point key="canvasLocation" x="3771" y="224"/>
         </scene>
         <!--YO-->
         <scene sceneID="TPk-Mu-veZ">
@@ -1063,7 +1418,7 @@ Ante cualquier conflicto, la Ley aplicable será la Española, con expresa renun
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KOJ-U3-vPZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2769" y="-1261"/>
+            <point key="canvasLocation" x="2936" y="-828"/>
         </scene>
         <!--EDITAR-->
         <scene sceneID="D5m-7f-ZU0">
@@ -1284,7 +1639,7 @@ Ante cualquier conflicto, la Ley aplicable será la Española, con expresa renun
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ctj-c2-uMz" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3602" y="-1261"/>
+            <point key="canvasLocation" x="3771" y="-828"/>
         </scene>
         <!--UBICACIÓN-->
         <scene sceneID="6oW-Jf-pv5">
@@ -1341,7 +1696,7 @@ Ante cualquier conflicto, la Ley aplicable será la Española, con expresa renun
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="58T-4l-lG7" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5507" y="-1261"/>
+            <point key="canvasLocation" x="5676" y="-828"/>
         </scene>
         <!--Yo Editar Search Location Table View Controller-->
         <scene sceneID="ihn-kd-fZ8">
@@ -1386,7 +1741,7 @@ Ante cualquier conflicto, la Ley aplicable será la Española, con expresa renun
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tF4-QG-VHa" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="6238" y="-1261"/>
+            <point key="canvasLocation" x="6405" y="-828"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="J5C-Rj-OTl">
@@ -1464,7 +1819,7 @@ Ante cualquier conflicto, la Ley aplicable será la Española, con expresa renun
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Jak-dm-ED7" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2763.75" y="71.83098591549296"/>
+            <point key="canvasLocation" x="2933" y="505"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="QMZ-WB-qs3">
@@ -1507,7 +1862,7 @@ Ante cualquier conflicto, la Ley aplicable será la Española, con expresa renun
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zTL-t7-0Zt" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1772" y="-1261"/>
+            <point key="canvasLocation" x="1941" y="-828"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="vtq-bP-XEX">
@@ -1525,7 +1880,7 @@ Ante cualquier conflicto, la Ley aplicable será la Española, con expresa renun
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="scE-6p-gyz" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4509" y="-1261"/>
+            <point key="canvasLocation" x="4676" y="-828"/>
         </scene>
         <!--Captación-->
         <scene sceneID="91w-sr-13q">
@@ -1550,7 +1905,7 @@ Ante cualquier conflicto, la Ley aplicable será la Española, con expresa renun
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iBn-o6-nDy" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1768" y="-601"/>
+            <point key="canvasLocation" x="1935" y="-168"/>
         </scene>
         <!--CLIENTE-->
         <scene sceneID="8yS-ax-4aX">
@@ -1663,7 +2018,7 @@ Ante cualquier conflicto, la Ley aplicable será la Española, con expresa renun
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="alertaGrande" translatesAutoresizingMaskIntoConstraints="NO" id="UnQ-Sr-ddD">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="observacionesGrande" translatesAutoresizingMaskIntoConstraints="NO" id="UnQ-Sr-ddD">
                                 <rect key="frame" x="16" y="312" width="20" height="20"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="20" id="UiZ-fq-kZ4"/>
@@ -1703,7 +2058,7 @@ Ante cualquier conflicto, la Ley aplicable será la Española, con expresa renun
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ubicacionGrande" translatesAutoresizingMaskIntoConstraints="NO" id="7Nw-aZ-OzA">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="estadoGrande" translatesAutoresizingMaskIntoConstraints="NO" id="7Nw-aZ-OzA">
                                 <rect key="frame" x="16" y="244" width="20" height="20"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="20" id="B8x-bU-diB"/>
@@ -1720,10 +2075,13 @@ Ante cualquier conflicto, la Ley aplicable será la Española, con expresa renun
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OYC-B6-C8j">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OYC-B6-C8j">
                                 <rect key="frame" x="16" y="438" width="288" height="37"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.5342851877" green="0.91039007900000002" blue="0.4543445706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="37" id="EKf-hu-NmD"/>
+                                    <constraint firstAttribute="width" constant="288" id="JNv-zq-FXS"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="28"/>
                                 <state key="normal" title="Actualizar">
                                     <color key="titleColor" red="0.3245182633" green="0.31765627860000001" blue="0.31027534600000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -1738,6 +2096,7 @@ Ante cualquier conflicto, la Ley aplicable será la Española, con expresa renun
                             <constraint firstItem="f5S-cX-Zib" firstAttribute="top" secondItem="De7-mb-1aE" secondAttribute="bottom" constant="18" id="1ja-Va-Fut"/>
                             <constraint firstItem="sLx-NJ-b1n" firstAttribute="leading" secondItem="7Nw-aZ-OzA" secondAttribute="trailing" constant="6" id="2dp-uZ-IPV"/>
                             <constraint firstItem="F4Z-An-doC" firstAttribute="leading" secondItem="UnQ-Sr-ddD" secondAttribute="trailing" constant="6" id="38p-EI-uP9"/>
+                            <constraint firstItem="OYC-B6-C8j" firstAttribute="centerX" secondItem="MYw-XV-xak" secondAttribute="centerX" id="3k9-Mk-NXV"/>
                             <constraint firstItem="De7-mb-1aE" firstAttribute="top" secondItem="mjg-ad-rHq" secondAttribute="bottom" constant="8" id="4K2-LW-Sui"/>
                             <constraint firstItem="FKN-Yz-dgk" firstAttribute="top" secondItem="HeN-bD-uXq" secondAttribute="bottom" constant="8" id="503-PR-qUR"/>
                             <constraint firstItem="FKN-Yz-dgk" firstAttribute="leading" secondItem="Z2G-dD-gYn" secondAttribute="trailing" constant="2" id="6jW-Qb-GR2"/>
@@ -1774,6 +2133,7 @@ Ante cualquier conflicto, la Ley aplicable será la Española, con expresa renun
                             <constraint firstItem="HeN-bD-uXq" firstAttribute="leading" secondItem="Hzd-OI-iFS" secondAttribute="trailing" constant="2" id="me2-Y5-zWu"/>
                             <constraint firstItem="mjg-ad-rHq" firstAttribute="centerX" secondItem="MYw-XV-xak" secondAttribute="centerX" id="nHI-3R-Msb"/>
                             <constraint firstItem="7Nw-aZ-OzA" firstAttribute="top" secondItem="GDU-IL-M9w" secondAttribute="bottom" constant="8" id="okq-X0-Shq"/>
+                            <constraint firstItem="OYC-B6-C8j" firstAttribute="top" secondItem="F4Z-An-doC" secondAttribute="bottom" constant="23" id="pdd-0I-2KB"/>
                             <constraint firstItem="FKN-Yz-dgk" firstAttribute="centerX" secondItem="MYw-XV-xak" secondAttribute="centerX" constant="45" id="qeu-By-niv"/>
                             <constraint firstItem="De7-mb-1aE" firstAttribute="top" secondItem="mjg-ad-rHq" secondAttribute="bottom" constant="8" id="scs-j2-dNi"/>
                             <constraint firstItem="RUP-om-0Qk" firstAttribute="leading" secondItem="uai-wI-QxE" secondAttribute="trailing" constant="6" id="tAR-Pu-v8L"/>
@@ -1811,7 +2171,7 @@ Ante cualquier conflicto, la Ley aplicable será la Española, con expresa renun
                 <placeholder placeholderIdentifier="IBFirstResponder" id="IdQ-3j-Xzc" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="bbH-wf-1kd" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="4508" y="-209"/>
+            <point key="canvasLocation" x="4676" y="224"/>
         </scene>
         <!--Clientes-->
         <scene sceneID="jUv-m6-xL1">
@@ -1836,7 +2196,7 @@ Ante cualquier conflicto, la Ley aplicable será la Española, con expresa renun
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1AE-Fg-T1r" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1766.25" y="71.83098591549296"/>
+            <point key="canvasLocation" x="1935" y="505"/>
         </scene>
         <!--OPCIONES-->
         <scene sceneID="rDQ-AQ-ODX">
@@ -1891,7 +2251,7 @@ Ante cualquier conflicto, la Ley aplicable será la Española, con expresa renun
                                     <color key="titleColor" red="0.3245182633" green="0.31765627860000001" blue="0.31027534600000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                                 <connections>
-                                    <action selector="cerrarSesionACTION:" destination="NdE-Am-cb3" eventType="touchUpInside" id="BiC-nl-fc1"/>
+                                    <segue destination="C3K-WV-UaU" kind="show" id="KD3-6A-Oog"/>
                                 </connections>
                             </button>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="oF0-gs-ST8">
@@ -1910,7 +2270,7 @@ Ante cualquier conflicto, la Ley aplicable será la Española, con expresa renun
                                     <color key="titleColor" red="0.3245182633" green="0.31765627860000001" blue="0.31027534600000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                                 <connections>
-                                    <action selector="cerrarSesionACTION:" destination="NdE-Am-cb3" eventType="touchUpInside" id="OI3-M1-hzc"/>
+                                    <segue destination="eWL-xT-gkh" kind="show" id="dUG-3z-Mii"/>
                                 </connections>
                             </button>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Tx8-yh-nJm">
@@ -1932,7 +2292,7 @@ Ante cualquier conflicto, la Ley aplicable será la Española, con expresa renun
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fT1-V6-iiR" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="FAi-Pv-l0b" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="2763.75" y="758.45070422535207"/>
+            <point key="canvasLocation" x="2933" y="1192"/>
         </scene>
         <!--Opciones-->
         <scene sceneID="aVB-zr-86p">
@@ -1957,7 +2317,7 @@ Ante cualquier conflicto, la Ley aplicable será la Española, con expresa renun
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pbO-fn-HQc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1764.375" y="757.3943661971831"/>
+            <point key="canvasLocation" x="1933" y="1190"/>
         </scene>
     </scenes>
     <resources>
@@ -1973,11 +2333,13 @@ Ante cualquier conflicto, la Ley aplicable será la Española, con expresa renun
         <image name="configuracion" width="30" height="30"/>
         <image name="editar" width="30" height="30"/>
         <image name="emailGrande2" width="389" height="379"/>
+        <image name="estadoGrande" width="389" height="379"/>
         <image name="front" width="450" height="280"/>
         <image name="guardar2" width="30" height="30"/>
         <image name="irGrande" width="389" height="379"/>
         <image name="llamar" width="30" height="30"/>
         <image name="negocioGrande2" width="389" height="379"/>
+        <image name="observacionesGrande" width="389" height="379"/>
         <image name="passwordGrande" width="389" height="379"/>
         <image name="telefonoGrande" width="389" height="379"/>
         <image name="ubicacionGrande" width="389" height="379"/>
@@ -1986,6 +2348,6 @@ Ante cualquier conflicto, la Ley aplicable será la Española, con expresa renun
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="Q5p-pE-CNx"/>
-        <segue reference="hCF-cI-QeG"/>
+        <segue reference="wJd-hI-OK2"/>
     </inferredMetricsTieBreakers>
 </document>

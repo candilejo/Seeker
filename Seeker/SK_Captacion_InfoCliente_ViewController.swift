@@ -305,7 +305,7 @@ class SK_Captacion_InfoCliente_ViewController: UIViewController {
         let queryRemover = PFQuery(className: "Client")
         queryRemover.whereKey("telefonoCliente", equalTo: telefonoCliente!)
         
-        // Mosetramos la carga e ignoramos cualquier evento.
+        // Mostramos la carga e ignoramos cualquier evento.
         muestraCarga(muestra: true, view: self.view, imageGroupTag: 1)
         UIApplication.shared.beginIgnoringInteractionEvents()
         

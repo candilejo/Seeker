@@ -42,6 +42,8 @@
 		6682AE2F1DF80B9E00C20582 /* SK_Captacion_ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6682AE2E1DF80B9E00C20582 /* SK_Captacion_ViewController.swift */; };
 		6682AE321DF80F5300C20582 /* SK_Captacion_AddClient_ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6682AE311DF80F5300C20582 /* SK_Captacion_AddClient_ViewController.swift */; };
 		66AA0B341DF18D6200C4F7C2 /* SK_Registro_ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66AA0B331DF18D6200C4F7C2 /* SK_Registro_ViewController.swift */; };
+		66E8F6C41E2787BA00E0E0B7 /* SK_Opciones_CambiarContrasena_ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66E8F6C31E2787BA00E0E0B7 /* SK_Opciones_CambiarContrasena_ViewController.swift */; };
+		66E8F6C61E2787D500E0E0B7 /* SK_Opciones_CambiarEmail_ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66E8F6C51E2787D500E0E0B7 /* SK_Opciones_CambiarEmail_ViewController.swift */; };
 		66ECBF6D1DFEF61E0020159C /* SK_Captacion_InfoCliente_ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66ECBF6C1DFEF61E0020159C /* SK_Captacion_InfoCliente_ViewController.swift */; };
 		66FB9AD31E2687BD00BC92AC /* SK_Opciones_Terminos&Condiciones_ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66FB9AD21E2687BD00BC92AC /* SK_Opciones_Terminos&Condiciones_ViewController.swift */; };
 /* End PBXBuildFile section */
@@ -84,6 +86,8 @@
 		6682AE2E1DF80B9E00C20582 /* SK_Captacion_ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SK_Captacion_ViewController.swift; sourceTree = "<group>"; };
 		6682AE311DF80F5300C20582 /* SK_Captacion_AddClient_ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SK_Captacion_AddClient_ViewController.swift; sourceTree = "<group>"; };
 		66AA0B331DF18D6200C4F7C2 /* SK_Registro_ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SK_Registro_ViewController.swift; sourceTree = "<group>"; };
+		66E8F6C31E2787BA00E0E0B7 /* SK_Opciones_CambiarContrasena_ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SK_Opciones_CambiarContrasena_ViewController.swift; sourceTree = "<group>"; };
+		66E8F6C51E2787D500E0E0B7 /* SK_Opciones_CambiarEmail_ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SK_Opciones_CambiarEmail_ViewController.swift; sourceTree = "<group>"; };
 		66ECBF6C1DFEF61E0020159C /* SK_Captacion_InfoCliente_ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SK_Captacion_InfoCliente_ViewController.swift; sourceTree = "<group>"; };
 		66FB9AD21E2687BD00BC92AC /* SK_Opciones_Terminos&Condiciones_ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SK_Opciones_Terminos&Condiciones_ViewController.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -227,6 +231,8 @@
 			children = (
 				663E4CC41E23C38600ED1CDA /* SK_Opciones_ViewController.swift */,
 				66FB9AD41E26880400BC92AC /* Terminos y Condiciones */,
+				66E8F6C71E2787DD00E0E0B7 /* Cambiar Email */,
+				66E8F6C81E2787E900E0E0B7 /* Cambiar Contraseña */,
 			);
 			name = Opciones;
 			sourceTree = "<group>";
@@ -303,6 +309,22 @@
 				66AA0B331DF18D6200C4F7C2 /* SK_Registro_ViewController.swift */,
 			);
 			name = Registro;
+			sourceTree = "<group>";
+		};
+		66E8F6C71E2787DD00E0E0B7 /* Cambiar Email */ = {
+			isa = PBXGroup;
+			children = (
+				66E8F6C51E2787D500E0E0B7 /* SK_Opciones_CambiarEmail_ViewController.swift */,
+			);
+			name = "Cambiar Email";
+			sourceTree = "<group>";
+		};
+		66E8F6C81E2787E900E0E0B7 /* Cambiar Contraseña */ = {
+			isa = PBXGroup;
+			children = (
+				66E8F6C31E2787BA00E0E0B7 /* SK_Opciones_CambiarContrasena_ViewController.swift */,
+			);
+			name = "Cambiar Contraseña";
 			sourceTree = "<group>";
 		};
 		66ECBF6E1DFEF6240020159C /* Informacion Cliente */ = {
@@ -401,6 +423,7 @@
 			files = (
 				66ECBF6D1DFEF61E0020159C /* SK_Captacion_InfoCliente_ViewController.swift in Sources */,
 				6628E5641DF0865F006C7213 /* SK_Utilidades.swift in Sources */,
+				66E8F6C61E2787D500E0E0B7 /* SK_Opciones_CambiarEmail_ViewController.swift in Sources */,
 				667EEC6D1E142D970035C3A0 /* SK_Clientes_Celda_TableViewCell.swift in Sources */,
 				6682AE2D1DF5BEF800C20582 /* SK_Yo_Editar_SearchLocationTableViewController.swift in Sources */,
 				6682AE281DF5B36900C20582 /* SK_Yo_Editar_ViewController.swift in Sources */,
@@ -413,6 +436,7 @@
 				6682AE2B1DF5BC8B00C20582 /* SK_Yo_Editar_Ubicacion_ViewController.swift in Sources */,
 				667EEC6F1E1E54880035C3A0 /* SK_ModeloClientes.swift in Sources */,
 				663E4CC51E23C38600ED1CDA /* SK_Opciones_ViewController.swift in Sources */,
+				66E8F6C41E2787BA00E0E0B7 /* SK_Opciones_CambiarContrasena_ViewController.swift in Sources */,
 				6682AE241DF597F500C20582 /* SK_Yo_ViewController.swift in Sources */,
 				6682AE321DF80F5300C20582 /* SK_Captacion_AddClient_ViewController.swift in Sources */,
 				6628E5281DF07836006C7213 /* AppDelegate.swift in Sources */,
