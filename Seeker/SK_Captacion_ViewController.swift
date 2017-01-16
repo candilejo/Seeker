@@ -186,7 +186,11 @@ class SK_Captacion_ViewController: UIViewController {
         dicImagen.removeAll()
         
         // Realizamos la consulta de los datos del cliente.
+        let userData = PFUser.current()!
+        let usuario = userData.username! as String
+        
         let queryClient = PFQuery(className: "Client")
+        queryClient.whereKey("usuarioCliente", equalTo: usuario)
         
         // Mostramos la carga y paramos los eventos.
         muestraCarga(muestra: true, view: self.view, imageGroupTag: 1)

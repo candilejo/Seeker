@@ -13,7 +13,6 @@ import Parse
 
 class SK_Captacion_InfoCliente_ViewController: UIViewController {
 
-    
     //MARK: - VARIABLES LOCALES GLOBALES
     var telefonoCliente : String?
     var nombreCliente : String?
@@ -21,6 +20,7 @@ class SK_Captacion_InfoCliente_ViewController: UIViewController {
     var latitudCliente : Double?
     var longitudCliente : Double?
     var image : UIImage?
+    var arrayEstado = ["Pendiente","Contactado"]
     
     var fotoSeleccionada = false
     var imageGroupTag = 1
@@ -33,6 +33,7 @@ class SK_Captacion_InfoCliente_ViewController: UIViewController {
     @IBOutlet weak var myNombreClienteTF: UITextField!
     @IBOutlet weak var myTelefonoClienteTF: UITextField!
     @IBOutlet weak var myCalleClienteTF: UITextField!
+    @IBOutlet weak var myEstadoClienteTF: UITextField!
     @IBOutlet weak var myObservacionesTF: UITextField!
     @IBOutlet weak var myBotonActualizarBTN: UIButton!
     
@@ -44,6 +45,16 @@ class SK_Captacion_InfoCliente_ViewController: UIViewController {
         
         // Mostramos la barra de estado.
         UIApplication.shared.statusBarStyle = .lightContent
+        
+        // Ocultamos la barra de navegación cuando nos desplazamos.
+        navigationController?.hidesBarsOnSwipe = false
+        
+        // Creamos el PickerView
+        let myPickerView = UIPickerView()
+        myPickerView.delegate = self
+        myPickerView.dataSource = self
+        
+        myEstadoClienteTF.inputView = myPickerView
         
         // Configuramos los bordes  y bloqueamos myBotonActualizarBTN.
         configuraSombraAspectoBotones(boton: myBotonActualizarBTN, redondo: false)
@@ -78,9 +89,15 @@ class SK_Captacion_InfoCliente_ViewController: UIViewController {
         super.didReceiveMemoryWarning()
     }
     
+    // Función para crear el teclado.
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
+    }
+    
 
     
     //MARK -------------------------- ACCIONES --------------------------
+
 
     // ELIMINAR CLIENTE
     @IBAction func eliminarClienteACTION(_ sender: Any) {
@@ -197,12 +214,14 @@ class SK_Captacion_InfoCliente_ViewController: UIViewController {
         
         // Añadimos el accesorio a myNumeroEmpresaTF.
         myTelefonoClienteTF.inputAccessoryView = aceptarToolbar
+        myEstadoClienteTF.inputAccessoryView = aceptarToolbar
     }
     
     
     // ESTABLECEMOS COMO RESPONDEDOR A myTelefonoEmpresaTF.
     func doneButtonAction(){
         myTelefonoClienteTF.resignFirstResponder()
+        myEstadoClienteTF.resignFirstResponder()
     }
     
     // CIERRA TECLADO
@@ -267,9 +286,15 @@ class SK_Captacion_InfoCliente_ViewController: UIViewController {
                         }
                         if objectDataUnoDes["telefonoCliente"] != nil{
                             self.myTelefonoClienteTF.text = objectDataUnoDes["telefonoCliente"] as? String
+                            self.telefonoCliente = self.myTelefonoClienteTF.text
                         }
                         if objectDataUnoDes["calleCliente"] != nil{
                             self.myCalleClienteTF.text = objectDataUnoDes["calleCliente"] as? String
+                        }
+                        if objectDataUnoDes["estadoCliente"] != nil{
+                            self.myEstadoClienteTF.text = objectDataUnoDes["estadoCliente"] as? String
+                        }else{
+                            self.myEstadoClienteTF.text = self.arrayEstado[0]
                         }
                         if objectDataUnoDes["observacionesCliente"] != nil{
                             self.myObservacionesTF.text = objectDataUnoDes["observacionesCliente"] as? String
@@ -501,4 +526,29 @@ extension SK_Captacion_InfoCliente_ViewController : UIImagePickerControllerDeleg
         self.dismiss(animated: true, completion: nil)
     }
 }
+
+//MARK: - EXTENSION DELEGADO PICKERVIEW
+extension SK_Captacion_InfoCliente_ViewController : UIPickerViewDelegate, UIPickerViewDataSource{
+    
+    // Función que crea un PickerView.
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    // Función que crea el número de filas del PickerView.
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return arrayEstado.count
+    }
+    
+    // Función que crea el título de cada fila del PickerView.
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return arrayEstado[row]
+    }
+    
+    // Función que establece el título del TextField según la fila seleccionada.
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        myEstadoClienteTF.text = arrayEstado[row]
+    }
+}
+
 

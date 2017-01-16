@@ -176,6 +176,7 @@ class SK_Captacion_AddClient_ViewController: UIViewController {
         let userData = PFObject(className: "Client")
         
         userData["usuarioCliente"] = PFUser.current()?.username
+        userData["estadoCliente"] = "Pendiente"
         
         if myNombreClienteTF.text != ""{
             userData["nombreCliente"] = myNombreClienteTF.text

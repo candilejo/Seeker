@@ -71,7 +71,7 @@ class SK_Clientes_TableViewController: UITableViewController {
             if errorUno == nil{
                 if let objetoUnoDes = objetoUno{
                     if objetoUnoDes == []{
-                       self.present(showAlertVC("ATENCIÓN", messageData: "Actualmente no existen usuarios."), animated: true, completion: nil)
+                       self.present(showAlertVC("ATENCIÓN", messageData: "Actualmente no existen clientes."), animated: true, completion: nil)
                     }else{
                         var telefonoCliente = ""
                         var direccionCliente = ""
