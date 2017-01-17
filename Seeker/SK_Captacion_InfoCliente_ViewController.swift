@@ -14,13 +14,14 @@ import Parse
 class SK_Captacion_InfoCliente_ViewController: UIViewController {
 
     //MARK: - VARIABLES LOCALES GLOBALES
-    var telefonoCliente : String?
     var nombreCliente : String?
+    var telefonoCliente : String?
+    var estadoCliente : String?
     var observacionesCliente : String?
     var latitudCliente : Double?
     var longitudCliente : Double?
-    var image : UIImage?
     var arrayEstado = ["Pendiente","Contactado"]
+    var origen : String?
     
     var fotoSeleccionada = false
     var imageGroupTag = 1
@@ -36,6 +37,7 @@ class SK_Captacion_InfoCliente_ViewController: UIViewController {
     @IBOutlet weak var myEstadoClienteTF: UITextField!
     @IBOutlet weak var myObservacionesTF: UITextField!
     @IBOutlet weak var myBotonActualizarBTN: UIButton!
+    @IBOutlet weak var myBotonGPSBTN: UIButton!
     
     
     
@@ -56,9 +58,12 @@ class SK_Captacion_InfoCliente_ViewController: UIViewController {
         
         myEstadoClienteTF.inputView = myPickerView
         
-        // Configuramos los bordes  y bloqueamos myBotonActualizarBTN.
+        // Configuramos los bordes y bloqueamos myBotonActualizarBTN.
         configuraSombraAspectoBotones(boton: myBotonActualizarBTN, redondo: false)
         cambiaEstadoBTN(boton: myBotonActualizarBTN, estado: false)
+        
+        // Configuramos los bordes de myBotonGPSBTN.
+        configuraSombraAspectoBotones(boton: myBotonGPSBTN, redondo: false)
         
         // Configuración de los bordes de myImagenClienteIV y myImagenCamaraIV.
         configuraBordesImagenes(myImagenClienteIV, redondo: true, borde: false)
@@ -70,10 +75,6 @@ class SK_Captacion_InfoCliente_ViewController: UIViewController {
         // Añadimos el gesto a la myImagenInteractivaIV para que se habra la camara de fotos.
         let imageGestureReconize = UITapGestureRecognizer(target: self, action: #selector(SK_Captacion_InfoCliente_ViewController.showCamaraFotos))
         myImagenCamaraIV.addGestureRecognizer(imageGestureReconize)
-        
-        // Creamos el gesto y se lo añadimos al View.
-        let viewGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(SK_Captacion_InfoCliente_ViewController.hideKeyBoard))
-        view.addGestureRecognizer(viewGestureRecognizer)
         
         // Añadimos el boton al teclado.
         addBotonOkAlTeclado()
@@ -89,7 +90,7 @@ class SK_Captacion_InfoCliente_ViewController: UIViewController {
         super.didReceiveMemoryWarning()
     }
     
-    // Función para crear el teclado.
+    //MARK: - CERRAR TECLADO
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
     }
@@ -143,7 +144,11 @@ class SK_Captacion_InfoCliente_ViewController: UIViewController {
                     // Lanzamos un mensaje de eliminación y limpiamos los campos.
                     let alertVC = UIAlertController(title: "INFORMACIÓN", message: "Cliente eliminado correctamente", preferredStyle: .alert)
                     let okAction = UIAlertAction(title: "OK", style: .default, handler: { (cerrar) in
-                        self.performSegue(withIdentifier: "unWind", sender: self.view)
+                        if self.origen == "Tabla"{
+                            self.performSegue(withIdentifier: "tabla", sender: self.view)
+                        }else{
+                            self.performSegue(withIdentifier: "unWind", sender: self.view)
+                        }
                     })
                     alertVC.addAction(okAction)
                     limpiaCampos([self.myNombreClienteTF, self.myTelefonoClienteTF, self.myCalleClienteTF, self.myObservacionesTF])
@@ -171,6 +176,22 @@ class SK_Captacion_InfoCliente_ViewController: UIViewController {
         }
     }
     
+    // CARGAR GPS
+    @IBAction func cargaGPSACTION(_ sender: Any) {
+        if let url = NSURL(string: "http://maps.apple.com/?daddr=\(latitudCliente!),\(longitudCliente!)") {
+            UIApplication.shared.open(url as URL, options: [:], completionHandler: nil)
+        }
+    }
+    
+    // ACTUALIZA ESTADO
+    @IBAction func cambiaEstadoACTION(_ sender: Any) {
+        if self.myEstadoClienteTF.text! != self.estadoCliente!{
+            cambiaEstadoBTN(boton: myBotonActualizarBTN, estado: true)
+        }else{
+            cambiaEstadoBTN(boton: myBotonActualizarBTN, estado: false)
+        }
+    }
+    
     // ACTUALIZA LOS CAMPOS
     @IBAction func actualizarClienteACTION(_ sender: Any) {
         actualizarDatos()
@@ -179,60 +200,19 @@ class SK_Captacion_InfoCliente_ViewController: UIViewController {
     
     // COMPRUEBA SI LOS CAMPOS SON IGUALES.
     @IBAction func compruebaCamposACTION(_ sender: Any) {
-        if myNombreClienteTF.text != nombreCliente || myObservacionesTF.text != observacionesCliente || myImagenClienteIV.image != image || myTelefonoClienteTF.text != telefonoCliente{
+        if myNombreClienteTF.text != nombreCliente || myObservacionesTF.text != observacionesCliente || myTelefonoClienteTF.text != telefonoCliente{
             cambiaEstadoBTN(boton: myBotonActualizarBTN, estado: true)
+        }else{
+        
+            cambiaEstadoBTN(boton: myBotonActualizarBTN, estado: false)
         }
     }
     
     // CERRAR TECLADO AL PULSAR EN ACEPTAR.
-    @IBAction func cerrarTecladoACTION(_ sender: Any) {
-    }
+    @IBAction func cerrarTecladoACTION(_ sender: Any) {}
 
     
     //MARK -------------------------- UTILIDADES --------------------------
-
-    // AÑADIMOS LOS BOTONES AL TECLADO
-    func addBotonOkAlTeclado(){
-        // Creamos la barra de herramientas y le damos un formato.
-        let aceptarToolbar: UIToolbar = UIToolbar(frame: CGRect(x: 0, y: 0, width: 320, height: 50))
-        aceptarToolbar.barStyle = UIBarStyle.blackTranslucent
-        
-        // Creamos los botones que añadiremos a la barra de herramientas.
-        let flexSpace = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
-        let done: UIBarButtonItem = UIBarButtonItem(title: "OK", style: UIBarButtonItemStyle.done, target: self, action: #selector(SK_Captacion_AddClient_ViewController.doneButtonAction))
-        
-        // Establecemos el color del texto.
-        done.tintColor = UIColor(red:0.53, green:0.91, blue:0.45, alpha:1.0)
-        
-        // Añadimos los botones a la barra de herramientas.
-        var items = [UIBarButtonItem]()
-        items.append(flexSpace)
-        items.append(done)
-        
-        aceptarToolbar.items = items
-        aceptarToolbar.sizeToFit()
-        
-        // Añadimos el accesorio a myNumeroEmpresaTF.
-        myTelefonoClienteTF.inputAccessoryView = aceptarToolbar
-        myEstadoClienteTF.inputAccessoryView = aceptarToolbar
-    }
-    
-    
-    // ESTABLECEMOS COMO RESPONDEDOR A myTelefonoEmpresaTF.
-    func doneButtonAction(){
-        myTelefonoClienteTF.resignFirstResponder()
-        myEstadoClienteTF.resignFirstResponder()
-    }
-    
-    // CIERRA TECLADO
-    func hideKeyBoard(){
-        view.endEditing(true)
-    }
-    
-    // SELECCIONAR FOTO DEL LOGO
-    func showCamaraFotos(){
-        pickerPhoto()
-    }
     
     // CARGAR DATOS DEL CLIENTE
     func cargarDatosCliente(){
@@ -270,7 +250,6 @@ class SK_Captacion_InfoCliente_ViewController: UIViewController {
                                         usernameFile.getDataInBackground(block: { (imageData, imageError) in
                                             if imageError == nil{
                                                 if let imageDataDes = imageData{
-                                                    self.image = UIImage(data: imageDataDes)
                                                     self.myImagenClienteIV.image = UIImage(data: imageDataDes)
                                                 }
                                             }
@@ -279,7 +258,7 @@ class SK_Captacion_InfoCliente_ViewController: UIViewController {
                                 }
                             }
                         })
-                        // Cargamos los datos del usuario.
+                        // Cargamos los datos del cliente.
                         if objectDataUnoDes["nombreCliente"] != nil{
                             self.myNombreClienteTF.text = objectDataUnoDes["nombreCliente"] as? String
                             self.nombreCliente = self.myNombreClienteTF.text
@@ -293,8 +272,10 @@ class SK_Captacion_InfoCliente_ViewController: UIViewController {
                         }
                         if objectDataUnoDes["estadoCliente"] != nil{
                             self.myEstadoClienteTF.text = objectDataUnoDes["estadoCliente"] as? String
+                            self.estadoCliente = self.myEstadoClienteTF.text
                         }else{
                             self.myEstadoClienteTF.text = self.arrayEstado[0]
+                            self.estadoCliente = self.myEstadoClienteTF.text
                         }
                         if objectDataUnoDes["observacionesCliente"] != nil{
                             self.myObservacionesTF.text = objectDataUnoDes["observacionesCliente"] as? String
@@ -312,75 +293,68 @@ class SK_Captacion_InfoCliente_ViewController: UIViewController {
         }
     }
     
-    //GESTO DE RECONOCIMIENTO
-    func hideImageGroup(gesto : UIGestureRecognizer){
-        for subvista in self.view.subviews{
-            if subvista.tag == self.imageGroupTag{
-                subvista.removeFromSuperview()
-            }
-        }
-    }
-    
-    
     //ACTUALIZAR DATOS DEL CLIENTE
     func actualizarDatos(){
         var correcto = true
         
-        // Eliminamos el cliente si existe.
-        let queryRemover = PFQuery(className: "Client")
-        queryRemover.whereKey("telefonoCliente", equalTo: telefonoCliente!)
+        // Si myTelefonoClienteTF es correcto actualizamos si no lanzamos un error.
+        if myTelefonoClienteTF.text == ""{
+            present(showAlertVC("ATENCIÓN", messageData: "El Teléfono del cliente no puede estar vacío."), animated: true, completion: nil)
+            cambiaEstadoBTN(boton: myBotonActualizarBTN, estado: false)
+        }else if (myTelefonoClienteTF.text?.characters.count)! < 9{
+            present(showAlertVC("ATENCIÓN", messageData: "El número de Teléfono no es correcto."), animated: true, completion: nil)
+            cambiaEstadoBTN(boton: myBotonActualizarBTN, estado: false)
+        }else{
+            // Eliminamos el cliente si existe.
+            let queryRemover = PFQuery(className: "Client")
+            queryRemover.whereKey("telefonoCliente", equalTo: telefonoCliente!)
         
-        // Mostramos la carga e ignoramos cualquier evento.
-        muestraCarga(muestra: true, view: self.view, imageGroupTag: 1)
-        UIApplication.shared.beginIgnoringInteractionEvents()
+            // Mostramos la carga e ignoramos cualquier evento.
+            muestraCarga(muestra: true, view: self.view, imageGroupTag: 1)
+            UIApplication.shared.beginIgnoringInteractionEvents()
         
-        queryRemover.findObjectsInBackground(block: { (objectRemove, errorRemove) in
-            if errorRemove == nil{
-                for objectRemoverDes in objectRemove!{
-                    objectRemoverDes.deleteInBackground(block: nil)
-                }
-            }else{
-                print("Error \((errorRemove! as NSError).userInfo)")
-                
-                // Ocultamos la carga y lanzamos cualquier evento.
-                muestraCarga(muestra: false, view: self.view, imageGroupTag: 1)
-                UIApplication.shared.endIgnoringInteractionEvents()
-                
-                correcto = false
-            }
-        })
-        if correcto{
-            // Actualizamos los datos del cliente si los campos no están vacíos.
-            let clientData = PFObject(className: "Client")
-            
-            clientData["usuarioCliente"] = PFUser.current()?.username
-            
-            if myNombreClienteTF.text != "" {
-                clientData["nombreCliente"] = myNombreClienteTF.text
-            }
-            clientData["telefonoCliente"] = myTelefonoClienteTF.text
-            clientData["calleCliente"] = myCalleClienteTF.text
-            if myObservacionesTF.text != ""{
-                clientData["observacionesCliente"] = myObservacionesTF.text
-            }
-            clientData["latitudCliente"] = latitudCliente
-            clientData["longitudCliente"] = longitudCliente
-        
-            // Salvamos los datos y si todo es correcto también salvamos la imagen.
-            clientData.saveInBackground { (actualizacionExitosa, errorActualizacion) in
-            
-                if actualizacionExitosa{
-                    self.upatePhoto()
+            queryRemover.findObjectsInBackground(block: { (objectRemove, errorRemove) in
+                if errorRemove == nil{
+                    for objectRemoverDes in objectRemove!{
+                        objectRemoverDes.deleteInBackground(block: nil)
+                    }
                 }else{
+                    print("Error \((errorRemove! as NSError).userInfo)")
+                
                     // Ocultamos la carga y lanzamos cualquier evento.
                     muestraCarga(muestra: false, view: self.view, imageGroupTag: 1)
                     UIApplication.shared.endIgnoringInteractionEvents()
+                
+                    correcto = false
+                }
+            })
+            if correcto{
+                let clientData = PFObject(className: "Client")
+            
+                clientData["usuarioCliente"] = PFUser.current()?.username
+            
+                clientData["nombreCliente"] = myNombreClienteTF.text
+                clientData["telefonoCliente"] = myTelefonoClienteTF.text
+                clientData["calleCliente"] = myCalleClienteTF.text
+                clientData["estadoCliente"] = myEstadoClienteTF.text
+                clientData["observacionesCliente"] = myObservacionesTF.text
+                clientData["latitudCliente"] = latitudCliente
+                clientData["longitudCliente"] = longitudCliente
+            
+                // Salvamos los datos y si todo es correcto también salvamos la imagen.
+                clientData.saveInBackground { (actualizacionExitosa, errorActualizacion) in
+                
+                    if actualizacionExitosa{
+                        self.upatePhoto()
+                    }else{
+                        // Ocultamos la carga y lanzamos cualquier evento.
+                        muestraCarga(muestra: false, view: self.view, imageGroupTag: 1)
+                        UIApplication.shared.endIgnoringInteractionEvents()
+                    }
                 }
             }
         }
     }
-    
-    
     
     //ACTUALIZAR FOTO DEL PERFIL
     func upatePhoto(){
@@ -431,10 +405,55 @@ class SK_Captacion_InfoCliente_ViewController: UIViewController {
         cambiaEstadoBTN(boton: myBotonActualizarBTN, estado: false)
     }
 
+    // AÑADIMOS LOS BOTONES AL TECLADO
+    func addBotonOkAlTeclado(){
+        // Creamos la barra de herramientas y le damos un formato.
+        let aceptarToolbar: UIToolbar = UIToolbar(frame: CGRect(x: 0, y: 0, width: 320, height: 50))
+        aceptarToolbar.barStyle = UIBarStyle.blackTranslucent
+        
+        // Creamos los botones que añadiremos a la barra de herramientas.
+        let flexSpace = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
+        let done: UIBarButtonItem = UIBarButtonItem(title: "OK", style: UIBarButtonItemStyle.done, target: self, action: #selector(SK_Captacion_AddClient_ViewController.doneButtonAction))
+        
+        // Establecemos el color del texto.
+        done.tintColor = UIColor(red:0.53, green:0.91, blue:0.45, alpha:1.0)
+        
+        // Añadimos los botones a la barra de herramientas.
+        var items = [UIBarButtonItem]()
+        items.append(flexSpace)
+        items.append(done)
+        
+        aceptarToolbar.items = items
+        aceptarToolbar.sizeToFit()
+        
+        // Añadimos el accesorio a myNumeroEmpresaTF.
+        myTelefonoClienteTF.inputAccessoryView = aceptarToolbar
+        myEstadoClienteTF.inputAccessoryView = aceptarToolbar
+    }
+    
+    
+    // ESTABLECEMOS COMO RESPONDEDOR A myTelefonoEmpresaTF y myEstadoClienteTF
+    func doneButtonAction(){
+        myTelefonoClienteTF.resignFirstResponder()
+        myEstadoClienteTF.resignFirstResponder()
+    }
+    
+    // SELECCIONAR FOTO DEL LOGO
+    func showCamaraFotos(){
+        cambiaEstadoBTN(boton: myBotonActualizarBTN, estado: true)
+        pickerPhoto()
+    }
+    
+    //CERRAR IMAGEN AMPLIADA
+    func hideImageGroup(gesto : UIGestureRecognizer){
+        for subvista in self.view.subviews{
+            if subvista.tag == self.imageGroupTag{
+                subvista.removeFromSuperview()
+            }
+        }
+    }
 
 }
-
-
 
 //MARK: - DELEGATE UIIMAGEPICKER / PHOTO
 extension SK_Captacion_InfoCliente_ViewController : UIImagePickerControllerDelegate, UINavigationControllerDelegate{

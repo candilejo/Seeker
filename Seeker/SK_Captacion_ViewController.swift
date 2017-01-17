@@ -151,8 +151,7 @@ class SK_Captacion_ViewController: UIViewController {
     }
     
     // MOSTRAR CLIENTES
-    @IBAction func verClientesACTION(_ sender: Any) {
-        
+    @IBAction func verClientesACTION(_ sender: Any) {        
         // Si los clientes estan ocultos los mostramos
         if existeCliente{
             if oculto{

@@ -172,7 +172,7 @@ class SK_Captacion_AddClient_ViewController: UIViewController {
     
     // GUARDA AL NUEVO CLIENTE.
     func guardarDatos(){
-        // Damos de alta al cliente si no los campos no están vacíos.
+        // Damos de alta al cliente si los los campos no están vacíos.
         let userData = PFObject(className: "Client")
         
         userData["usuarioCliente"] = PFUser.current()?.username

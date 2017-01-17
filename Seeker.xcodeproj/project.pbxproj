@@ -29,7 +29,6 @@
 		6628E55E1DF08427006C7213 /* ParseTwitterUtils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6628E5581DF08427006C7213 /* ParseTwitterUtils.framework */; };
 		6628E55F1DF08427006C7213 /* ParseUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6628E5591DF08427006C7213 /* ParseUI.framework */; };
 		6628E5641DF0865F006C7213 /* SK_Utilidades.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6628E5631DF0865F006C7213 /* SK_Utilidades.swift */; };
-		663E4CC31E23B0B200ED1CDA /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6628E5441DF083E8006C7213 /* StoreKit.framework */; };
 		663E4CC51E23C38600ED1CDA /* SK_Opciones_ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 663E4CC41E23C38600ED1CDA /* SK_Opciones_ViewController.swift */; };
 		667EEC651E03DA3F0035C3A0 /* SK_PantallaInicial_ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 667EEC641E03DA3F0035C3A0 /* SK_PantallaInicial_ViewController.swift */; };
 		667EEC681E14256B0035C3A0 /* SK_Clientes_TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 667EEC671E14256A0035C3A0 /* SK_Clientes_TableViewController.swift */; };
@@ -97,7 +96,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				663E4CC31E23B0B200ED1CDA /* StoreKit.framework in Frameworks */,
 				6628E55C1DF08427006C7213 /* ParseFacebookUtils.framework in Frameworks */,
 				6628E5531DF08410006C7213 /* libz.tbd in Frameworks */,
 				6628E5511DF08407006C7213 /* libsqlite3.tbd in Frameworks */,

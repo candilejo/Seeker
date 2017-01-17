@@ -98,15 +98,6 @@ class SK_Yo_Editar_Ubicacion_ViewController: UIViewController {
 
     //MARK -------------------------- UTILIDADES --------------------------
     
-    /*func getDirections(){
-     if let selectedPin = selectedPin {
-     let mapItem = MKMapItem(placemark: selectedPin)
-     let launchOptions = [MKLaunchOptionsDirectionsModeKey : MKLaunchOptionsDirectionsModeDriving]
-     mapItem.openInMapsWithLaunchOptions(launchOptions)
-     }
-     }*/
-    
-    
     // MUESTRA UN ALERT CON LA UBICACION
     func mostrarUbicacion(){
         let userData = PFUser.current()!

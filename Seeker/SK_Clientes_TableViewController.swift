@@ -47,57 +47,81 @@ class SK_Clientes_TableViewController: UITableViewController {
     //MARK: - CARGA LOS CLIENTES AL RECUPERAR EL VIEW
     override func viewDidAppear(_ animated: Bool) {
         haPasado = true
-        esPrimero = esPrimero + 1
-        if esPrimero > 1 {
+        if esPrimero > 0 {
             self.obtenerDatosClientes()
+            tableView.reloadData()
+            refreshTableView.endRefreshing()
         }
+        esPrimero = esPrimero + 1
     }
 
+    //MARK: -------------------------- ACCIONES --------------------------
+    
+    // UNWIND
+    @IBAction func unWindTabla(storyboard : UIStoryboardSegue){}
     
     //MARK: -------------------------- UTILIDADES --------------------------
     
     //REFRESH CONTROLLER
     func refreshVC(){
         obtenerDatosClientes()
+        tableView.reloadData()
         refreshTableView.endRefreshing()
     }
     
     //OBTENER LOS DATOS DE LOS CLIENTES
     func obtenerDatosClientes(){
-        informacionClientes.removeAll()
+        var telefono = ""
+        var calle = ""
+        
         let clientes = PFQuery(className: "Client")
         clientes.whereKey("usuarioCliente", equalTo: (PFUser.current()?.username)!)
-        clientes.findObjectsInBackground { (objetoUno, errorUno) in
-            if errorUno == nil{
-                if let objetoUnoDes = objetoUno{
-                    if objetoUnoDes == []{
-                       self.present(showAlertVC("ATENCIÓN", messageData: "Actualmente no existen clientes."), animated: true, completion: nil)
-                    }else{
-                        var telefonoCliente = ""
-                        var direccionCliente = ""
-                        for objetoDataUno in objetoUnoDes{
-                            telefonoCliente = objetoDataUno["telefonoCliente"] as! String
-                            direccionCliente = objetoDataUno["calleCliente"] as! String
-                        
-                            let imagenCliente = PFQuery(className: "imageClient")
-                            imagenCliente.whereKey("telefonoCliente", equalTo: telefonoCliente)
-                            imagenCliente.findObjectsInBackground(block: { (objetoDos, errorDos) in
-                            
-                                if errorDos == nil{
-                                    if let objetoDosDes = objetoDos{
-                                        for objetDosData in objetoDosDes{
-                                            let imagenDataModel = SK_ModeloClientes(pTelefonoClienteData: telefonoCliente,pDireccionClienteData: direccionCliente, pImagenClienteData: objetDosData["imagenCliente"] as! PFFile)
-                                            self.informacionClientes.append(imagenDataModel)
-                                        }
-                                        self.tableView.reloadData()
-                                    }
-                                }
-                            })
-                        }
+        
+        // Mostramos la carga e ignoramos cualquier evento.
+        muestraCarga(muestra: true, view: self.view, imageGroupTag: 1)
+        UIApplication.shared.beginIgnoringInteractionEvents()
+        
+        clientes.findObjectsInBackground { (objetoCliente, errorCliente) in
+            self.informacionClientes.removeAll()
+            if let objetoClienteData = objetoCliente{
+                if objetoClienteData == []{
+                    // Ocultamos la carga y lanzamos los eventos.
+                    muestraCarga(muestra: false, view: self.view, imageGroupTag: 1)
+                    UIApplication.shared.endIgnoringInteractionEvents()
+                    
+                    self.present(showAlertVC("ATENCIÓN", messageData: "No existe ningún cliente."), animated: true, completion: nil)
+                }else{
+                    for objetoClienteDes in objetoCliente!{
+                        telefono = objetoClienteDes["telefonoCliente"] as! String
+                        calle = objetoClienteDes["calleCliente"] as! String
+                        self.obtenerImagen(telefono: telefono, calle: calle)
                     }
                 }
             }
         }
+    
+    }
+    
+    // OBTENEMOS LAS IMAGENES DE LOS CLIENTES
+    func obtenerImagen(telefono : String, calle : String){
+        let imagenCliente = PFQuery(className: "imageClient")
+        imagenCliente.whereKey("telefonoCliente", equalTo: telefono)
+        
+        imagenCliente.findObjectsInBackground(block: { (objetoImagen, errorImagen) in
+            // Ocultamos la carga y lanzamos los eventos.
+            muestraCarga(muestra: false, view: self.view, imageGroupTag: 1)
+            UIApplication.shared.endIgnoringInteractionEvents()
+            
+            if errorImagen == nil{
+                if let objetoImagenDes = objetoImagen{
+                    for objetoImagenData in objetoImagenDes{
+                        let imagenDataModel = SK_ModeloClientes(pTelefonoClienteData: telefono,pDireccionClienteData: calle, pImagenClienteData: objetoImagenData["imagenCliente"] as! PFFile)
+                        self.informacionClientes.append(imagenDataModel)
+                    }
+                    self.tableView.reloadData()
+                }
+            }
+        })
     }
     
     // ELIMINAR CLIENTE
@@ -198,11 +222,13 @@ class SK_Clientes_TableViewController: UITableViewController {
         // Creamos la instacia de SK_Captacion_InfoCliente_ViewController.
         let infoCliente = self.storyboard?.instantiateViewController(withIdentifier: "informationClient") as! SK_Captacion_InfoCliente_ViewController
         
+        print(indexPath.row)
         // Creamos la instancia de informacionClientes.
         let dataModel = informacionClientes[indexPath.row]
         
         // Pasamos los datos a la SK_Captacion_InfoCliente_ViewController.
         infoCliente.telefonoCliente = dataModel.telefonoClienteData
+        infoCliente.origen = "Tabla"
         
         self.navigationController?.pushViewController(infoCliente, animated: true)
     }

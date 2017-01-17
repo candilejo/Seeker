@@ -326,8 +326,6 @@ extension SK_Yo_Editar_ViewController : UIImagePickerControllerDelegate, UINavig
         }
     }
     
-    
-    
     // MENU DE SELECCION DE LA CAMARA O DE LA LIBRERIA
     func showPhotoMenu(){
         let alertVC = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
@@ -345,7 +343,6 @@ extension SK_Yo_Editar_ViewController : UIImagePickerControllerDelegate, UINavig
         
     }
     
-    
     // LANZAMOS LA CAMARA PARA TOMAR UNA FOTO
     func takePhotowithCamera(){
         let imagePicker = UIImagePickerController()
@@ -354,8 +351,6 @@ extension SK_Yo_Editar_ViewController : UIImagePickerControllerDelegate, UINavig
         imagePicker.allowsEditing = true
         present(imagePicker, animated: true, completion: nil)
     }
-    
-    
     
     // LANZAMOS LA LIBRERIA PARA MOSTRAR UNA FOTO
     func choosePhotoFromLibrary(){

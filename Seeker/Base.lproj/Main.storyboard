@@ -1986,7 +1986,7 @@ Ante cualquier conflicto, la Ley aplicable será la Española, con expresa renun
                                 <nil key="highlightedColor"/>
                             </label>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ubicacionGrande" translatesAutoresizingMaskIntoConstraints="NO" id="uai-wI-QxE">
-                                <rect key="frame" x="16" y="176" width="20" height="20"/>
+                                <rect key="frame" x="16" y="181" width="20" height="20"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="20" id="2RX-hM-Bwo"/>
                                     <constraint firstAttribute="height" constant="20" id="6xn-h5-xxW"/>
@@ -2021,7 +2021,7 @@ Ante cualquier conflicto, la Ley aplicable será la Española, con expresa renun
                                 </connections>
                             </textField>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Calle" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="RUP-om-0Qk">
-                                <rect key="frame" x="42" y="176" width="262" height="21"/>
+                                <rect key="frame" x="42" y="181" width="262" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="9xc-LI-Bkh"/>
                                     <constraint firstAttribute="width" constant="262" id="DLj-RT-q54"/>
@@ -2042,12 +2042,27 @@ Ante cualquier conflicto, la Ley aplicable será la Española, con expresa renun
                                 <nil key="highlightedColor"/>
                             </label>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="observacionesGrande" translatesAutoresizingMaskIntoConstraints="NO" id="UnQ-Sr-ddD">
-                                <rect key="frame" x="16" y="312" width="20" height="20"/>
+                                <rect key="frame" x="16" y="317" width="20" height="20"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="20" id="UiZ-fq-kZ4"/>
                                     <constraint firstAttribute="height" constant="20" id="Vvf-Kt-hKg"/>
                                 </constraints>
                             </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OYC-B6-C8j">
+                                <rect key="frame" x="16" y="438" width="288" height="37"/>
+                                <color key="backgroundColor" red="0.5342851877" green="0.91039007900000002" blue="0.4543445706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="37" id="EKf-hu-NmD"/>
+                                    <constraint firstAttribute="width" constant="288" id="JNv-zq-FXS"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="28"/>
+                                <state key="normal" title="Actualizar">
+                                    <color key="titleColor" red="0.3245182633" green="0.31765627860000001" blue="0.31027534600000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="actualizarClienteACTION:" destination="ebG-dZ-ZBB" eventType="touchUpInside" id="jXy-dO-CJJ"/>
+                                </connections>
+                            </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="camaraGrande" translatesAutoresizingMaskIntoConstraints="NO" id="r0b-QN-g0H">
                                 <rect key="frame" x="56" y="109" width="20" height="20"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -2057,7 +2072,7 @@ Ante cualquier conflicto, la Ley aplicable será la Española, con expresa renun
                                 </constraints>
                             </imageView>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" placeholder="Observaciones (Opcional)" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="F4Z-An-doC">
-                                <rect key="frame" x="42" y="312" width="262" height="103"/>
+                                <rect key="frame" x="42" y="317" width="262" height="103"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="103" id="59C-gI-X11"/>
                                     <constraint firstAttribute="width" constant="262" id="Pfu-dl-FLH"/>
@@ -2082,14 +2097,14 @@ Ante cualquier conflicto, la Ley aplicable será la Española, con expresa renun
                                 <nil key="highlightedColor"/>
                             </label>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="estadoGrande" translatesAutoresizingMaskIntoConstraints="NO" id="7Nw-aZ-OzA">
-                                <rect key="frame" x="16" y="244" width="20" height="20"/>
+                                <rect key="frame" x="16" y="249" width="20" height="20"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="20" id="B8x-bU-diB"/>
                                     <constraint firstAttribute="width" constant="20" id="CO5-vZ-YGn"/>
                                 </constraints>
                             </imageView>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Estado" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="sLx-NJ-b1n">
-                                <rect key="frame" x="42" y="244" width="262" height="21"/>
+                                <rect key="frame" x="42" y="249" width="262" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="262" id="EWy-fe-Bfl"/>
                                     <constraint firstAttribute="height" constant="21" id="cw0-we-pic"/>
@@ -2097,20 +2112,22 @@ Ante cualquier conflicto, la Ley aplicable será la Española, con expresa renun
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                 <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <action selector="cambiaEstadoACTION:" destination="IdQ-3j-Xzc" eventType="editingDidEnd" id="h2x-mA-bVc"/>
+                                </connections>
                             </textField>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OYC-B6-C8j">
-                                <rect key="frame" x="16" y="438" width="288" height="37"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2X4-qW-vrZ">
+                                <rect key="frame" x="258" y="176" width="46" height="30"/>
                                 <color key="backgroundColor" red="0.5342851877" green="0.91039007900000002" blue="0.4543445706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="37" id="EKf-hu-NmD"/>
-                                    <constraint firstAttribute="width" constant="288" id="JNv-zq-FXS"/>
+                                    <constraint firstAttribute="width" constant="46" id="9Sq-Ms-V5a"/>
+                                    <constraint firstAttribute="height" constant="30" id="Ei1-nV-5HV"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="28"/>
-                                <state key="normal" title="Actualizar">
+                                <state key="normal" title="GPS">
                                     <color key="titleColor" red="0.3245182633" green="0.31765627860000001" blue="0.31027534600000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                                 <connections>
-                                    <action selector="actualizarClienteACTION:" destination="ebG-dZ-ZBB" eventType="touchUpInside" id="jXy-dO-CJJ"/>
+                                    <action selector="cargaGPSACTION:" destination="ebG-dZ-ZBB" eventType="touchUpInside" id="faq-AM-ago"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -2125,43 +2142,46 @@ Ante cualquier conflicto, la Ley aplicable será la Española, con expresa renun
                             <constraint firstItem="FKN-Yz-dgk" firstAttribute="leading" secondItem="Z2G-dD-gYn" secondAttribute="trailing" constant="2" id="6jW-Qb-GR2"/>
                             <constraint firstItem="Hzd-OI-iFS" firstAttribute="top" secondItem="mjg-ad-rHq" secondAttribute="bottom" constant="13" id="7np-32-8ur"/>
                             <constraint firstItem="4SV-fN-skf" firstAttribute="centerX" secondItem="MYw-XV-xak" secondAttribute="centerX" id="8Bs-pW-5Go"/>
-                            <constraint firstItem="GDU-IL-M9w" firstAttribute="top" secondItem="RUP-om-0Qk" secondAttribute="bottom" constant="18" id="94A-jz-8ay"/>
-                            <constraint firstItem="uai-wI-QxE" firstAttribute="top" secondItem="f5S-cX-Zib" secondAttribute="bottom" constant="8" id="98Z-6s-cK8"/>
+                            <constraint firstItem="GDU-IL-M9w" firstAttribute="top" secondItem="RUP-om-0Qk" secondAttribute="bottom" constant="13" id="94A-jz-8ay"/>
+                            <constraint firstItem="uai-wI-QxE" firstAttribute="top" secondItem="f5S-cX-Zib" secondAttribute="bottom" constant="13" id="98Z-6s-cK8"/>
                             <constraint firstItem="f5S-cX-Zib" firstAttribute="top" secondItem="Z2G-dD-gYn" secondAttribute="bottom" constant="25" id="AS2-Mk-dNr"/>
                             <constraint firstItem="FKN-Yz-dgk" firstAttribute="leading" secondItem="Z2G-dD-gYn" secondAttribute="trailing" constant="2" id="C0H-ld-3b9"/>
                             <constraint firstItem="Hzd-OI-iFS" firstAttribute="leading" secondItem="De7-mb-1aE" secondAttribute="trailing" constant="8" id="C2T-PT-zbg"/>
                             <constraint firstItem="Z2G-dD-gYn" firstAttribute="top" secondItem="Hzd-OI-iFS" secondAttribute="bottom" constant="8" id="CGx-ui-aI4"/>
                             <constraint firstItem="Z2G-dD-gYn" firstAttribute="leading" secondItem="De7-mb-1aE" secondAttribute="trailing" constant="8" id="CWH-9J-bI7"/>
                             <constraint firstItem="Z2G-dD-gYn" firstAttribute="leading" secondItem="De7-mb-1aE" secondAttribute="trailing" constant="8" id="Dgk-s2-He4"/>
-                            <constraint firstItem="UnQ-Sr-ddD" firstAttribute="top" secondItem="4SV-fN-skf" secondAttribute="bottom" constant="8" id="Dpy-r4-zEd"/>
+                            <constraint firstItem="UnQ-Sr-ddD" firstAttribute="top" secondItem="4SV-fN-skf" secondAttribute="bottom" constant="13" id="Dpy-r4-zEd"/>
                             <constraint firstItem="f5S-cX-Zib" firstAttribute="top" secondItem="De7-mb-1aE" secondAttribute="bottom" constant="18" id="Fjw-KK-niN"/>
+                            <constraint firstItem="2X4-qW-vrZ" firstAttribute="top" secondItem="f5S-cX-Zib" secondAttribute="bottom" constant="8" id="Jib-DM-vyh"/>
                             <constraint firstItem="f5S-cX-Zib" firstAttribute="centerX" secondItem="MYw-XV-xak" secondAttribute="centerX" id="MF9-U3-Etm"/>
                             <constraint firstItem="F4Z-An-doC" firstAttribute="centerX" secondItem="MYw-XV-xak" secondAttribute="centerX" constant="13" id="NUz-WB-b7P"/>
-                            <constraint firstItem="4SV-fN-skf" firstAttribute="top" secondItem="sLx-NJ-b1n" secondAttribute="bottom" constant="18" id="RBR-Od-KXa"/>
+                            <constraint firstItem="4SV-fN-skf" firstAttribute="top" secondItem="sLx-NJ-b1n" secondAttribute="bottom" constant="13" id="RBR-Od-KXa"/>
                             <constraint firstItem="FKN-Yz-dgk" firstAttribute="top" secondItem="HeN-bD-uXq" secondAttribute="bottom" constant="8" id="SFY-oF-UYl"/>
                             <constraint firstItem="RUP-om-0Qk" firstAttribute="centerX" secondItem="MYw-XV-xak" secondAttribute="centerX" constant="13" id="SLc-te-Mrr"/>
-                            <constraint firstItem="RUP-om-0Qk" firstAttribute="top" secondItem="f5S-cX-Zib" secondAttribute="bottom" constant="8" id="VZe-f7-0Gb"/>
+                            <constraint firstItem="RUP-om-0Qk" firstAttribute="top" secondItem="f5S-cX-Zib" secondAttribute="bottom" constant="13" id="VZe-f7-0Gb"/>
                             <constraint firstItem="Z2G-dD-gYn" firstAttribute="top" secondItem="Hzd-OI-iFS" secondAttribute="bottom" constant="8" id="W9Z-oP-60i"/>
                             <constraint firstItem="HeN-bD-uXq" firstAttribute="centerX" secondItem="MYw-XV-xak" secondAttribute="centerX" constant="45" id="cKw-ag-zpa"/>
                             <constraint firstItem="sLx-NJ-b1n" firstAttribute="centerX" secondItem="MYw-XV-xak" secondAttribute="centerX" constant="13" id="cz0-JR-JU7"/>
                             <constraint firstItem="r0b-QN-g0H" firstAttribute="top" secondItem="mjg-ad-rHq" secondAttribute="bottom" constant="48" id="dDN-xC-zrN"/>
                             <constraint firstItem="mjg-ad-rHq" firstAttribute="top" secondItem="IfV-hP-xz0" secondAttribute="bottom" constant="20" id="e6F-PO-gW6"/>
-                            <constraint firstItem="F4Z-An-doC" firstAttribute="top" secondItem="4SV-fN-skf" secondAttribute="bottom" constant="8" id="gpZ-rc-znG"/>
+                            <constraint firstItem="F4Z-An-doC" firstAttribute="top" secondItem="4SV-fN-skf" secondAttribute="bottom" constant="13" id="gpZ-rc-znG"/>
                             <constraint firstItem="GDU-IL-M9w" firstAttribute="centerX" secondItem="MYw-XV-xak" secondAttribute="centerX" id="hDD-xl-C9d"/>
                             <constraint firstItem="Z2G-dD-gYn" firstAttribute="leading" secondItem="r0b-QN-g0H" secondAttribute="trailing" constant="8" id="hkk-fu-Lgy"/>
                             <constraint firstItem="f5S-cX-Zib" firstAttribute="top" secondItem="r0b-QN-g0H" secondAttribute="bottom" constant="18" id="hsW-Ml-z2b"/>
-                            <constraint firstItem="sLx-NJ-b1n" firstAttribute="top" secondItem="GDU-IL-M9w" secondAttribute="bottom" constant="8" id="jEj-mn-BlN"/>
+                            <constraint firstItem="sLx-NJ-b1n" firstAttribute="top" secondItem="GDU-IL-M9w" secondAttribute="bottom" constant="13" id="jEj-mn-BlN"/>
                             <constraint firstItem="HeN-bD-uXq" firstAttribute="top" secondItem="mjg-ad-rHq" secondAttribute="bottom" constant="13" id="kNg-Ob-UJT"/>
+                            <constraint firstItem="2X4-qW-vrZ" firstAttribute="centerX" secondItem="MYw-XV-xak" secondAttribute="centerX" constant="121" id="lRY-6y-O6M"/>
                             <constraint firstItem="HeN-bD-uXq" firstAttribute="leading" secondItem="Hzd-OI-iFS" secondAttribute="trailing" constant="2" id="lW4-zx-CKg"/>
                             <constraint firstItem="HeN-bD-uXq" firstAttribute="leading" secondItem="Hzd-OI-iFS" secondAttribute="trailing" constant="2" id="me2-Y5-zWu"/>
                             <constraint firstItem="mjg-ad-rHq" firstAttribute="centerX" secondItem="MYw-XV-xak" secondAttribute="centerX" id="nHI-3R-Msb"/>
-                            <constraint firstItem="7Nw-aZ-OzA" firstAttribute="top" secondItem="GDU-IL-M9w" secondAttribute="bottom" constant="8" id="okq-X0-Shq"/>
-                            <constraint firstItem="OYC-B6-C8j" firstAttribute="top" secondItem="F4Z-An-doC" secondAttribute="bottom" constant="23" id="pdd-0I-2KB"/>
+                            <constraint firstItem="7Nw-aZ-OzA" firstAttribute="top" secondItem="GDU-IL-M9w" secondAttribute="bottom" constant="13" id="okq-X0-Shq"/>
+                            <constraint firstItem="OYC-B6-C8j" firstAttribute="top" secondItem="F4Z-An-doC" secondAttribute="bottom" constant="18" id="pdd-0I-2KB"/>
                             <constraint firstItem="FKN-Yz-dgk" firstAttribute="centerX" secondItem="MYw-XV-xak" secondAttribute="centerX" constant="45" id="qeu-By-niv"/>
                             <constraint firstItem="De7-mb-1aE" firstAttribute="top" secondItem="mjg-ad-rHq" secondAttribute="bottom" constant="8" id="scs-j2-dNi"/>
                             <constraint firstItem="RUP-om-0Qk" firstAttribute="leading" secondItem="uai-wI-QxE" secondAttribute="trailing" constant="6" id="tAR-Pu-v8L"/>
                             <constraint firstItem="RUP-om-0Qk" firstAttribute="leading" secondItem="uai-wI-QxE" secondAttribute="trailing" constant="6" id="u22-ZC-nqn"/>
-                            <constraint firstItem="RUP-om-0Qk" firstAttribute="top" secondItem="f5S-cX-Zib" secondAttribute="bottom" constant="8" id="w5M-BN-pch"/>
+                            <constraint firstItem="GDU-IL-M9w" firstAttribute="top" secondItem="2X4-qW-vrZ" secondAttribute="bottom" constant="9" id="vww-dj-TVt"/>
+                            <constraint firstItem="RUP-om-0Qk" firstAttribute="top" secondItem="f5S-cX-Zib" secondAttribute="bottom" constant="13" id="w5M-BN-pch"/>
                             <constraint firstItem="f5S-cX-Zib" firstAttribute="top" secondItem="FKN-Yz-dgk" secondAttribute="bottom" constant="23" id="zVg-Ik-Edb"/>
                         </constraints>
                     </view>
@@ -2182,6 +2202,7 @@ Ante cualquier conflicto, la Ley aplicable será la Española, con expresa renun
                     </navigationItem>
                     <connections>
                         <outlet property="myBotonActualizarBTN" destination="OYC-B6-C8j" id="f8E-Li-2n6"/>
+                        <outlet property="myBotonGPSBTN" destination="2X4-qW-vrZ" id="kPd-nV-N3q"/>
                         <outlet property="myCalleClienteTF" destination="RUP-om-0Qk" id="0eI-T1-lNm"/>
                         <outlet property="myEstadoClienteTF" destination="sLx-NJ-b1n" id="M7w-Hh-H2R"/>
                         <outlet property="myImagenCamaraIV" destination="r0b-QN-g0H" id="xwv-uS-UsQ"/>
@@ -2190,6 +2211,7 @@ Ante cualquier conflicto, la Ley aplicable será la Española, con expresa renun
                         <outlet property="myObservacionesTF" destination="F4Z-An-doC" id="gLA-88-l3a"/>
                         <outlet property="myTelefonoClienteTF" destination="FKN-Yz-dgk" id="XeH-KX-o8f"/>
                         <segue destination="bbH-wf-1kd" kind="unwind" identifier="unWind" unwindAction="unWindSegueWithSegue:" id="YDw-S6-LVp"/>
+                        <segue destination="bbH-wf-1kd" kind="unwind" identifier="tabla" unwindAction="unWindTablaWithStoryboard:" id="uah-E0-Gdf"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="IdQ-3j-Xzc" userLabel="First Responder" sceneMemberID="firstResponder"/>
