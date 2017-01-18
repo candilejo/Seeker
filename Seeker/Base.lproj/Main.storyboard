@@ -922,7 +922,7 @@ Ante cualquier conflicto, la Ley aplicable será la Española, con expresa renun
                         <rect key="frame" x="0.0" y="0.0" width="320" height="519"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="SLO-ou-4zY">
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" showsUserLocation="YES" translatesAutoresizingMaskIntoConstraints="NO" id="SLO-ou-4zY">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                             </mapView>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="HDQ-Iv-Hgt">
@@ -1173,6 +1173,7 @@ Ante cualquier conflicto, la Ley aplicable será la Española, con expresa renun
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                 <textInputTraits key="textInputTraits" keyboardAppearance="alert" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
                                 <connections>
+                                    <action selector="actualizaValorACTION:" destination="Ehn-cX-DFx" eventType="editingChanged" id="l76-jY-5Da"/>
                                     <action selector="cerrarTcladoACTION:" destination="fIk-OG-kRJ" eventType="editingDidEndOnExit" id="JWy-iS-yAz"/>
                                 </connections>
                             </textField>
@@ -2079,7 +2080,7 @@ Ante cualquier conflicto, la Ley aplicable será la Española, con expresa renun
                                 </constraints>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                <textInputTraits key="textInputTraits" keyboardAppearance="alert" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
+                                <textInputTraits key="textInputTraits" spellCheckingType="no" keyboardAppearance="alert" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
                                 <connections>
                                     <action selector="cerrarTecladoACTION:" destination="ebG-dZ-ZBB" eventType="editingDidEndOnExit" id="JYE-FD-ZhD"/>
                                     <action selector="compruebaCamposACTION:" destination="IdQ-3j-Xzc" eventType="editingChanged" id="OtS-C7-lk9"/>
@@ -2103,19 +2104,6 @@ Ante cualquier conflicto, la Ley aplicable será la Española, con expresa renun
                                     <constraint firstAttribute="width" constant="20" id="CO5-vZ-YGn"/>
                                 </constraints>
                             </imageView>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Estado" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="sLx-NJ-b1n">
-                                <rect key="frame" x="42" y="249" width="262" height="21"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="262" id="EWy-fe-Bfl"/>
-                                    <constraint firstAttribute="height" constant="21" id="cw0-we-pic"/>
-                                </constraints>
-                                <nil key="textColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                <textInputTraits key="textInputTraits"/>
-                                <connections>
-                                    <action selector="cambiaEstadoACTION:" destination="IdQ-3j-Xzc" eventType="editingDidEnd" id="h2x-mA-bVc"/>
-                                </connections>
-                            </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2X4-qW-vrZ">
                                 <rect key="frame" x="258" y="176" width="46" height="30"/>
                                 <color key="backgroundColor" red="0.5342851877" green="0.91039007900000002" blue="0.4543445706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -2130,11 +2118,31 @@ Ante cualquier conflicto, la Ley aplicable será la Española, con expresa renun
                                     <action selector="cargaGPSACTION:" destination="ebG-dZ-ZBB" eventType="touchUpInside" id="faq-AM-ago"/>
                                 </connections>
                             </button>
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ad0-Ec-9gv">
+                                <rect key="frame" x="255" y="244" width="51" height="31"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="49" id="BPC-1t-KHS"/>
+                                    <constraint firstAttribute="height" constant="31" id="zZ5-gQ-5Jx"/>
+                                </constraints>
+                                <connections>
+                                    <action selector="cambiaEstadoSwitchACTION:" destination="ebG-dZ-ZBB" eventType="valueChanged" id="7f6-uj-vql"/>
+                                    <action selector="compruebaCamposACTION:" destination="IdQ-3j-Xzc" eventType="touchUpInside" id="Nch-of-pvd"/>
+                                </connections>
+                            </switch>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Pendiente" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WBG-aP-YrB">
+                                <rect key="frame" x="44" y="249" width="203" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="203" id="oGb-1c-5Ju"/>
+                                    <constraint firstAttribute="height" constant="21" id="yBt-DK-Ibh"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="0.93725490570000003" green="0.93725490570000003" blue="0.95686274770000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="f5S-cX-Zib" firstAttribute="top" secondItem="De7-mb-1aE" secondAttribute="bottom" constant="18" id="1ja-Va-Fut"/>
-                            <constraint firstItem="sLx-NJ-b1n" firstAttribute="leading" secondItem="7Nw-aZ-OzA" secondAttribute="trailing" constant="6" id="2dp-uZ-IPV"/>
                             <constraint firstItem="F4Z-An-doC" firstAttribute="leading" secondItem="UnQ-Sr-ddD" secondAttribute="trailing" constant="6" id="38p-EI-uP9"/>
                             <constraint firstItem="OYC-B6-C8j" firstAttribute="centerX" secondItem="MYw-XV-xak" secondAttribute="centerX" id="3k9-Mk-NXV"/>
                             <constraint firstItem="De7-mb-1aE" firstAttribute="top" secondItem="mjg-ad-rHq" secondAttribute="bottom" constant="8" id="4K2-LW-Sui"/>
@@ -2144,6 +2152,7 @@ Ante cualquier conflicto, la Ley aplicable será la Española, con expresa renun
                             <constraint firstItem="4SV-fN-skf" firstAttribute="centerX" secondItem="MYw-XV-xak" secondAttribute="centerX" id="8Bs-pW-5Go"/>
                             <constraint firstItem="GDU-IL-M9w" firstAttribute="top" secondItem="RUP-om-0Qk" secondAttribute="bottom" constant="13" id="94A-jz-8ay"/>
                             <constraint firstItem="uai-wI-QxE" firstAttribute="top" secondItem="f5S-cX-Zib" secondAttribute="bottom" constant="13" id="98Z-6s-cK8"/>
+                            <constraint firstItem="WBG-aP-YrB" firstAttribute="leading" secondItem="7Nw-aZ-OzA" secondAttribute="trailing" constant="8" id="9ZS-Hd-dqd"/>
                             <constraint firstItem="f5S-cX-Zib" firstAttribute="top" secondItem="Z2G-dD-gYn" secondAttribute="bottom" constant="25" id="AS2-Mk-dNr"/>
                             <constraint firstItem="FKN-Yz-dgk" firstAttribute="leading" secondItem="Z2G-dD-gYn" secondAttribute="trailing" constant="2" id="C0H-ld-3b9"/>
                             <constraint firstItem="Hzd-OI-iFS" firstAttribute="leading" secondItem="De7-mb-1aE" secondAttribute="trailing" constant="8" id="C2T-PT-zbg"/>
@@ -2152,23 +2161,26 @@ Ante cualquier conflicto, la Ley aplicable será la Española, con expresa renun
                             <constraint firstItem="Z2G-dD-gYn" firstAttribute="leading" secondItem="De7-mb-1aE" secondAttribute="trailing" constant="8" id="Dgk-s2-He4"/>
                             <constraint firstItem="UnQ-Sr-ddD" firstAttribute="top" secondItem="4SV-fN-skf" secondAttribute="bottom" constant="13" id="Dpy-r4-zEd"/>
                             <constraint firstItem="f5S-cX-Zib" firstAttribute="top" secondItem="De7-mb-1aE" secondAttribute="bottom" constant="18" id="Fjw-KK-niN"/>
+                            <constraint firstItem="WBG-aP-YrB" firstAttribute="centerX" secondItem="MYw-XV-xak" secondAttribute="centerX" constant="-14.5" id="GJU-WA-TuV"/>
                             <constraint firstItem="2X4-qW-vrZ" firstAttribute="top" secondItem="f5S-cX-Zib" secondAttribute="bottom" constant="8" id="Jib-DM-vyh"/>
+                            <constraint firstItem="4SV-fN-skf" firstAttribute="top" secondItem="Ad0-Ec-9gv" secondAttribute="bottom" constant="8" id="Kfz-ca-x8b"/>
                             <constraint firstItem="f5S-cX-Zib" firstAttribute="centerX" secondItem="MYw-XV-xak" secondAttribute="centerX" id="MF9-U3-Etm"/>
                             <constraint firstItem="F4Z-An-doC" firstAttribute="centerX" secondItem="MYw-XV-xak" secondAttribute="centerX" constant="13" id="NUz-WB-b7P"/>
-                            <constraint firstItem="4SV-fN-skf" firstAttribute="top" secondItem="sLx-NJ-b1n" secondAttribute="bottom" constant="13" id="RBR-Od-KXa"/>
+                            <constraint firstItem="Ad0-Ec-9gv" firstAttribute="leading" secondItem="WBG-aP-YrB" secondAttribute="trailing" constant="8" id="PM6-h9-bOF"/>
                             <constraint firstItem="FKN-Yz-dgk" firstAttribute="top" secondItem="HeN-bD-uXq" secondAttribute="bottom" constant="8" id="SFY-oF-UYl"/>
                             <constraint firstItem="RUP-om-0Qk" firstAttribute="centerX" secondItem="MYw-XV-xak" secondAttribute="centerX" constant="13" id="SLc-te-Mrr"/>
+                            <constraint firstItem="Ad0-Ec-9gv" firstAttribute="leading" secondItem="WBG-aP-YrB" secondAttribute="trailing" constant="8" id="ST1-k6-WNK"/>
                             <constraint firstItem="RUP-om-0Qk" firstAttribute="top" secondItem="f5S-cX-Zib" secondAttribute="bottom" constant="13" id="VZe-f7-0Gb"/>
                             <constraint firstItem="Z2G-dD-gYn" firstAttribute="top" secondItem="Hzd-OI-iFS" secondAttribute="bottom" constant="8" id="W9Z-oP-60i"/>
+                            <constraint firstItem="WBG-aP-YrB" firstAttribute="top" secondItem="GDU-IL-M9w" secondAttribute="bottom" constant="13" id="X2T-zW-inw"/>
+                            <constraint firstItem="4SV-fN-skf" firstAttribute="top" secondItem="WBG-aP-YrB" secondAttribute="bottom" constant="13" id="aVZ-y0-nZP"/>
                             <constraint firstItem="HeN-bD-uXq" firstAttribute="centerX" secondItem="MYw-XV-xak" secondAttribute="centerX" constant="45" id="cKw-ag-zpa"/>
-                            <constraint firstItem="sLx-NJ-b1n" firstAttribute="centerX" secondItem="MYw-XV-xak" secondAttribute="centerX" constant="13" id="cz0-JR-JU7"/>
                             <constraint firstItem="r0b-QN-g0H" firstAttribute="top" secondItem="mjg-ad-rHq" secondAttribute="bottom" constant="48" id="dDN-xC-zrN"/>
                             <constraint firstItem="mjg-ad-rHq" firstAttribute="top" secondItem="IfV-hP-xz0" secondAttribute="bottom" constant="20" id="e6F-PO-gW6"/>
                             <constraint firstItem="F4Z-An-doC" firstAttribute="top" secondItem="4SV-fN-skf" secondAttribute="bottom" constant="13" id="gpZ-rc-znG"/>
                             <constraint firstItem="GDU-IL-M9w" firstAttribute="centerX" secondItem="MYw-XV-xak" secondAttribute="centerX" id="hDD-xl-C9d"/>
                             <constraint firstItem="Z2G-dD-gYn" firstAttribute="leading" secondItem="r0b-QN-g0H" secondAttribute="trailing" constant="8" id="hkk-fu-Lgy"/>
                             <constraint firstItem="f5S-cX-Zib" firstAttribute="top" secondItem="r0b-QN-g0H" secondAttribute="bottom" constant="18" id="hsW-Ml-z2b"/>
-                            <constraint firstItem="sLx-NJ-b1n" firstAttribute="top" secondItem="GDU-IL-M9w" secondAttribute="bottom" constant="13" id="jEj-mn-BlN"/>
                             <constraint firstItem="HeN-bD-uXq" firstAttribute="top" secondItem="mjg-ad-rHq" secondAttribute="bottom" constant="13" id="kNg-Ob-UJT"/>
                             <constraint firstItem="2X4-qW-vrZ" firstAttribute="centerX" secondItem="MYw-XV-xak" secondAttribute="centerX" constant="121" id="lRY-6y-O6M"/>
                             <constraint firstItem="HeN-bD-uXq" firstAttribute="leading" secondItem="Hzd-OI-iFS" secondAttribute="trailing" constant="2" id="lW4-zx-CKg"/>
@@ -2182,6 +2194,7 @@ Ante cualquier conflicto, la Ley aplicable será la Española, con expresa renun
                             <constraint firstItem="RUP-om-0Qk" firstAttribute="leading" secondItem="uai-wI-QxE" secondAttribute="trailing" constant="6" id="u22-ZC-nqn"/>
                             <constraint firstItem="GDU-IL-M9w" firstAttribute="top" secondItem="2X4-qW-vrZ" secondAttribute="bottom" constant="9" id="vww-dj-TVt"/>
                             <constraint firstItem="RUP-om-0Qk" firstAttribute="top" secondItem="f5S-cX-Zib" secondAttribute="bottom" constant="13" id="w5M-BN-pch"/>
+                            <constraint firstItem="Ad0-Ec-9gv" firstAttribute="top" secondItem="GDU-IL-M9w" secondAttribute="bottom" constant="8" id="ykd-2x-URH"/>
                             <constraint firstItem="f5S-cX-Zib" firstAttribute="top" secondItem="FKN-Yz-dgk" secondAttribute="bottom" constant="23" id="zVg-Ik-Edb"/>
                         </constraints>
                     </view>
@@ -2204,7 +2217,8 @@ Ante cualquier conflicto, la Ley aplicable será la Española, con expresa renun
                         <outlet property="myBotonActualizarBTN" destination="OYC-B6-C8j" id="f8E-Li-2n6"/>
                         <outlet property="myBotonGPSBTN" destination="2X4-qW-vrZ" id="kPd-nV-N3q"/>
                         <outlet property="myCalleClienteTF" destination="RUP-om-0Qk" id="0eI-T1-lNm"/>
-                        <outlet property="myEstadoClienteTF" destination="sLx-NJ-b1n" id="M7w-Hh-H2R"/>
+                        <outlet property="myEstadoClienteLBL" destination="WBG-aP-YrB" id="fiA-kz-xUQ"/>
+                        <outlet property="myEstadoClienteSW" destination="Ad0-Ec-9gv" id="GGP-ZU-VcY"/>
                         <outlet property="myImagenCamaraIV" destination="r0b-QN-g0H" id="xwv-uS-UsQ"/>
                         <outlet property="myImagenClienteIV" destination="De7-mb-1aE" id="COB-Ad-bRP"/>
                         <outlet property="myNombreClienteTF" destination="HeN-bD-uXq" id="vgA-qM-jbF"/>
@@ -2217,7 +2231,7 @@ Ante cualquier conflicto, la Ley aplicable será la Española, con expresa renun
                 <placeholder placeholderIdentifier="IBFirstResponder" id="IdQ-3j-Xzc" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="bbH-wf-1kd" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="4676" y="224"/>
+            <point key="canvasLocation" x="4674.375" y="223.94366197183098"/>
         </scene>
         <!--Clientes-->
         <scene sceneID="jUv-m6-xL1">

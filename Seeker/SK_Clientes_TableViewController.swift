@@ -16,8 +16,10 @@ class SK_Clientes_TableViewController: UITableViewController {
     
     //MARK: - VARIABLES LOCALES GLOBALES
     var informacionClientes : [SK_ModeloClientes] = []
-    var refreshTableView = UIRefreshControl()
     var esPrimero = 0
+    var longitudCliente = [Double]()
+    var latitudCliente = [Double]()
+    var telefonoCliente = [String]()
     
     
     //MARK: - LIFE VC
@@ -26,16 +28,7 @@ class SK_Clientes_TableViewController: UITableViewController {
         
         // Recogemos los datos de los clientes del usuario.
         obtenerDatosClientes()
-        
-        // Ocultamos la barra de navegación cuando nos desplazamos.
-        navigationController?.hidesBarsOnSwipe = true
-        
-        // Configuramos el refreshTableView.
-        refreshTableView.backgroundColor = UIColor(red:0.53, green:0.91, blue:0.45, alpha:1.0)
-        refreshTableView.attributedTitle = NSAttributedString(string: "Arrastra para recargar.")
-        refreshTableView.tintColor = UIColor.darkGray
-        refreshTableView.addTarget(self, action: #selector(SK_Clientes_TableViewController.refreshVC), for: .valueChanged)
-        tableView.addSubview(refreshTableView)
+    
     }
 
     
@@ -50,7 +43,6 @@ class SK_Clientes_TableViewController: UITableViewController {
         if esPrimero > 0 {
             self.obtenerDatosClientes()
             tableView.reloadData()
-            refreshTableView.endRefreshing()
         }
         esPrimero = esPrimero + 1
     }
@@ -62,14 +54,13 @@ class SK_Clientes_TableViewController: UITableViewController {
     
     //MARK: -------------------------- UTILIDADES --------------------------
     
-    //REFRESH CONTROLLER
+    // REFRESCAR TABLA
     func refreshVC(){
-        obtenerDatosClientes()
+        self.obtenerDatosClientes()
         tableView.reloadData()
-        refreshTableView.endRefreshing()
     }
     
-    //OBTENER LOS DATOS DE LOS CLIENTES
+    // OBTENER LOS DATOS DE LOS CLIENTES
     func obtenerDatosClientes(){
         var telefono = ""
         var calle = ""
@@ -81,8 +72,16 @@ class SK_Clientes_TableViewController: UITableViewController {
         muestraCarga(muestra: true, view: self.view, imageGroupTag: 1)
         UIApplication.shared.beginIgnoringInteractionEvents()
         
+        // Realizamos la busqueda de los objetos.
         clientes.findObjectsInBackground { (objetoCliente, errorCliente) in
+            
+            // Limpiamos los array.
             self.informacionClientes.removeAll()
+            self.latitudCliente.removeAll()
+            self.longitudCliente.removeAll()
+            self.telefonoCliente.removeAll()
+            
+            // Si el objeto esta vacio lanzamos el error.
             if let objetoClienteData = objetoCliente{
                 if objetoClienteData == []{
                     // Ocultamos la carga y lanzamos los eventos.
@@ -90,10 +89,13 @@ class SK_Clientes_TableViewController: UITableViewController {
                     UIApplication.shared.endIgnoringInteractionEvents()
                     
                     self.present(showAlertVC("ATENCIÓN", messageData: "No existe ningún cliente."), animated: true, completion: nil)
-                }else{
+                }else{// Sino lo buscamos y obtenemos la imagen.
                     for objetoClienteDes in objetoCliente!{
                         telefono = objetoClienteDes["telefonoCliente"] as! String
                         calle = objetoClienteDes["calleCliente"] as! String
+                        self.latitudCliente.append(objetoClienteDes["latitudCliente"] as! Double)
+                        self.longitudCliente.append(objetoClienteDes["longitudCliente"] as! Double)
+                        self.telefonoCliente.append(telefono)
                         self.obtenerImagen(telefono: telefono, calle: calle)
                     }
                 }
@@ -107,19 +109,17 @@ class SK_Clientes_TableViewController: UITableViewController {
         let imagenCliente = PFQuery(className: "imageClient")
         imagenCliente.whereKey("telefonoCliente", equalTo: telefono)
         
+        // Buscamos los objetos.
         imagenCliente.findObjectsInBackground(block: { (objetoImagen, errorImagen) in
             // Ocultamos la carga y lanzamos los eventos.
             muestraCarga(muestra: false, view: self.view, imageGroupTag: 1)
             UIApplication.shared.endIgnoringInteractionEvents()
-            
-            if errorImagen == nil{
-                if let objetoImagenDes = objetoImagen{
-                    for objetoImagenData in objetoImagenDes{
-                        let imagenDataModel = SK_ModeloClientes(pTelefonoClienteData: telefono,pDireccionClienteData: calle, pImagenClienteData: objetoImagenData["imagenCliente"] as! PFFile)
-                        self.informacionClientes.append(imagenDataModel)
-                    }
-                    self.tableView.reloadData()
+            if let objetoImagenDes = objetoImagen{
+                for objetoImagenData in objetoImagenDes{
+                    let imagenDataModel = SK_ModeloClientes(pTelefonoClienteData: telefono,pDireccionClienteData: calle, pImagenClienteData: objetoImagenData["imagenCliente"] as! PFFile)
+                    self.informacionClientes.append(imagenDataModel)
                 }
+                    self.tableView.reloadData()
             }
         })
     }
@@ -222,7 +222,6 @@ class SK_Clientes_TableViewController: UITableViewController {
         // Creamos la instacia de SK_Captacion_InfoCliente_ViewController.
         let infoCliente = self.storyboard?.instantiateViewController(withIdentifier: "informationClient") as! SK_Captacion_InfoCliente_ViewController
         
-        print(indexPath.row)
         // Creamos la instancia de informacionClientes.
         let dataModel = informacionClientes[indexPath.row]
         
@@ -236,6 +235,7 @@ class SK_Clientes_TableViewController: UITableViewController {
     // CREAMOS LOS BOTONES DESLIZANTES DE LA CELDA
     override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         
+        // Creamos el boton deleteAction.
         let deleteAction = UITableViewRowAction(style: .default, title: "Eliminar"){ Void in
             
             let deleteMenu = UIAlertController(title: nil, message: "¿Desea eliminar el cliente?", preferredStyle: .actionSheet)
@@ -249,9 +249,27 @@ class SK_Clientes_TableViewController: UITableViewController {
             self.present(deleteMenu, animated: true, completion: nil)
             
         }
-        deleteAction.backgroundColor = UIColor.red
         
-        return[deleteAction]
+        // Creamos el boton de gpsAction.
+        let gpsAction = UITableViewRowAction(style: .default, title: "GPS") { Void in
+            if let url = NSURL(string: "http://maps.apple.com/?daddr=\(self.latitudCliente[indexPath.row]),\(self.longitudCliente[indexPath.row])") {
+                UIApplication.shared.open(url as URL, options: [:], completionHandler: nil)
+            }
+        }
+        
+        // Creamos el boton de callAction.
+        let callAction = UITableViewRowAction(style: .default, title: "Llamar") { Void in
+            if let url = NSURL(string: "tel://\(self.telefonoCliente[indexPath.row])") {
+                UIApplication.shared.open(url as URL, options: [:], completionHandler: nil)
+            }
+        }
+        
+        // Asignamos el color de los fondos.
+        deleteAction.backgroundColor = UIColor.red
+        gpsAction.backgroundColor = UIColor(red:0.53, green:0.91, blue:0.45, alpha:1.0)
+        callAction.backgroundColor = UIColor.darkGray
+        
+        return[deleteAction,gpsAction,callAction]
     }
     
 

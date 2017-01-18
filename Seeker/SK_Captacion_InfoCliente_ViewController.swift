@@ -20,12 +20,15 @@ class SK_Captacion_InfoCliente_ViewController: UIViewController {
     var observacionesCliente : String?
     var latitudCliente : Double?
     var longitudCliente : Double?
-    var arrayEstado = ["Pendiente","Contactado"]
     var origen : String?
+    var imagen : String?
+    var imagenCambiada = false
     
     var fotoSeleccionada = false
     var imageGroupTag = 1
     var activo = false
+    
+    var textField : UITextField!
     
     
     //MARK: - IBOUTLETS
@@ -34,7 +37,8 @@ class SK_Captacion_InfoCliente_ViewController: UIViewController {
     @IBOutlet weak var myNombreClienteTF: UITextField!
     @IBOutlet weak var myTelefonoClienteTF: UITextField!
     @IBOutlet weak var myCalleClienteTF: UITextField!
-    @IBOutlet weak var myEstadoClienteTF: UITextField!
+    @IBOutlet weak var myEstadoClienteLBL: UILabel!
+    @IBOutlet weak var myEstadoClienteSW: UISwitch!
     @IBOutlet weak var myObservacionesTF: UITextField!
     @IBOutlet weak var myBotonActualizarBTN: UIButton!
     @IBOutlet weak var myBotonGPSBTN: UIButton!
@@ -47,16 +51,6 @@ class SK_Captacion_InfoCliente_ViewController: UIViewController {
         
         // Mostramos la barra de estado.
         UIApplication.shared.statusBarStyle = .lightContent
-        
-        // Ocultamos la barra de navegación cuando nos desplazamos.
-        navigationController?.hidesBarsOnSwipe = false
-        
-        // Creamos el PickerView
-        let myPickerView = UIPickerView()
-        myPickerView.delegate = self
-        myPickerView.dataSource = self
-        
-        myEstadoClienteTF.inputView = myPickerView
         
         // Configuramos los bordes y bloqueamos myBotonActualizarBTN.
         configuraSombraAspectoBotones(boton: myBotonActualizarBTN, redondo: false)
@@ -76,8 +70,27 @@ class SK_Captacion_InfoCliente_ViewController: UIViewController {
         let imageGestureReconize = UITapGestureRecognizer(target: self, action: #selector(SK_Captacion_InfoCliente_ViewController.showCamaraFotos))
         myImagenCamaraIV.addGestureRecognizer(imageGestureReconize)
         
+        // Configuramos el textfield del teclado.
+        textField = UITextField(frame: CGRect(x: 0, y: 0, width: 300, height: 30))
+        textField.delegate = self
+        textField.textColor = UIColor.white
+        textField.layer.masksToBounds = true
+        textField.autocapitalizationType = .none
+        textField.keyboardAppearance = .dark
+        textField.returnKeyType = .done
+        textField.enablesReturnKeyAutomatically = true
+        let border = CALayer()
+        let width : CGFloat = 2.0
+        border.borderColor = UIColor.white.cgColor
+        border.frame = CGRect(x: 0, y: textField.frame.size.height-width, width: textField.frame.size.width, height: textField.frame.size.height)
+        border.borderWidth = width
+        
+        textField.layer.addSublayer(border)
+
+        
         // Añadimos el boton al teclado.
         addBotonOkAlTeclado()
+        addtextfieldAlTeclado()
         
         // Cargamos los datos del Cliente.
         myTelefonoClienteTF.text = telefonoCliente!
@@ -184,11 +197,13 @@ class SK_Captacion_InfoCliente_ViewController: UIViewController {
     }
     
     // ACTUALIZA ESTADO
-    @IBAction func cambiaEstadoACTION(_ sender: Any) {
-        if self.myEstadoClienteTF.text! != self.estadoCliente!{
-            cambiaEstadoBTN(boton: myBotonActualizarBTN, estado: true)
-        }else{
-            cambiaEstadoBTN(boton: myBotonActualizarBTN, estado: false)
+    @IBAction func cambiaEstadoSwitchACTION(_ sender: Any) {
+        if myEstadoClienteSW.isOn{
+            myEstadoClienteLBL.text = "Pendiente"
+            compruebaSwitch(estado: myEstadoClienteLBL.text!)
+        }else if myEstadoClienteSW.isOn == false{
+            myEstadoClienteLBL.text = "Contactado"
+            compruebaSwitch(estado: myEstadoClienteLBL.text!)
         }
     }
     
@@ -200,12 +215,13 @@ class SK_Captacion_InfoCliente_ViewController: UIViewController {
     
     // COMPRUEBA SI LOS CAMPOS SON IGUALES.
     @IBAction func compruebaCamposACTION(_ sender: Any) {
-        if myNombreClienteTF.text != nombreCliente || myObservacionesTF.text != observacionesCliente || myTelefonoClienteTF.text != telefonoCliente{
+        if myNombreClienteTF.text != nombreCliente || myObservacionesTF.text != observacionesCliente || myTelefonoClienteTF.text != telefonoCliente || myEstadoClienteLBL.text != estadoCliente || imagenCambiada == true{
             cambiaEstadoBTN(boton: myBotonActualizarBTN, estado: true)
         }else{
         
             cambiaEstadoBTN(boton: myBotonActualizarBTN, estado: false)
         }
+        textField.text = myObservacionesTF.text
     }
     
     // CERRAR TECLADO AL PULSAR EN ACEPTAR.
@@ -251,6 +267,7 @@ class SK_Captacion_InfoCliente_ViewController: UIViewController {
                                             if imageError == nil{
                                                 if let imageDataDes = imageData{
                                                     self.myImagenClienteIV.image = UIImage(data: imageDataDes)
+                                                    self.imagen = String(describing: self.myImagenClienteIV.image)
                                                 }
                                             }
                                         })
@@ -271,15 +288,18 @@ class SK_Captacion_InfoCliente_ViewController: UIViewController {
                             self.myCalleClienteTF.text = objectDataUnoDes["calleCliente"] as? String
                         }
                         if objectDataUnoDes["estadoCliente"] != nil{
-                            self.myEstadoClienteTF.text = objectDataUnoDes["estadoCliente"] as? String
-                            self.estadoCliente = self.myEstadoClienteTF.text
+                            self.myEstadoClienteLBL.text = objectDataUnoDes["estadoCliente"] as? String
+                            self.estadoCliente = self.myEstadoClienteLBL.text
+                            self.compruebaSwitch(estado: self.estadoCliente!)
                         }else{
-                            self.myEstadoClienteTF.text = self.arrayEstado[0]
-                            self.estadoCliente = self.myEstadoClienteTF.text
+                            self.myEstadoClienteLBL.text = "Pendiente"
+                            self.estadoCliente = self.myEstadoClienteLBL.text
+                            self.compruebaSwitch(estado: self.estadoCliente!)
                         }
                         if objectDataUnoDes["observacionesCliente"] != nil{
                             self.myObservacionesTF.text = objectDataUnoDes["observacionesCliente"] as? String
                             self.observacionesCliente = self.myObservacionesTF.text
+                            self.textField.text = self.observacionesCliente
                         }
                         self.latitudCliente = objectDataUnoDes["latitudCliente"] as? Double
                         self.longitudCliente = objectDataUnoDes["longitudCliente"] as? Double
@@ -336,7 +356,7 @@ class SK_Captacion_InfoCliente_ViewController: UIViewController {
                 clientData["nombreCliente"] = myNombreClienteTF.text
                 clientData["telefonoCliente"] = myTelefonoClienteTF.text
                 clientData["calleCliente"] = myCalleClienteTF.text
-                clientData["estadoCliente"] = myEstadoClienteTF.text
+                clientData["estadoCliente"] = myEstadoClienteLBL.text
                 clientData["observacionesCliente"] = myObservacionesTF.text
                 clientData["latitudCliente"] = latitudCliente
                 clientData["longitudCliente"] = longitudCliente
@@ -426,21 +446,41 @@ class SK_Captacion_InfoCliente_ViewController: UIViewController {
         aceptarToolbar.items = items
         aceptarToolbar.sizeToFit()
         
-        // Añadimos el accesorio a myNumeroEmpresaTF.
+        // Añadimos el accesorio a myTelefonoClienteTF.
         myTelefonoClienteTF.inputAccessoryView = aceptarToolbar
-        myEstadoClienteTF.inputAccessoryView = aceptarToolbar
     }
     
     
-    // ESTABLECEMOS COMO RESPONDEDOR A myTelefonoEmpresaTF y myEstadoClienteTF
+    // ESTABLECEMOS COMO RESPONDEDOR A myTelefonoClienteTF.
     func doneButtonAction(){
         myTelefonoClienteTF.resignFirstResponder()
-        myEstadoClienteTF.resignFirstResponder()
+    }
+    
+    // AÑADIMOS TEXTFIELD AL TECLADO
+    func addtextfieldAlTeclado(){
+        // Creamos la barra de herramientas y le damos un formato.
+        let textFieldToolbar: UIToolbar = UIToolbar(frame: CGRect(x: 0, y: 0, width: 320, height: 50))
+        textFieldToolbar.barStyle = UIBarStyle.blackTranslucent
+        
+        let flexSpace = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
+        
+        // Creamos los botones que añadiremos a la barra de herramientas.
+        let textFieldButton = UIBarButtonItem(customView: textField)
+        
+        // Añadimos los botones a la barra de herramientas.
+        var items = [UIBarButtonItem]()
+        items.append(flexSpace)
+        items.append(textFieldButton)
+        
+        textFieldToolbar.items = items
+        textFieldToolbar.sizeToFit()
+        
+        // Añadimos el accesorio a myNumeroEmpresaTF.
+        myObservacionesTF.inputAccessoryView = textFieldToolbar
     }
     
     // SELECCIONAR FOTO DEL LOGO
     func showCamaraFotos(){
-        cambiaEstadoBTN(boton: myBotonActualizarBTN, estado: true)
         pickerPhoto()
     }
     
@@ -450,6 +490,15 @@ class SK_Captacion_InfoCliente_ViewController: UIViewController {
             if subvista.tag == self.imageGroupTag{
                 subvista.removeFromSuperview()
             }
+        }
+    }
+    
+    // COMPRUEBA SWITCH
+    func compruebaSwitch(estado : String){
+        if estado == "Pendiente"{
+            self.myEstadoClienteSW.isOn = false
+        }else if estado == "Contactado"{
+            self.myEstadoClienteSW.isOn = true
         }
     }
 
@@ -469,7 +518,6 @@ extension SK_Captacion_InfoCliente_ViewController : UIImagePickerControllerDeleg
         }
         showPhotoMenu()
     }
-    
     
     
     // MENU DE SELECCION DE LA CAMARA O DE LA LIBRERIA
@@ -542,32 +590,27 @@ extension SK_Captacion_InfoCliente_ViewController : UIImagePickerControllerDeleg
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingImage image: UIImage, editingInfo: [String : AnyObject]?) {
         fotoSeleccionada = true
         myImagenClienteIV.image = image
+        if imagen == String(describing: myImagenClienteIV.image){
+            imagenCambiada = false
+            cambiaEstadoBTN(boton: myBotonActualizarBTN, estado: false)
+        }else{
+            imagenCambiada = true
+            cambiaEstadoBTN(boton: myBotonActualizarBTN, estado: true)
+        }
         self.dismiss(animated: true, completion: nil)
     }
 }
 
-//MARK: - EXTENSION DELEGADO PICKERVIEW
-extension SK_Captacion_InfoCliente_ViewController : UIPickerViewDelegate, UIPickerViewDataSource{
+
+//MARK: - DELEGATE DEL TEXTFIELD
+extension SK_Captacion_InfoCliente_ViewController : UITextFieldDelegate{
     
-    // Función que crea un PickerView.
-    func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        return 1
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        myObservacionesTF.text = textField.text
+        textField.resignFirstResponder()
+        return true
     }
-    
-    // Función que crea el número de filas del PickerView.
-    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return arrayEstado.count
-    }
-    
-    // Función que crea el título de cada fila del PickerView.
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return arrayEstado[row]
-    }
-    
-    // Función que establece el título del TextField según la fila seleccionada.
-    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        myEstadoClienteTF.text = arrayEstado[row]
-    }
+
 }
 
 

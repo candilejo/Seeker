@@ -20,7 +20,6 @@ class SK_Captacion_ViewController: UIViewController {
     
     //MARK: - VARIABLES LOCALES GLOBALES
     var locationManager = CLLocationManager()
-    //var myLocations = [CLLocation]()
     var latitud : Double?
     var longitud : Double?
     var calle = ""
@@ -34,6 +33,8 @@ class SK_Captacion_ViewController: UIViewController {
     var telefCliente = ""
     var oculto = true
     var existeCliente = false
+    
+    var localizacion = [CLLocation]()
     
     
     //MARK: - IBOUTLETS
@@ -133,21 +134,16 @@ class SK_Captacion_ViewController: UIViewController {
     
     // EMPEZAR CAPTACIÓN.
     @IBAction func empezarCaptacionACTION(_ sender: Any) {
-        myBotonPararCaptacionBTN.isEnabled = true
-        myBotonEmpezarCaptacionBTN.isEnabled = false
-        myMapaCaptacionMV.showsUserLocation = true
-        myBotonAddClienteBTN.isEnabled = true
-        locationManager.startUpdatingLocation()
+        lanzarPararCaptacion(parar: false)
         oculto = true
         myMapaCaptacionMV.removeAnnotations(myMapaCaptacionMV.annotations)
+        print(localizacion)
     }
     
     
     // PARAR CAPTACIÓN.
     @IBAction func pararCaptacionACTION(_ sender: Any) {
-        myBotonPararCaptacionBTN.isEnabled = false
-        myBotonEmpezarCaptacionBTN.isEnabled = true
-        locationManager.stopUpdatingLocation()
+        lanzarPararCaptacion(parar: true)
     }
     
     // MOSTRAR CLIENTES
@@ -175,6 +171,21 @@ class SK_Captacion_ViewController: UIViewController {
     }
     
     //MARK -------------------------- UTILIDADES --------------------------
+    
+    // PARAR / LANZAR CAPTACIÓN
+    func lanzarPararCaptacion(parar: Bool){
+        if parar{
+            myBotonPararCaptacionBTN.isEnabled = false
+            myBotonEmpezarCaptacionBTN.isEnabled = true
+            myBotonAddClienteBTN.isEnabled = false
+            locationManager.stopUpdatingLocation()
+        }else{
+            myBotonPararCaptacionBTN.isEnabled = true
+            myBotonEmpezarCaptacionBTN.isEnabled = false
+            myBotonAddClienteBTN.isEnabled = true
+            locationManager.startUpdatingLocation()
+        }
+    }
     
     // CARGAMOS CLIENTES
     func cargarClientes(){
@@ -279,9 +290,9 @@ class SK_Captacion_ViewController: UIViewController {
     func cargaDatosCliente(){
         
         // Ocultamos las anotaciones.
+        lanzarPararCaptacion(parar: true)
         myMapaCaptacionMV.removeAnnotations(myMapaCaptacionMV.annotations)
         oculto = true
-        locationManager.stopUpdatingLocation()
         
         // Creamos la instacia de SK_Captacion_InfoCliente_ViewController.
         let infoCliente = self.storyboard?.instantiateViewController(withIdentifier: "informationClient") as! SK_Captacion_InfoCliente_ViewController
@@ -309,38 +320,24 @@ extension SK_Captacion_ViewController : CLLocationManagerDelegate{
         let span = MKCoordinateSpanMake(0.01, 0.01)
         
         if let location = locations.first{
-            myMapaCaptacionMV.showsUserLocation = true
             center = location.coordinate
             self.latitud = location.coordinate.latitude
             self.longitud = location.coordinate.longitude
             self.cargarCalle(location: location)
+            localizacion.append(location)
         }
+        
         
         let region = MKCoordinateRegion(center: center, span: span)
         myMapaCaptacionMV.setRegion(region, animated: true)
     }
     
-    /*func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        myLocations.append(locations[0])
-        let spanX = 0.007
-        let spanY = 0.007
-        var newRegion = MKCoordinateRegion(center: myMapaCaptacionMV.userLocation.coordinate, span: MKCoordinateSpanMake(spanX, spanY))
-        myMapaCaptacionMV.setRegion(newRegion, animated: true)
-        if (myLocations.count > 1){
-            var sourceIndex = myLocations.count - 1
-            var destinationIndex = myLocations.count - 2
-            let c1 = myLocations[sourceIndex].coordinate
-            let c2 = myLocations[destinationIndex].coordinate
-            var a = [c1, c2]
-            var polyline = MKPolyline(coordinates: &a, count: a.count)
-            myMapaCaptacionMV.add(polyline)
-        }
-    }*/
-    
-    
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         print("error: \(error)")
     }
+    
+    /*func mapView(_ mapView: MKMapView, didAdd renderers: [MKOverlayRenderer]) {
+    }*/
 }
 
 //MARK: - EXTENSION PARA CREAR ANOTACIONES PERSONALIZADAS.
@@ -374,14 +371,4 @@ extension SK_Captacion_ViewController : MKMapViewDelegate{
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
         self.telefCliente = ((view.annotation?.title)!)!
     }
-    
-    /*func mapView(_ mapView: MKMapView!, rendererFor overlay: MKOverlay!) -> MKOverlayRenderer! {
-        if overlay is MKPolyline{
-            let polyLineRender = MKPolygonRenderer(overlay: overlay)
-            polyLineRender.strokeColor = UIColor.red
-            polyLineRender.lineWidth = 4
-            return polyLineRender
-        }
-        return nil
-    }*/
 }

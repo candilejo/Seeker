@@ -19,6 +19,8 @@ class SK_Captacion_AddClient_ViewController: UIViewController {
     var longitud : Double?
     var calle : String?
     
+    var textField : UITextField!
+    
     
     //MARK: - IBOUTLETS
     @IBOutlet weak var myImagenClienteIV: UIImageView!
@@ -44,16 +46,30 @@ class SK_Captacion_AddClient_ViewController: UIViewController {
         // Hacemos interactiva a myImagenCamaraIV.
         myImagenCamaraIV.isUserInteractionEnabled = true
         
-        // Añadimos el gesto a la myImagenCamaraIV para que se habra la camara de fotos.
+        // Añadimos el gesto a la myImagenInteractivaIV para que se habra la camara de fotos.
         let imageGestureReconize = UITapGestureRecognizer(target: self, action: #selector(SK_Captacion_AddClient_ViewController.showCamaraFotos))
         myImagenCamaraIV.addGestureRecognizer(imageGestureReconize)
         
-        // Creamos el gesto y se lo añadimos al View.
-        let viewGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(SK_Captacion_AddClient_ViewController.hideKeyBoard))
-        view.addGestureRecognizer(viewGestureRecognizer)
+        // Configuramos el textfield del teclado.
+        textField = UITextField(frame: CGRect(x: 0, y: 0, width: 300, height: 30))
+        textField.delegate = self
+        textField.textColor = UIColor.white
+        textField.layer.masksToBounds = true
+        textField.autocapitalizationType = .none
+        textField.keyboardAppearance = .dark
+        textField.returnKeyType = .done
+        textField.enablesReturnKeyAutomatically = true
+        let border = CALayer()
+        let width : CGFloat = 2.0
+        border.borderColor = UIColor.white.cgColor
+        border.frame = CGRect(x: 0, y: textField.frame.size.height-width, width: textField.frame.size.width, height: textField.frame.size.height)
+        border.borderWidth = width
+        
+        textField.layer.addSublayer(border)
         
         // Añadimos el boton al teclado.
         addBotonOkAlTeclado()
+        addtextfieldAlTeclado()
         
         // Cargamos los datos de la localización del cliente.
         myCalleClienteTF.text = calle
@@ -68,6 +84,11 @@ class SK_Captacion_AddClient_ViewController: UIViewController {
         super.didReceiveMemoryWarning()
     }
     
+    
+    //MARK: - CIERRA TECLADO
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        view.endEditing(true)
+    }
     
     //MARK -------------------------- ACCIONES --------------------------
     
@@ -85,16 +106,18 @@ class SK_Captacion_AddClient_ViewController: UIViewController {
     }
     
     
+    // ACTUALIZAR VALOR DEL TEXTFIELD
+    @IBAction func actualizaValorACTION(_ sender: Any) {
+        textField.text = myObservacionesClienteTF.text
+    }
+    
+    
+    
     //MARK -------------------------- UTILIDADES --------------------------
     
     // SELECCIONAR FOTO DEL CLIENTE
     func showCamaraFotos(){
         pickerPhoto()
-    }
-    
-    // CIERRA TECLADO
-    func hideKeyBoard(){
-        view.endEditing(true)
     }
     
     // AÑADIMOS LOS BOTONES AL TECLADO
@@ -128,6 +151,28 @@ class SK_Captacion_AddClient_ViewController: UIViewController {
         myTelefonoClienteTF.resignFirstResponder()
     }
     
+    // AÑADIMOS TEXTFIELD AL TECLADO
+    func addtextfieldAlTeclado(){
+        // Creamos la barra de herramientas y le damos un formato.
+        let textFieldToolbar: UIToolbar = UIToolbar(frame: CGRect(x: 0, y: 0, width: 320, height: 50))
+        textFieldToolbar.barStyle = UIBarStyle.blackTranslucent
+        
+        let flexSpace = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
+        
+        // Creamos los botones que añadiremos a la barra de herramientas.
+        let textFieldButton = UIBarButtonItem(customView: textField)
+        
+        // Añadimos los botones a la barra de herramientas.
+        var items = [UIBarButtonItem]()
+        items.append(flexSpace)
+        items.append(textFieldButton)
+        
+        textFieldToolbar.items = items
+        textFieldToolbar.sizeToFit()
+        
+        // Añadimos el accesorio a myNumeroEmpresaTF.
+        myObservacionesClienteTF.inputAccessoryView = textFieldToolbar
+    }
     
     // COMPROBAR CAMPOS PARA AÑADIR AL CLIENTE.
     func compruebaCampos() -> Bool{
@@ -245,7 +290,6 @@ class SK_Captacion_AddClient_ViewController: UIViewController {
 }
 
 
-
 //MARK: - DELEGATE UIIMAGEPICKER / PHOTO
 extension SK_Captacion_AddClient_ViewController : UIImagePickerControllerDelegate, UINavigationControllerDelegate{
     
@@ -272,5 +316,16 @@ extension SK_Captacion_AddClient_ViewController : UIImagePickerControllerDelegat
         myImagenClienteIV.image = image
         self.dismiss(animated: true, completion: nil)
     }
+}
+
+//MARK: - DELEGATE DEL TEXTFIELD
+extension SK_Captacion_AddClient_ViewController : UITextFieldDelegate{
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        myObservacionesClienteTF.text = textField.text
+        textField.resignFirstResponder()
+        return true
+    }
+    
 }
 
