@@ -35,12 +35,18 @@ class SK_PantallaInicial_ViewController: UIViewController {
         // Mostramos la barra de estado.
         UIApplication.shared.statusBarStyle = .lightContent
         
-        // Si la sesión del usuario está activa accedemos a la App.
-        if PFUser.current()?.username != nil{
+        if PFUser.current()?.username != nil{ // Si la sesión del usuario está activa accedemos a la App.
             performSegue(withIdentifier: "presentTabBarController", sender: self)
-        }else{
+        }else{ // Sino a la pantalla de logeo.
             performSegue(withIdentifier: "presentViewController", sender: self)
         }
+    }
+    
+    // UNWIND LOGOUT.
+    @IBAction func logoutACTION(storyboard : UIStoryboardSegue){
+        PFUser.logOut() // Realizamos el logout del usuario.
+        // Lanzamos un mensaje de información.
+        present(showAlertVC("INFORMACIÓN", messageData: "La sesión se ha cerrado correctamente."), animated: true, completion: nil)
     }
 
 }

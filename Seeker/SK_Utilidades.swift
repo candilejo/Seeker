@@ -13,11 +13,13 @@ import UIKit
 
 //MARK: - CONFIGURA LA SOMBRA Y EL ASPECTO DEL BOTON
 func configuraSombraAspectoBotones(boton : UIButton, redondo : Bool){
+    // Configuramos la sombra del botón.
     boton.layer.shadowColor = UIColor.darkGray.cgColor
     boton.layer.shadowOffset = CGSize(width: 3, height: 3)
     boton.layer.shadowRadius = 3
     boton.layer.shadowOpacity = 1.0
-    if redondo == true{
+    
+    if redondo{ // Si redondo es 'true' lo hacemos redondo.
         boton.layer.cornerRadius = boton.frame.width / 2
     }
 }
@@ -26,12 +28,14 @@ func configuraSombraAspectoBotones(boton : UIButton, redondo : Bool){
 //MARK: - CONFIGURACION DE LOS BORDES DE LAS IMAGENES
 func configuraBordesImagenes(_ imagen: UIImageView, redondo: Bool, borde: Bool){
     imagen.clipsToBounds = true
-    if redondo{
+    
+    if redondo{ // Si redondo es 'true' la hacemos redonda.
         imagen.layer.cornerRadius = imagen.frame.width/2
-    }else{
+    }else{ // Sino redondeamos las esquinas.
         imagen.layer.cornerRadius = 10
     }
-    if borde{
+    
+    if borde{ // Si el borde es 'true', cargamos el borde a la imagen.
         imagen.layer.borderColor = UIColor.white.cgColor
         imagen.layer.borderWidth = 3
     }
@@ -41,10 +45,11 @@ func configuraBordesImagenes(_ imagen: UIImageView, redondo: Bool, borde: Bool){
 
 //MARK: - CREA Y DEVUELVE UN ALERTCONTROLLER.
 func showAlertVC (_ titleData : String, messageData : String) -> UIAlertController{
-    let alertVC = UIAlertController(title: titleData, message: messageData, preferredStyle: .alert)
-    alertVC.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+    let alertVC = UIAlertController(title: titleData, message: messageData, preferredStyle: .alert) // Creamos el Alert.
     
-    return alertVC
+    alertVC.addAction(UIAlertAction(title: "OK", style: .default, handler: nil)) // Añadimos el boton.
+    
+    return alertVC // Devolvemos el Alert.
 }
 
 
@@ -58,13 +63,10 @@ func limpiaCampos(_ campos : [UITextField]){
 
 //MARK: - CAMBIA ESTADO DE UN BOTON.
 func cambiaEstadoBTN(boton : UIButton, estado : Bool){
-    // Establecemo el estado de boton.
-    boton.isEnabled = estado
+    boton.isEnabled = estado // Establecemo el estado de boton.
     
-    // Si el estado es 'true' lo ponemos verde.
-    if estado{
+    if estado{ // Si el estado es 'true' lo ponemos verde.
         boton.backgroundColor = UIColor(red:0.53, green:0.91, blue:0.45, alpha:1.0)
-        
     }else{ //Sino gris.
         boton.backgroundColor = UIColor.lightGray
     }
@@ -72,7 +74,7 @@ func cambiaEstadoBTN(boton : UIButton, estado : Bool){
 
 // MARK: - CARGA VIEW DE CARGA
 func muestraCarga(muestra : Bool, view : UIView, imageGroupTag : Int){
-    if muestra{
+    if muestra{ // Si muestra es 'true'.
         // Creamos un fondo negro con transparencia.
         let background = UIView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height))
         background.backgroundColor = UIColor.darkGray
@@ -100,7 +102,7 @@ func muestraCarga(muestra : Bool, view : UIView, imageGroupTag : Int){
         view.addSubview(background)
         view.addSubview(ai)
         view.addSubview(label)
-    }else{
+    }else{ // Sino eliminamos todos los subviews.
         for subvista in view.subviews{
             if subvista.tag == imageGroupTag{
                 subvista.removeFromSuperview()

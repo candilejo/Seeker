@@ -15,10 +15,10 @@ import Parse
 class SK_Registro_ViewController: UIViewController {
 
     
-    //MARK: - VARIABLES LOCALES GLOBALES
+    //MARK: - VARIABLES LOCALES GLOBALES.
     var fotoSeleccionada = false
     
-    //MARK: - IBOUTLETS
+    //MARK: - IBOUTLETS.
     @IBOutlet weak var myImagenUsuarioIV: UIImageView!
     @IBOutlet weak var myImagenCamaraIV: UIImageView!
     @IBOutlet weak var myUsuarioTF: UITextField!
@@ -29,7 +29,7 @@ class SK_Registro_ViewController: UIViewController {
     
     
     
-    //MARK: - LIFE VC
+    //MARK: - LIFE VC.
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -51,17 +51,18 @@ class SK_Registro_ViewController: UIViewController {
         let imageGestureReconize = UITapGestureRecognizer(target: self, action: #selector(SK_Registro_ViewController.showCamaraFotos))
         myImagenCamaraIV.addGestureRecognizer(imageGestureReconize)
         
-        // Creamos el gesto y se lo añadimos al View.
-        let viewGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(SK_Registro_ViewController.hideKeyBoard))
-        view.addGestureRecognizer(viewGestureRecognizer)
-        
-        
     }
 
     
     //MARK: - SE EJECUTA AL RECIBIR UNA ALERTA DE MEMORIA
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
+    }
+    
+    
+    //MARK: - CERRAMOS EL TECLADO CUANDO TOCAMOS EL VIEW
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        view.endEditing(true)
     }
 
     
@@ -88,8 +89,7 @@ class SK_Registro_ViewController: UIViewController {
     }
     
     // CERRAR TECLADO AL CLICAR EN ACEPTAR.
-    @IBAction func cerrarTecladoACTION(_ sender: Any) {
-    }
+    @IBAction func cerrarTecladoACTION(_ sender: Any) {}
     
     // UNIRSE A LA APLICACIÓN.
     @IBAction func uneteACTION(_ sender: Any) {
@@ -103,7 +103,7 @@ class SK_Registro_ViewController: UIViewController {
         usuarioData.email = myEmailTF.text
         usuarioData["nombreEmpresa"] = myNombreEmpresaTF.text
         
-        // Ocultamos la carga y lanzamos los eventos.
+        // Lanzamos la carga e ignoramos los eventos.
         muestraCarga(muestra: true, view: self.view, imageGroupTag: 1)
         UIApplication.shared.beginIgnoringInteractionEvents()
         
@@ -112,7 +112,11 @@ class SK_Registro_ViewController: UIViewController {
             
             // Si existe un error, mostramos el tipo de error que es y lanzamos los eventos.
             if errorRegistro != nil{
+                
+                // Ocultamos la carga y lanzamos los eventos.
+                muestraCarga(muestra: false, view: self.view, imageGroupTag: 1)
                 UIApplication.shared.endIgnoringInteractionEvents()
+                
                 let error =  erroresUser(code: (errorRegistro! as NSError).code)
                 if error != ""{
                     self.present(showAlertVC("ATENCION", messageData: error), animated: true, completion: nil)
@@ -128,12 +132,6 @@ class SK_Registro_ViewController: UIViewController {
     }
     
     //MARK -------------------------- UTILIDADES --------------------------
-    
-    // CIERRA TECLADO
-    func hideKeyBoard(){
-        view.endEditing(true)
-    }
-    
     
     // COMPRUEBA EL ESTADO DE LOS CAMPOS
     func estadoCampos() -> Bool{
@@ -169,7 +167,7 @@ class SK_Registro_ViewController: UIViewController {
             
             // Si todo es correcto, lanzamos un mensaje de registro correcto y limpiamos los campos.
             if salvadoExitoso{
-                let alertVC = UIAlertController(title: "ATENCION", message: "Datos salvados exitosamente", preferredStyle: .alert)
+                let alertVC = UIAlertController(title: "INFORMACIÓN", message: "Datos salvados exitosamente", preferredStyle: .alert)
                 let okAction = UIAlertAction(title: "OK", style: .default, handler: { (OKAction) in
                     self.performSegue(withIdentifier: "presentTabBarController", sender: self)
                     limpiaCampos([self.myUsuarioTF, self.myPasswordTF, self.myNombreEmpresaTF, self.myEmailTF])

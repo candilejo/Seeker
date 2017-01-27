@@ -104,9 +104,13 @@ class SK_Yo_Editar_Ubicacion_ViewController: UIViewController {
         
         // Si alguno de los campos coincide con los ya cargados lanzamos un error.
         if userData["calleEmpresa"] as? String == calle && userData["postalEmpresa"] as? String == postal && userData["localidadEmpresa"] as? String == localidad && userData["provinciaEmpresa"] as? String == provincia && userData["latitudEmpresa"] as? Double == latitud! && userData["longitudEmpresa"] as! Double == longitud!{
+            
             present(showAlertVC("ATENCION", messageData: "La ubicación ya esta seleccionada."), animated: true, completion: nil)
-        }else{// Sino mostramos una alerta con varias acciones.
+            
+        }else{// Sino mostramos una ActionSheet con varias acciones.
+            
             let alert = UIAlertController(title: "UBICACIÓN SELECCIONADA",message: "Calle: \(calle) \n Código Postal: \(postal) \n Localidad: \(localidad) \n Provincia: \(provincia)",preferredStyle: UIAlertControllerStyle.alert)
+            
             let saveAction = UIAlertAction(title: "Guardar", style: UIAlertActionStyle.default, handler: { (guardarAccion) in
                 self.actualizarUbicacionActual()
                 self.dismiss(animated: true, completion: nil)
@@ -114,6 +118,7 @@ class SK_Yo_Editar_Ubicacion_ViewController: UIViewController {
             let cancelAccion = UIAlertAction(title: "Cancelar", style: UIAlertActionStyle.cancel, handler: { (cancelarAccion) in
                 alert.dismiss(animated: true, completion: nil)
             })
+            
             alert.addAction(saveAction)
             alert.addAction(cancelAccion)
             
@@ -125,7 +130,7 @@ class SK_Yo_Editar_Ubicacion_ViewController: UIViewController {
     // ACTUALIZAR DATOS DEL USUARIO
     func actualizarUbicacionActual(){
         
-        // Actualizamos los datos del usuario si los campos no están vacíos.
+        // Actualizamos los datos del usuario.
         let userData = PFUser.current()!
         userData["calleEmpresa"] = calle
         userData["postalEmpresa"] = postal
@@ -143,14 +148,14 @@ class SK_Yo_Editar_Ubicacion_ViewController: UIViewController {
             // Ocultamos la carga y lanzamos los eventos.
             UIApplication.shared.endIgnoringInteractionEvents()
             muestraCarga(muestra: false, view: self.view, imageGroupTag: 1)
-            // Si existe algún error.
-            if errorActualizacion != nil{
+            
+            if errorActualizacion != nil{ // Si existe algún error.
                 //Lanzamos el error de porque no hemos podido actualizarlo.
                 let error =  erroresUser(code: (errorActualizacion! as NSError).code)
                 if error != ""{
-                    self.present(showAlertVC("ATENCION", messageData: error), animated: true, completion: nil)
-                }else{
-                    self.present(showAlertVC("Error", messageData: "Error al actualizar."), animated: true, completion: nil)
+                    self.present(showAlertVC("ATENCIÓN", messageData: error), animated: true, completion: nil)
+                }else{ // Sino un error por defecto
+                    self.present(showAlertVC("ATENCIÓN", messageData: "Error al actualizar."), animated: true, completion: nil)
                 }
             }
         }
@@ -226,9 +231,8 @@ extension SK_Yo_Editar_Ubicacion_ViewController : CLLocationManagerDelegate {
 //MARK: - EXTENSION PARA AÑADIR MARCAS
 extension SK_Yo_Editar_Ubicacion_ViewController: HandleMapSearch {
     func dropPinZoomIn(_ placemark:MKPlacemark){
-        // cache the pin
         selectedPin = placemark
-        // clear existing pins
+        // Eliminamos las anotaciones actuales.
         myMapaUbicacionMV.removeAnnotations(myMapaUbicacionMV.annotations)
         let annotation = MKPointAnnotation()
         annotation.coordinate = placemark.coordinate

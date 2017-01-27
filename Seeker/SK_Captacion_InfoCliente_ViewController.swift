@@ -23,11 +23,9 @@ class SK_Captacion_InfoCliente_ViewController: UIViewController {
     var origen : String?
     var imagen : String?
     var imagenCambiada = false
-    
     var fotoSeleccionada = false
     var imageGroupTag = 1
     var activo = false
-    
     var textField : UITextField!
     
     
@@ -39,10 +37,9 @@ class SK_Captacion_InfoCliente_ViewController: UIViewController {
     @IBOutlet weak var myCalleClienteTF: UITextField!
     @IBOutlet weak var myEstadoClienteLBL: UILabel!
     @IBOutlet weak var myEstadoClienteSW: UISwitch!
-    @IBOutlet weak var myObservacionesTF: UITextField!
     @IBOutlet weak var myBotonActualizarBTN: UIButton!
     @IBOutlet weak var myBotonGPSBTN: UIButton!
-    
+    @IBOutlet weak var myComentarioTF: UITextField!
     
     
     //MARK: - LIFE VC
@@ -71,22 +68,7 @@ class SK_Captacion_InfoCliente_ViewController: UIViewController {
         myImagenCamaraIV.addGestureRecognizer(imageGestureReconize)
         
         // Configuramos el textfield del teclado.
-        textField = UITextField(frame: CGRect(x: 0, y: 0, width: 300, height: 30))
-        textField.delegate = self
-        textField.textColor = UIColor.white
-        textField.layer.masksToBounds = true
-        textField.autocapitalizationType = .none
-        textField.keyboardAppearance = .dark
-        textField.returnKeyType = .done
-        textField.enablesReturnKeyAutomatically = true
-        let border = CALayer()
-        let width : CGFloat = 2.0
-        border.borderColor = UIColor.white.cgColor
-        border.frame = CGRect(x: 0, y: textField.frame.size.height-width, width: textField.frame.size.width, height: textField.frame.size.height)
-        border.borderWidth = width
-        
-        textField.layer.addSublayer(border)
-
+        configurarTextField()
         
         // Añadimos el boton al teclado.
         addBotonOkAlTeclado()
@@ -112,12 +94,11 @@ class SK_Captacion_InfoCliente_ViewController: UIViewController {
     
     //MARK -------------------------- ACCIONES --------------------------
 
-
     // ELIMINAR CLIENTE
     @IBAction func eliminarClienteACTION(_ sender: Any) {
         var error = false
         
-        // Eliminamos el cliente.
+        // Realizamos la consulta.
         let queryRemover = PFQuery(className: "Client")
         queryRemover.whereKey("telefonoCliente", equalTo: self.myTelefonoClienteTF.text!)
         
@@ -125,12 +106,13 @@ class SK_Captacion_InfoCliente_ViewController: UIViewController {
         muestraCarga(muestra: true, view: self.view, imageGroupTag: 1)
         UIApplication.shared.beginIgnoringInteractionEvents()
         
+        // Buscamos los objetos.
         queryRemover.findObjectsInBackground(block: { (objectRemove, errorRemove) in
-            if errorRemove == nil{
+            if errorRemove == nil{ // Si no hay error eliminamos el cliente.
                 for objectRemoverDes in objectRemove!{
                     objectRemoverDes.deleteInBackground(block: nil)
                 }
-            }else{
+            }else{ // Si no lanzamos un error.
                 print("Error \((errorRemove! as NSError).userInfo)")
                 
                 // Ocultamos la carga y lanzamos cualquier evento.
@@ -140,16 +122,18 @@ class SK_Captacion_InfoCliente_ViewController: UIViewController {
                 error = true
             }
         })
-        if error == false{
-            // Eliminamos la foto antigua si existe.
+        if error == false{ // Si no hay error.
+            // Realizamos la consulta
             let queryRemoverImage = PFQuery(className: "imageClient")
             queryRemoverImage.whereKey("telefonoCliente", equalTo: self.myTelefonoClienteTF.text!)
+            
+            // Buscamos los objetos.
             queryRemoverImage.findObjectsInBackground(block: { (objectRemove, errorRemove) in
                 // Ocultamos la carga y lanzamos cualquier evento.
                 muestraCarga(muestra: false, view: self.view, imageGroupTag: 1)
                 UIApplication.shared.endIgnoringInteractionEvents()
                 
-                if errorRemove == nil{
+                if errorRemove == nil{ // Si no hay error eliminamos la foto
                     for objectRemoverDes in objectRemove!{
                         objectRemoverDes.deleteInBackground(block: nil)
                     }
@@ -164,17 +148,17 @@ class SK_Captacion_InfoCliente_ViewController: UIViewController {
                         }
                     })
                     alertVC.addAction(okAction)
-                    limpiaCampos([self.myNombreClienteTF, self.myTelefonoClienteTF, self.myCalleClienteTF, self.myObservacionesTF])
+                    limpiaCampos([self.myNombreClienteTF, self.myTelefonoClienteTF, self.myCalleClienteTF])
                     self.myImagenClienteIV.image = UIImage(named: "clienteGrande")
                         self.present(alertVC, animated: true, completion: nil)
-                }else{
+                }else{ // Si no pintamos el error.
                     print("Error \((errorRemove! as NSError).userInfo)")
                     // Ocultamos la carga y lanzamos cualquier evento.
                     muestraCarga(muestra: false, view: self.view, imageGroupTag: 1)
                     UIApplication.shared.endIgnoringInteractionEvents()
                 }
             })
-        }else{
+        }else{ // Sino lanzamos un error.
             present(showAlertVC("ATENCION", messageData: "Error al eliminar el cliente."), animated: true, completion: nil)
             // Ocultamos la carga y lanzamos cualquier evento.
             muestraCarga(muestra: false, view: self.view, imageGroupTag: 1)
@@ -209,19 +193,20 @@ class SK_Captacion_InfoCliente_ViewController: UIViewController {
     
     // ACTUALIZA LOS CAMPOS
     @IBAction func actualizarClienteACTION(_ sender: Any) {
-        actualizarDatos()
+        existeCliente()
         haPasado = true
     }
     
     // COMPRUEBA SI LOS CAMPOS SON IGUALES.
     @IBAction func compruebaCamposACTION(_ sender: Any) {
-        if myNombreClienteTF.text != nombreCliente || myObservacionesTF.text != observacionesCliente || myTelefonoClienteTF.text != telefonoCliente || myEstadoClienteLBL.text != estadoCliente || imagenCambiada == true{
+        if myNombreClienteTF.text != nombreCliente || myTelefonoClienteTF.text != telefonoCliente || myEstadoClienteLBL.text != estadoCliente || imagenCambiada == true || myComentarioTF.text != observacionesCliente{
             cambiaEstadoBTN(boton: myBotonActualizarBTN, estado: true)
         }else{
         
             cambiaEstadoBTN(boton: myBotonActualizarBTN, estado: false)
         }
-        textField.text = myObservacionesTF.text
+        textField.text = myComentarioTF.text
+
     }
     
     // CERRAR TECLADO AL PULSAR EN ACEPTAR.
@@ -229,6 +214,25 @@ class SK_Captacion_InfoCliente_ViewController: UIViewController {
 
     
     //MARK -------------------------- UTILIDADES --------------------------
+    
+    // CONFIGURAR TEXTFIELD DEL TECLADO.
+    func configurarTextField(){
+        textField = UITextField(frame: CGRect(x: 0, y: 0, width: 300, height: 30))
+        textField.delegate = self
+        textField.textColor = UIColor.white
+        textField.layer.masksToBounds = true
+        textField.autocapitalizationType = .none
+        textField.keyboardAppearance = .dark
+        textField.returnKeyType = .done
+        textField.enablesReturnKeyAutomatically = true
+        let border = CALayer()
+        let width : CGFloat = 2.0
+        border.borderColor = UIColor.white.cgColor
+        border.frame = CGRect(x: 0, y: textField.frame.size.height-width, width: textField.frame.size.width, height: textField.frame.size.height)
+        border.borderWidth = width
+        
+        textField.layer.addSublayer(border)
+    }
     
     // CARGAR DATOS DEL CLIENTE
     func cargarDatosCliente(){
@@ -297,8 +301,8 @@ class SK_Captacion_InfoCliente_ViewController: UIViewController {
                             self.compruebaSwitch(estado: self.estadoCliente!)
                         }
                         if objectDataUnoDes["observacionesCliente"] != nil{
-                            self.myObservacionesTF.text = objectDataUnoDes["observacionesCliente"] as? String
-                            self.observacionesCliente = self.myObservacionesTF.text
+                            self.myComentarioTF.text = objectDataUnoDes["observacionesCliente"] as? String
+                            self.observacionesCliente = self.myComentarioTF.text
                             self.textField.text = self.observacionesCliente
                         }
                         self.latitudCliente = objectDataUnoDes["latitudCliente"] as? Double
@@ -309,6 +313,34 @@ class SK_Captacion_InfoCliente_ViewController: UIViewController {
                 // Ocultamos la carga y lanzamos cualquier evento.
                 muestraCarga(muestra: false, view: self.view, imageGroupTag: 1)
                 UIApplication.shared.endIgnoringInteractionEvents()
+            }
+        }
+    }
+    
+    // COMPRUEBA SI EL CLIENTE EXISTE.
+    func existeCliente(){
+        // Realizamos la consulta de los datos del cliente.
+        let usuario = String(describing: PFUser.current()!)
+        let queryUser = PFQuery(className: "Client")
+        queryUser.whereKey("telefonoCliente", equalTo: myTelefonoClienteTF.text!)
+        
+        // Buscamos todos los objetos de la consulta comprobando que no existe el cliente.
+        queryUser.findObjectsInBackground { (objectUno, errorUno) in
+            if errorUno == nil{
+                if let objectUnoDes = objectUno{
+                    if objectUnoDes.count != 0{
+                        for objectDataUnoDes  in objectUnoDes{
+                            // Si el cliente existe lanzamos un error sino lo actualizamos.
+                            if self.myTelefonoClienteTF.text! == objectDataUnoDes["telefonoCliente"] as? String && usuario == objectDataUnoDes["usuarioCliente"] as? String{
+                                self.present(showAlertVC("ATENCIÓN", messageData: "El número ya esta dado de alta en la base de datos"), animated: true, completion: nil)
+                            }else{
+                                self.actualizarDatos()
+                            }
+                        }
+                    }else{
+                        self.actualizarDatos()
+                    }
+                }
             }
         }
     }
@@ -325,7 +357,7 @@ class SK_Captacion_InfoCliente_ViewController: UIViewController {
             present(showAlertVC("ATENCIÓN", messageData: "El número de Teléfono no es correcto."), animated: true, completion: nil)
             cambiaEstadoBTN(boton: myBotonActualizarBTN, estado: false)
         }else{
-            // Eliminamos el cliente si existe.
+            // Realizamos la consulta.
             let queryRemover = PFQuery(className: "Client")
             queryRemover.whereKey("telefonoCliente", equalTo: telefonoCliente!)
         
@@ -333,12 +365,13 @@ class SK_Captacion_InfoCliente_ViewController: UIViewController {
             muestraCarga(muestra: true, view: self.view, imageGroupTag: 1)
             UIApplication.shared.beginIgnoringInteractionEvents()
         
+            // Buscamos los objetos.
             queryRemover.findObjectsInBackground(block: { (objectRemove, errorRemove) in
-                if errorRemove == nil{
+                if errorRemove == nil{ // Si no hay errores eliminamos el cliente.
                     for objectRemoverDes in objectRemove!{
                         objectRemoverDes.deleteInBackground(block: nil)
                     }
-                }else{
+                }else{ // Si no lanzamos un error.
                     print("Error \((errorRemove! as NSError).userInfo)")
                 
                     // Ocultamos la carga y lanzamos cualquier evento.
@@ -348,23 +381,22 @@ class SK_Captacion_InfoCliente_ViewController: UIViewController {
                     correcto = false
                 }
             })
-            if correcto{
+            if correcto{ // Si erta correcto
+                // Cargamos los datos del cliente.
                 let clientData = PFObject(className: "Client")
             
                 clientData["usuarioCliente"] = PFUser.current()?.username
-            
                 clientData["nombreCliente"] = myNombreClienteTF.text
                 clientData["telefonoCliente"] = myTelefonoClienteTF.text
                 clientData["calleCliente"] = myCalleClienteTF.text
                 clientData["estadoCliente"] = myEstadoClienteLBL.text
-                clientData["observacionesCliente"] = myObservacionesTF.text
+                clientData["observacionesCliente"] = myComentarioTF.text
                 clientData["latitudCliente"] = latitudCliente
                 clientData["longitudCliente"] = longitudCliente
             
                 // Salvamos los datos y si todo es correcto también salvamos la imagen.
                 clientData.saveInBackground { (actualizacionExitosa, errorActualizacion) in
-                
-                    if actualizacionExitosa{
+                    if actualizacionExitosa{ // Si la actualización es correcta actualizamos la foto.
                         self.upatePhoto()
                     }else{
                         // Ocultamos la carga y lanzamos cualquier evento.
@@ -378,15 +410,17 @@ class SK_Captacion_InfoCliente_ViewController: UIViewController {
     
     //ACTUALIZAR FOTO DEL PERFIL
     func upatePhoto(){
-        // Eliminamos la foto antigua si existe.
+        // Realizamos la consulta.
         let queryRemover = PFQuery(className: "imageClient")
         queryRemover.whereKey("telefonoCliente", equalTo: telefonoCliente!)
+        
+        // Buscamos los objetos.
         queryRemover.findObjectsInBackground(block: { (objectRemove, errorRemove) in
-            if errorRemove == nil{
+            if errorRemove == nil{ // Si no existe ningún error eliminamos la foto.
                 for objectRemoverDes in objectRemove!{
                     objectRemoverDes.deleteInBackground(block: nil)
                 }
-            }else{
+            }else{ // Sino lanzamos un error.
                 print("Error \((errorRemove! as NSError).userInfo)")
                 // Ocultamos la carga y lanzamos cualquier evento.
                 muestraCarga(muestra: false, view: self.view, imageGroupTag: 1)
@@ -396,21 +430,24 @@ class SK_Captacion_InfoCliente_ViewController: UIViewController {
         
         // Cargamos de nuevo la imagen.
         telefonoCliente = myTelefonoClienteTF.text
+        // REalizamos la consulta y cargamos el formato de la foto.
         let postImagen = PFObject(className: "imageClient")
         let imagenData = UIImageJPEGRepresentation(myImagenClienteIV.image!, 0.2)
         let imageFile = PFFile(name: "imagePerfilCliente" + myTelefonoClienteTF.text! + ".jpg", data: imagenData!)
         
         postImagen["imagenCliente"] = imageFile
         postImagen["telefonoCliente"] = myTelefonoClienteTF.text
+        
+        // Guardamos los datos.
         postImagen.saveInBackground { (salvadoExitoso, errorDeSubida) in
             
             // Ocultamos la carga y lanzamos cualquier evento.
             muestraCarga(muestra: false, view: self.view, imageGroupTag: 1)
             UIApplication.shared.endIgnoringInteractionEvents()
             
-            if salvadoExitoso{
-                self.present(showAlertVC("ATENCION", messageData: "Datos actualizados exitosamente."), animated: true, completion: nil)
-            }else{
+            if salvadoExitoso{ // Si el salvado es correcto lanzamos un mensaje.
+                self.present(showAlertVC("INFORMACIÓN", messageData: "Datos actualizados exitosamente."), animated: true, completion: nil)
+            }else{ // Sino lanzamos un error.
                 // Ocultamos la carga y lanzamos cualquier evento.
                 muestraCarga(muestra: false, view: self.view, imageGroupTag: 1)
                 UIApplication.shared.endIgnoringInteractionEvents()
@@ -475,8 +512,8 @@ class SK_Captacion_InfoCliente_ViewController: UIViewController {
         textFieldToolbar.items = items
         textFieldToolbar.sizeToFit()
         
-        // Añadimos el accesorio a myNumeroEmpresaTF.
-        myObservacionesTF.inputAccessoryView = textFieldToolbar
+        // Añadimos el accesorio a myComentarioTF.
+        myComentarioTF.inputAccessoryView = textFieldToolbar
     }
     
     // SELECCIONAR FOTO DEL LOGO
@@ -606,11 +643,12 @@ extension SK_Captacion_InfoCliente_ViewController : UIImagePickerControllerDeleg
 extension SK_Captacion_InfoCliente_ViewController : UITextFieldDelegate{
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        myObservacionesTF.text = textField.text
+        myComentarioTF.text = textField.text
         textField.resignFirstResponder()
         return true
     }
 
 }
+
 
 

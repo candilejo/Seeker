@@ -12,8 +12,9 @@ import UIKit
 import MapKit
 import Parse
 
-
+//MARK: - VARIABLES GLOBALES
 var haPasado : Bool?
+var guardado = false
 
 class SK_Captacion_ViewController: UIViewController {
 
@@ -33,8 +34,12 @@ class SK_Captacion_ViewController: UIViewController {
     var telefCliente = ""
     var oculto = true
     var existeCliente = false
-    
-    var localizacion = [CLLocation]()
+    var localizacion : [CLLocation] = []
+    var overlay : [MKOverlay] = []
+    var pintar = false
+    var latitudRuta : [Double] = []
+    var longitudRuta : [Double] = []
+    var direccionInicial : String?
     
     
     //MARK: - IBOUTLETS
@@ -42,7 +47,8 @@ class SK_Captacion_ViewController: UIViewController {
     @IBOutlet weak var myBotonAddClienteBTN: UIButton!
     @IBOutlet weak var myBotonEmpezarCaptacionBTN: UIButton!
     @IBOutlet weak var myBotonPararCaptacionBTN: UIButton!
-    
+    @IBOutlet weak var myBotonClientesBTN: UIBarButtonItem!
+    @IBOutlet weak var myBotonRutaBTN: UIBarButtonItem!
     
     //MARK: - LIFE VC
     override func viewDidLoad() {
@@ -73,7 +79,6 @@ class SK_Captacion_ViewController: UIViewController {
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.requestWhenInUseAuthorization()
         locationManager.requestLocation()
-
         
         // Establecemos que myMapaCaptacionMV sea su propio delegado.
         myMapaCaptacionMV.delegate = self
@@ -89,11 +94,15 @@ class SK_Captacion_ViewController: UIViewController {
         super.didReceiveMemoryWarning()
     }
     
-    //MARK: - CARGAMOS LOS CLIENTES CUANDO RECUPERAMOS EL VIEW
+    //MARK: - CARGAMOS LOS CLIENTES Y PARAMOS LA CAPTACIÓN CUANDO RECUPERAMOS EL VIEW
     override func viewDidAppear(_ animated: Bool) {
         if haPasado == true{
             cargarClientes()
             haPasado = false
+        }
+        if guardado{
+           lanzarPararCaptacion(parar: true)
+            guardado = false
         }
     }
     
@@ -105,13 +114,13 @@ class SK_Captacion_ViewController: UIViewController {
     
     // AÑADIR CLIENTE.
     @IBAction func addClienteACTION(_ sender: Any) {
-        // Ocultamos las anotaciones y paramos la actualización de la posición.
+        // Ocultamos las anotaciones.
         myMapaCaptacionMV.removeAnnotations(myMapaCaptacionMV.annotations)
-        locationManager.stopUpdatingLocation()
         oculto = true
         
         // Creamos la instacia de SK_Captacion_AddClient_ViewController.
         let addCliente = self.storyboard?.instantiateViewController(withIdentifier: "addClient") as! SK_Captacion_AddClient_ViewController
+        
         // Pasamos los datos a la SK_Captacion_AddClient_ViewController.
         addCliente.latitud = self.latitud
         addCliente.longitud = self.longitud
@@ -123,7 +132,6 @@ class SK_Captacion_ViewController: UIViewController {
     
     // CAMBIA EL MODELO DEL MAPA.
     @IBAction func cambiaModeloMapaACTION(_ sender: AnyObject) {
-        // Cambiamos el tipo de mapa en función de la selección.
         if sender.selectedSegmentIndex == 0 {
             myMapaCaptacionMV.mapType = .standard
         }else{
@@ -135,22 +143,40 @@ class SK_Captacion_ViewController: UIViewController {
     // EMPEZAR CAPTACIÓN.
     @IBAction func empezarCaptacionACTION(_ sender: Any) {
         lanzarPararCaptacion(parar: false)
-        oculto = true
-        myMapaCaptacionMV.removeAnnotations(myMapaCaptacionMV.annotations)
-        print(localizacion)
     }
     
     
     // PARAR CAPTACIÓN.
     @IBAction func pararCaptacionACTION(_ sender: Any) {
-        lanzarPararCaptacion(parar: true)
+        
+        // Creamos un ActionSheet con varias opciones.
+        let alertVC = UIAlertController(title: "INFORMACIÓN", message: "Seleccione una opción.", preferredStyle: .actionSheet)
+        
+        let guardarAction = UIAlertAction(title: "Guardar", style: .default) { (GuardarAction) in
+            
+            let infoRuta = self.storyboard?.instantiateViewController(withIdentifier: "infoRuta") as! SK_InformacionRuta_ViewController
+            infoRuta.direccionInicial = self.direccionInicial
+            infoRuta.latitudRuta = self.latitudRuta
+            infoRuta.longitudRuta = self.longitudRuta
+            
+            self.navigationController?.pushViewController(infoRuta, animated: true)
+        }
+        let eliminarAction = UIAlertAction(title: "Eliminar", style: .default, handler: { (EliminarAction) in
+            self.lanzarPararCaptacion(parar: true)
+        })
+        let cancelarAcrion = UIAlertAction(title: "Cancelar", style: .cancel, handler: nil)
+        
+        alertVC.addAction(guardarAction)
+        alertVC.addAction(eliminarAction)
+        alertVC.addAction(cancelarAcrion)
+        
+        self.present(alertVC, animated: true, completion: nil)
     }
     
     // MOSTRAR CLIENTES
-    @IBAction func verClientesACTION(_ sender: Any) {        
-        // Si los clientes estan ocultos los mostramos
-        if existeCliente{
-            if oculto{
+    @IBAction func verClientesACTION(_ sender: Any) {
+        if existeCliente{// Si existen clientes comprobamos que no esten ocultos.
+            if oculto{ // Si los clientes estan ocultos los mostramos
                 for i in 1...self.longitudCliente.count{
                     let center = CLLocationCoordinate2DMake(self.latitudCliente[i - 1], self.longitudCliente[i - 1])
                 
@@ -165,7 +191,7 @@ class SK_Captacion_ViewController: UIViewController {
                 myMapaCaptacionMV.removeAnnotations(myMapaCaptacionMV.annotations)
                 oculto = true
             }
-        }else{
+        }else{ // Sino lanzamos un mensaje de error.
             present(showAlertVC("ATENCIÓN", messageData: "Actualmente no existe ningún cliente."), animated: true, completion: nil)
         }
     }
@@ -174,21 +200,41 @@ class SK_Captacion_ViewController: UIViewController {
     
     // PARAR / LANZAR CAPTACIÓN
     func lanzarPararCaptacion(parar: Bool){
-        if parar{
+        if parar{ // Si se para la captación.
+            // Bloqueamos / Activamos los botones
             myBotonPararCaptacionBTN.isEnabled = false
             myBotonEmpezarCaptacionBTN.isEnabled = true
             myBotonAddClienteBTN.isEnabled = false
+            myBotonClientesBTN.isEnabled = true
+            myBotonRutaBTN.isEnabled = true
+            // Dejamos de pintar.
+            pintar = false
+            // Eliminamos los lineas pintadas.
+            myMapaCaptacionMV.removeOverlays(overlay)
+            // Paramos la actualización de la localización
             locationManager.stopUpdatingLocation()
-        }else{
+            // Vaciamos el array de localizaciones.
+            localizacion.removeAll()
+        }else{// Sino
+            // Bloqueamos / Activamos los botones
             myBotonPararCaptacionBTN.isEnabled = true
             myBotonEmpezarCaptacionBTN.isEnabled = false
             myBotonAddClienteBTN.isEnabled = true
+            myBotonClientesBTN.isEnabled = false
+            myBotonRutaBTN.isEnabled = false
+            // Lanzamos la actualización de la localización
             locationManager.startUpdatingLocation()
+            // Ocultamos los clientes y empezamos a pintar
+            oculto = true
+            pintar = true
+            // Eliminamos las anotaciones.
+            myMapaCaptacionMV.removeAnnotations(myMapaCaptacionMV.annotations)
         }
     }
     
     // CARGAMOS CLIENTES
     func cargarClientes(){
+        // Limpiamos todos los array de almacenamiento.
         telefonoCliente.removeAll()
         latitudCliente.removeAll()
         longitudCliente.removeAll()
@@ -227,7 +273,7 @@ class SK_Captacion_ViewController: UIViewController {
                                         // Cargamos el valor a la imagen.
                                         clientFile.getDataInBackground(block: { (imageData, imageError) in
                                             
-                                            //// Ocultamos la carga y lanzamos los eventos.
+                                            // Ocultamos la carga y lanzamos los eventos.
                                             muestraCarga(muestra: false, view: self.view, imageGroupTag: 1)
                                             UIApplication.shared.endIgnoringInteractionEvents()
                                             
@@ -273,7 +319,6 @@ class SK_Captacion_ViewController: UIViewController {
     
     // CARGA CALLE
     func cargarCalle(location : CLLocation){
-
         // Transformamos la localización en datos.
         CLGeocoder().reverseGeocodeLocation(location, completionHandler: {(placemarks, error) in
             
@@ -284,6 +329,16 @@ class SK_Captacion_ViewController: UIViewController {
                 self.provincia = placeMarksData.administrativeArea!
             }
         })        
+    }
+    
+    // CARGA DIRECCION
+    func cargarDireccion(location : CLLocation){
+        // Transformamos la localización en datos.
+        CLGeocoder().reverseGeocodeLocation(location, completionHandler: {(placemarks, error) in
+            if let placeMarksData = placemarks?.first{
+                    self.direccionInicial = "\(placeMarksData.name!), \(placeMarksData.locality!)"
+            }
+        })
     }
     
     // MOSTRAR DATOS DEL CLIENTE
@@ -314,30 +369,62 @@ extension SK_Captacion_ViewController : CLLocationManagerDelegate{
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        
-        // Creamos los valores del mapa
-        var center = CLLocationCoordinate2DMake(0.0, 0.0)
-        let span = MKCoordinateSpanMake(0.01, 0.01)
-        
-        if let location = locations.first{
-            center = location.coordinate
-            self.latitud = location.coordinate.latitude
-            self.longitud = location.coordinate.longitude
-            self.cargarCalle(location: location)
-            localizacion.append(location)
+        if pintar == false{ // Si no hay que pintar.
+            // Creamos los valores del mapa
+            var center = CLLocationCoordinate2DMake(0.0, 0.0)
+            let span = MKCoordinateSpanMake(0.01, 0.01)
+            
+            // Cogemos la última localización.
+            if let location = locations.first{
+                center = location.coordinate
+                self.latitud = location.coordinate.latitude
+                self.longitud = location.coordinate.longitude
+                self.cargarCalle(location: location)
+                localizacion.append(location)
+            }
+            
+            let region = MKCoordinateRegion(center: center, span: span)
+            myMapaCaptacionMV.setRegion(region, animated: true)
+            
+        }else if pintar{ // Si hay que pintar.
+            // Cargamos los valores del mapa
+            let spanX = 0.007
+            let spanY = 0.007
+            let newRegion = MKCoordinateRegion(center: myMapaCaptacionMV.userLocation.coordinate, span: MKCoordinateSpanMake(spanX, spanY))
+            myMapaCaptacionMV.setRegion(newRegion, animated: true)
+            
+            // Empezamos a rellenar los arrays
+            localizacion.append(locations[0] as CLLocation)
+            latitudRuta.append((locations.first?.coordinate.latitude)!)
+            longitudRuta.append((locations.first?.coordinate.longitude)!)
+            
+            // Cargamos la dirección inicial.
+            self.cargarDireccion(location: localizacion.first!)
+
+            if (localizacion.count > 1){ // Si la longitud del array es mayor de 1.
+                // Establecemos el inicio y el destino.
+                let inicio = localizacion.count - 1
+                let destino = localizacion.count - 2
+                
+                // Establecemos las coordenadas.
+                let c1 = localizacion[inicio].coordinate
+                let c2 = localizacion[destino].coordinate
+                
+                // Cargamos las coordenadas
+                var coordenadas = [c1, c2]
+                
+                // Añadimos la linea.
+                let polyline = MKPolyline(coordinates: &coordenadas, count: coordenadas.count)
+                myMapaCaptacionMV.add(polyline)
+            }
         }
-        
-        
-        let region = MKCoordinateRegion(center: center, span: span)
-        myMapaCaptacionMV.setRegion(region, animated: true)
+
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         print("error: \(error)")
     }
     
-    /*func mapView(_ mapView: MKMapView, didAdd renderers: [MKOverlayRenderer]) {
-    }*/
 }
 
 //MARK: - EXTENSION PARA CREAR ANOTACIONES PERSONALIZADAS.
@@ -366,6 +453,14 @@ extension SK_Captacion_ViewController : MKMapViewDelegate{
         }
         
         return anotacionView
+    }
+    
+    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
+        let polylineRenderer = MKPolylineRenderer(overlay: overlay)
+        polylineRenderer.strokeColor = UIColor.red
+        polylineRenderer.lineWidth = 4
+        self.overlay.append(overlay)
+        return polylineRenderer
     }
     
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {

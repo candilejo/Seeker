@@ -18,9 +18,7 @@ class SK_Captacion_AddClient_ViewController: UIViewController {
     var latitud : Double?
     var longitud : Double?
     var calle : String?
-    
     var textField : UITextField!
-    
     
     //MARK: - IBOUTLETS
     @IBOutlet weak var myImagenClienteIV: UIImageView!
@@ -51,21 +49,7 @@ class SK_Captacion_AddClient_ViewController: UIViewController {
         myImagenCamaraIV.addGestureRecognizer(imageGestureReconize)
         
         // Configuramos el textfield del teclado.
-        textField = UITextField(frame: CGRect(x: 0, y: 0, width: 300, height: 30))
-        textField.delegate = self
-        textField.textColor = UIColor.white
-        textField.layer.masksToBounds = true
-        textField.autocapitalizationType = .none
-        textField.keyboardAppearance = .dark
-        textField.returnKeyType = .done
-        textField.enablesReturnKeyAutomatically = true
-        let border = CALayer()
-        let width : CGFloat = 2.0
-        border.borderColor = UIColor.white.cgColor
-        border.frame = CGRect(x: 0, y: textField.frame.size.height-width, width: textField.frame.size.width, height: textField.frame.size.height)
-        border.borderWidth = width
-        
-        textField.layer.addSublayer(border)
+        configurarTextField()
         
         // Añadimos el boton al teclado.
         addBotonOkAlTeclado()
@@ -114,6 +98,25 @@ class SK_Captacion_AddClient_ViewController: UIViewController {
     
     
     //MARK -------------------------- UTILIDADES --------------------------
+    
+    // CONFIGURAR TEXTFIELD DEL TECLADO
+    func configurarTextField(){
+        textField = UITextField(frame: CGRect(x: 0, y: 0, width: 300, height: 30))
+        textField.delegate = self
+        textField.textColor = UIColor.white
+        textField.layer.masksToBounds = true
+        textField.autocapitalizationType = .none
+        textField.keyboardAppearance = .dark
+        textField.returnKeyType = .done
+        textField.enablesReturnKeyAutomatically = true
+        let border = CALayer()
+        let width : CGFloat = 2.0
+        border.borderColor = UIColor.white.cgColor
+        border.frame = CGRect(x: 0, y: textField.frame.size.height-width, width: textField.frame.size.width, height: textField.frame.size.height)
+        border.borderWidth = width
+        
+        textField.layer.addSublayer(border)
+    }
     
     // SELECCIONAR FOTO DEL CLIENTE
     func showCamaraFotos(){
@@ -204,6 +207,8 @@ class SK_Captacion_AddClient_ViewController: UIViewController {
                             // Si el cliente existe lanzamos un error sino lo guardamos.
                             if self.myTelefonoClienteTF.text! == objectDataUnoDes["telefonoCliente"] as? String && usuario == objectDataUnoDes["usuarioCliente"] as? String{
                                 self.present(showAlertVC("ATENCIÓN", messageData: "El número ya esta dado de alta en la base de datos"), animated: true, completion: nil)
+                            }else{
+                               self.guardarDatos()
                             }
                         }
                     }else{
@@ -274,7 +279,7 @@ class SK_Captacion_AddClient_ViewController: UIViewController {
 
             // Si todo es correcto, lanzamos un mensaje de registro correcto y limpiamos los campos.
             if salvadoExitoso{
-                let alertVC = UIAlertController(title: "ATENCION", message: "Datos salvados exitosamente", preferredStyle: .alert)
+                let alertVC = UIAlertController(title: "INFORMACIÓN", message: "Datos salvados exitosamente", preferredStyle: .alert)
                 let okAction = UIAlertAction(title: "OK", style: .default, handler: { (cerrar) in
                     self.performSegue(withIdentifier: "unWind", sender: self.view)
                 })
@@ -283,7 +288,7 @@ class SK_Captacion_AddClient_ViewController: UIViewController {
                 limpiaCampos([self.myNombreClienteTF, self.myTelefonoClienteTF, self.myCalleClienteTF, self.myObservacionesClienteTF])
                 self.myImagenClienteIV.image = UIImage(named: "clienteGrande")
             }else{ // Sino lanzamos un mensaje de error.
-                self.present(showAlertVC("ATENCION", messageData: "Error en el registro"), animated: true, completion: nil)
+                self.present(showAlertVC("ATENCIÓN", messageData: "Error en el registro"), animated: true, completion: nil)
             }
         }
     }

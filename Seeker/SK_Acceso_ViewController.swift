@@ -12,12 +12,12 @@ import Parse
 
 class SK_Acceso_ViewController: UIViewController {
     
-    //MARK: - IBOUTLETS
+    //MARK: - IBOUTLETS.
     @IBOutlet weak var myUsuarioTF: UITextField!
     @IBOutlet weak var myPasswordTF: UITextField!
     @IBOutlet weak var myBotonAccederBTN: UIButton!
     
-    //MARK: - LIFE VC
+    //MARK: - LIFE VC.
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -28,13 +28,10 @@ class SK_Acceso_ViewController: UIViewController {
         cambiaEstadoBTN(boton: myBotonAccederBTN, estado: false)
         configuraSombraAspectoBotones(boton: myBotonAccederBTN, redondo: false)
         
-        // Creamos el gesto y se lo añadimos al View.
-        let viewGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(SK_Acceso_ViewController.hideKeyBoard))
-        view.addGestureRecognizer(viewGestureRecognizer)
     }
 
     
-    //MARK: - SE EJECUTA AL RECIBIR UNA ALERTA DE MEMORIA
+    //MARK: - SE EJECUTA AL RECIBIR UNA ALERTA DE MEMORIA.
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
@@ -46,6 +43,11 @@ class SK_Acceso_ViewController: UIViewController {
         UIApplication.shared.statusBarStyle = .default
     }
     
+    
+    //MARK: - CIERRA EL TECLADO AL TOCAR EL VIEW.
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        view.endEditing(true)
+    }
     
     //MARK -------------------------- ACCIONES --------------------------
     
@@ -101,15 +103,16 @@ class SK_Acceso_ViewController: UIViewController {
     @IBAction func cierraTecladoACTION(_ sender: Any) {
     }
     
+/*    // UNWIND LOGOUT.
+    @IBAction func logoutACTION(storyboard : UIStoryboardSegue){
+        PFUser.logOut() // Realizamos el logout del usuario.
+        // Lanzamos un mensaje de información.
+        present(showAlertVC("INFORMACIÓN", messageData: "La sesión se ha cerrado correctamente."), animated: true, completion: nil)
+    }*/
     
     //MARK -------------------------- UTILIDADES --------------------------
     
-    // CIERRA TECLADO
-    func hideKeyBoard(){
-        view.endEditing(true)
-    }
-    
-    // COMPRUEBA EL ESTADO DE LOS CAMPOS
+    // COMPRUEBA EL ESTADO DE LOS CAMPOS.
     func estadoCampos() -> Bool{        
         // Declaramos el estado de los campos.
         var estado = true
@@ -119,11 +122,5 @@ class SK_Acceso_ViewController: UIViewController {
             estado = false
         }
         return estado
-    }
-    
-    // LOGOUT
-    @IBAction func logoutACTION(storyboard : UIStoryboardSegue){
-        PFUser.logOut()
-        present(showAlertVC("INFORMACIÓN", messageData: "La sesión se ha cerrado correctamente."), animated: true, completion: nil)
     }
 }

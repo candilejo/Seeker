@@ -30,16 +30,17 @@ class SK_Opciones_CambiarContrasena_ViewController: UIViewController {
         // Configuramos los bordes  y bloqueamos myBotonActualizarBTN.
         configuraSombraAspectoBotones(boton: myBotonActualizarBTN, redondo: false)
         cambiaEstadoBTN(boton: myBotonActualizarBTN, estado: false)
-        
-        // Creamos el gesto y se lo añadimos al View.
-        let viewGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(SK_Opciones_CambiarContrasena_ViewController.hideKeyBoard))
-        view.addGestureRecognizer(viewGestureRecognizer)
     }
 
     
     //MARK: - SE EJECUTA AL RECIBIR UNA ALERTA DE MEMORIA
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
+    }
+    
+    //MARK: - SE EJECUTA CUANDO COMIENZAN LOS TOQUES
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        view.endEditing(true)
     }
 
     //MARK -------------------------- ACCIONES --------------------------
@@ -65,15 +66,10 @@ class SK_Opciones_CambiarContrasena_ViewController: UIViewController {
     
     //MARK -------------------------- UTILIDADES --------------------------
     
-    // CIERRA TECLADO
-    func hideKeyBoard(){
-        view.endEditing(true)
-    }
-    
     // COMPROBAMOS QUE EL PASSWORD COINCIDE.
     func passwordActualCorrecto(){
         let passwordUser = PFUser.current()!
-        // Si el Pssword es igual al de la base de datos comprobamos los Passwords Nuevos, sino lanzamos un error.
+        // Si el Password es igual al de la base de datos comprobamos los Passwords Nuevos, sino lanzamos un error.
         if passwordUser["passwordEmpresa"] as! String == myPasswordActualTF.text!{
             // Si los campos de los Passwords Nuevos son iguales, comprobamos el número de caracteres si no lanzamos un error.
             if myPasswordNuevoTF.text! == myPasswordNuevoBisTF.text!{
@@ -99,6 +95,7 @@ class SK_Opciones_CambiarContrasena_ViewController: UIViewController {
     // ACTUALIZAR EMAIL.
     func actualizaPassword(){
         
+        // REALIZAMOS LA CONSULTA.
         let userData = PFUser.current()!
         userData.password = myPasswordNuevoTF.text!
         userData["passwordEmpresa"] = myPasswordNuevoTF.text!

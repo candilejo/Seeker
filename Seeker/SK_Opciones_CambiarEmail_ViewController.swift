@@ -29,15 +29,16 @@ class SK_Opciones_CambiarEmail_ViewController: UIViewController {
         // Configuramos los bordes  y bloqueamos myBotonActualizarBTN.
         configuraSombraAspectoBotones(boton: myBotonActualizarBTN, redondo: false)
         cambiaEstadoBTN(boton: myBotonActualizarBTN, estado: false)
-        
-        // Creamos el gesto y se lo añadimos al View.
-        let viewGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(SK_Opciones_CambiarEmail_ViewController.hideKeyBoard))
-        view.addGestureRecognizer(viewGestureRecognizer)
     }
 
     //MARK: - SE EJECUTA AL RECIBIR UNA ALERTA DE MEMORIA
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
+    }
+    
+    //MARK: - SE EJECUTA CUANDO EMPIEZAN LOS TOQUES
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        view.endEditing(true)
     }
     
     
@@ -59,25 +60,25 @@ class SK_Opciones_CambiarEmail_ViewController: UIViewController {
     }
     
     // CERRAR TECLADO
-    @IBAction func cierraTecladoEmailACTION(_ sender: Any) {
-    }
+    @IBAction func cierraTecladoEmailACTION(_ sender: Any) {}
     
     
     //MARK -------------------------- UTILIDADES --------------------------
-    
-    // CIERRA TECLADO
-    func hideKeyBoard(){
-        view.endEditing(true)
-    }
     
     // COMPROBAMOS QUE EL EMAIL COINCIDE.
     func emailActualCorrecto(){
         let emailUser = PFUser.current()!
         // Si el Email es igual al de la base de datos comprobamos los Emails Nuevos, sino lanzamos un error.
+        print(emailUser.email!)
         if emailUser.email! as String == myEmailActualTF.text!{
-            // Si los campos de los Emails Nuevos son iguales, actualizamos si no lanzamos un error.
+            // Si los campos de los Emails Nuevos son distintos lanzamos un error.
             if myEmailNuevoTF.text! == myEmailNuevoBisTF.text!{
-                actualizaEmail()
+                // Si los Emails Nuevo y Actual son distintos actualizamos sino lanzamos un error.
+                if myEmailNuevoTF.text! != myEmailActualTF.text!{
+                    actualizaEmail()
+                }else{
+                    present(showAlertVC("ATENCIÓN", messageData: "El Email Actual y el Email Nuevo no pueden ser iguales."), animated: true, completion: nil)
+                }
             }else{
                 present(showAlertVC("ATENCIÓN", messageData: "Los Emails Nuevos no coinciden."), animated: true, completion: nil)
             }
@@ -113,7 +114,12 @@ class SK_Opciones_CambiarEmail_ViewController: UIViewController {
                 self.present(alertVC, animated: true, completion: nil)
                 limpiaCampos([self.myEmailActualTF,self.myEmailNuevoTF,self.myEmailNuevoBisTF])
             }else{ // Sino lanzamos un mensaje de error.
-                self.present(showAlertVC("ATENCION", messageData: "Error en el registro"), animated: true, completion: nil)
+                let error =  erroresUser(code: (errorActualizacion! as NSError).code)
+                if error != ""{
+                    self.present(showAlertVC("ATENCION", messageData: error), animated: true, completion: nil)
+                }else{
+                    self.present(showAlertVC("ATENCION", messageData: "Se ha producido un error al actualizar el email."), animated: true, completion: nil)
+                }
             }
         }
     }

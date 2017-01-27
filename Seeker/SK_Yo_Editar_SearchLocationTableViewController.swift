@@ -35,10 +35,13 @@ class SK_Yo_Editar_SearchLocationTableViewController: UITableViewController {
 
     
     //MARK: - CONFIGURACION DE LA TABLA
+    
+    // NÚMERO DE CELDAS DE LA TABLA.
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return matchingItems.count
     }
     
+    // CARGA DE VALORES DE LA CELDA.
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell")!
         let selectedItem = matchingItems[indexPath.row].placemark
@@ -47,7 +50,7 @@ class SK_Yo_Editar_SearchLocationTableViewController: UITableViewController {
         return cell
     }
     
-    
+    // CARGAMOS LOS VALORES SELECCIONADOS.
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let selectedItem = matchingItems[indexPath.row].placemark
         handleMapSearchDelegate?.dropPinZoomIn(selectedItem)
@@ -57,24 +60,24 @@ class SK_Yo_Editar_SearchLocationTableViewController: UITableViewController {
     
     //MARK -------------------------- UTILIDADES --------------------------
     func parseAddress(_ selectedItem:MKPlacemark) -> String {
-        // put a space between "4" and "Melrose Place"
+        // Poner espacio en el primer hueco.
         let firstSpace = (selectedItem.subThoroughfare != nil && selectedItem.thoroughfare != nil) ? " " : ""
-        // put a comma between street and city/state
+        // Poner coma entre la calle y la ciudad
         let comma = (selectedItem.subThoroughfare != nil || selectedItem.thoroughfare != nil) && (selectedItem.subAdministrativeArea != nil || selectedItem.administrativeArea != nil) ? ", " : ""
-        // put a space between "Washington" and "DC"
+        // Poner espacio entre la ciudad y la provincia
         let secondSpace = (selectedItem.subAdministrativeArea != nil && selectedItem.administrativeArea != nil) ? " " : ""
         let addressLine = String(
             format:"%@%@%@%@%@%@%@",
-            // street number
+            // Numero de la calle
             selectedItem.subThoroughfare ?? "",
             firstSpace,
-            // street name
+            // Nombre de la calle
             selectedItem.thoroughfare ?? "",
             comma,
-            // city
+            // Ciudad
             selectedItem.locality ?? "",
             secondSpace,
-            // state
+            // Provincia
             selectedItem.administrativeArea ?? ""
         )
         return addressLine
@@ -86,8 +89,7 @@ class SK_Yo_Editar_SearchLocationTableViewController: UITableViewController {
 //MARK - EXTENSION PARA ACTUALIZAR LA TABLA DE RESULTADOS
 extension SK_Yo_Editar_SearchLocationTableViewController : UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
-        guard let mapView = mapView,
-            let searchBarText = searchController.searchBar.text else { return }
+        guard let mapView = mapView, let searchBarText = searchController.searchBar.text else { return }
         let request = MKLocalSearchRequest()
         request.naturalLanguageQuery = searchBarText
         request.region = mapView.region

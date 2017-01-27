@@ -73,14 +73,12 @@ class SK_Yo_Editar_ViewController: UIViewController {
     
     // ACTUALIZAMOS LOS DATOS.
     @IBAction func actualizarDatosACTION(_ sender: Any) {
-        // Comprobamos que los campos no esten vacíos.
-        if myNombreEmpresaTF.text == ""{
+        if myNombreEmpresaTF.text == ""{ // Si el nombre de la empresa esta vacío lanzamos un error.
             present(showAlertVC("ATENCION", messageData: "El nombre de la empresa no puede estar vacío."), animated: true, completion: nil)
-        }else if myTelefonoEmpresaTF.text != ""{
-            // Si tiene 9 caracteres actualizamos los campos.
-            if myTelefonoEmpresaTF.text?.characters.count == 9 {
+        }else if myTelefonoEmpresaTF.text != ""{ // Si el campo del telefono esta no esta vacio.
+            if myTelefonoEmpresaTF.text?.characters.count == 9 { // Si tiene 9 caracteres actualizamos los campos.
                 actualizarDatos()
-            }else{
+            }else{ // Sino lanzamos un error.
                 present(showAlertVC("ATENCION", messageData: "El número de Telefono no es correcto."), animated: true, completion: nil)
             }
         }
@@ -115,7 +113,7 @@ class SK_Yo_Editar_ViewController: UIViewController {
         aceptarToolbar.items = items
         aceptarToolbar.sizeToFit()
         
-        // Añadimos el accesorio a myNumeroEmpresaTF.
+        // Añadimos el accesorio a myTelefonoEmpresaTF.
         myTelefonoEmpresaTF.inputAccessoryView = aceptarToolbar
     }
     
@@ -240,9 +238,9 @@ class SK_Yo_Editar_ViewController: UIViewController {
         
         // Actualizamos los datos del usuario si los campos no están vacíos.
         let userData = PFUser.current()!
-        if myNombreEmpresaTF.text != ""{
-            userData["nombreEmpresa"] = myNombreEmpresaTF.text
-        }
+        
+        userData["nombreEmpresa"] = myNombreEmpresaTF.text
+        
         if myTelefonoEmpresaTF.text != ""{
             userData["telefonoEmpresa"] = myTelefonoEmpresaTF.text
         }
@@ -260,8 +258,7 @@ class SK_Yo_Editar_ViewController: UIViewController {
         // Salvamos los datos y si todo es correcto también salvamos la imagen.
         userData.saveInBackground { (actualizacionExitosa, errorActualizacion) in
             
-            // Si la actualización es exitosa, actualizamos la foto.
-            if actualizacionExitosa{
+            if actualizacionExitosa{ // Si la actualización es exitosa, actualizamos la foto.
                 self.upatePhoto()
             }else{
                 print((errorActualizacion! as NSError).userInfo)
@@ -299,12 +296,11 @@ class SK_Yo_Editar_ViewController: UIViewController {
             muestraCarga(muestra: false, view: self.view, imageGroupTag: 1)
             UIApplication.shared.endIgnoringInteractionEvents()
             
-            if salvadoExitoso{
-                UIApplication.shared.endIgnoringInteractionEvents()
-                self.present(showAlertVC("ATENCION", messageData: "Datos actualizados exitosamente."), animated: true, completion: nil)
-            }else{
+            if salvadoExitoso{ // Si la actualización es exitosa lanzamos un mensaje de información.
+                self.present(showAlertVC("INFORMACIÓN", messageData: "Datos actualizados exitosamente."), animated: true, completion: nil)
+            }else{ // Sino un error.
                 if let errorString = (errorDeSubida! as NSError).userInfo["error"] as? NSString{
-                    self.present(showAlertVC("ATENCION", messageData: errorString as String), animated: true, completion: nil)
+                    self.present(showAlertVC("ATENCIÓN", messageData: errorString as String), animated: true, completion: nil)
                 }
             }
         }
@@ -315,7 +311,6 @@ class SK_Yo_Editar_ViewController: UIViewController {
 
 //MARK: - DELEGATE UIIMAGEPICKER / PHOTO
 extension SK_Yo_Editar_ViewController : UIImagePickerControllerDelegate, UINavigationControllerDelegate{
-    
     
     // SELECCIONAMOS LA CAMARA O LA LIBRERIA
     func pickerPhoto(){

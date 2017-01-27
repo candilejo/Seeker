@@ -28,10 +28,8 @@ class SK_Clientes_TableViewController: UITableViewController {
         
         // Recogemos los datos de los clientes del usuario.
         obtenerDatosClientes()
-    
     }
 
-    
     //MARK: - SE EJECUTA AL RECIBIR UNA ALERTA DE MEMORIA
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -65,6 +63,7 @@ class SK_Clientes_TableViewController: UITableViewController {
         var telefono = ""
         var calle = ""
         
+        // Realizamos la consulta.
         let clientes = PFQuery(className: "Client")
         clientes.whereKey("usuarioCliente", equalTo: (PFUser.current()?.username)!)
         
@@ -106,6 +105,7 @@ class SK_Clientes_TableViewController: UITableViewController {
     
     // OBTENEMOS LAS IMAGENES DE LOS CLIENTES
     func obtenerImagen(telefono : String, calle : String){
+        // Realizamos la consulta.
         let imagenCliente = PFQuery(className: "imageClient")
         imagenCliente.whereKey("telefonoCliente", equalTo: telefono)
         
@@ -114,8 +114,9 @@ class SK_Clientes_TableViewController: UITableViewController {
             // Ocultamos la carga y lanzamos los eventos.
             muestraCarga(muestra: false, view: self.view, imageGroupTag: 1)
             UIApplication.shared.endIgnoringInteractionEvents()
+            
             if let objetoImagenDes = objetoImagen{
-                for objetoImagenData in objetoImagenDes{
+                for objetoImagenData in objetoImagenDes{ // Buscamos los objetos y cargamos el modelo.
                     let imagenDataModel = SK_ModeloClientes(pTelefonoClienteData: telefono,pDireccionClienteData: calle, pImagenClienteData: objetoImagenData["imagenCliente"] as! PFFile)
                     self.informacionClientes.append(imagenDataModel)
                 }
@@ -125,10 +126,10 @@ class SK_Clientes_TableViewController: UITableViewController {
     }
     
     // ELIMINAR CLIENTE
-    func eliminarClienteACTION(telefono : String) {
+    func eliminarCliente(telefono : String) {
         var error = false
         
-        // Eliminamos el cliente.
+        // Realizamos la consulta.
         let queryRemover = PFQuery(className: "Client")
         queryRemover.whereKey("telefonoCliente", equalTo: telefono)
         
@@ -136,8 +137,9 @@ class SK_Clientes_TableViewController: UITableViewController {
         muestraCarga(muestra: true, view: self.view, imageGroupTag: 1)
         UIApplication.shared.beginIgnoringInteractionEvents()
         
+        // Buscamos los objetos.
         queryRemover.findObjectsInBackground(block: { (objectRemove, errorRemove) in
-            if errorRemove == nil{
+            if errorRemove == nil{ // Si no hay error eliminamos el cliente.
                 for objectRemoverDes in objectRemove!{
                     objectRemoverDes.deleteInBackground(block: nil)
                 }
@@ -151,28 +153,30 @@ class SK_Clientes_TableViewController: UITableViewController {
                 error = true
             }
         })
-        if error == false{
-            // Eliminamos la foto antigua si existe.
+        if error == false{ // Si no hay error
+            // Realizamos la consulta.
             let queryRemoverImage = PFQuery(className: "imageClient")
             queryRemoverImage.whereKey("telefonoCliente", equalTo: telefono)
+            
+            // Buscamos los objetos.
             queryRemoverImage.findObjectsInBackground(block: { (objectRemove, errorRemove) in
                 // Ocultamos la carga y lanzamos cualquier evento.
                 muestraCarga(muestra: false, view: self.view, imageGroupTag: 1)
                 UIApplication.shared.endIgnoringInteractionEvents()
                 
-                if errorRemove == nil{
+                if errorRemove == nil{ // Si no hay error eliminamos la imagen del cliente.
                     for objectRemoverDes in objectRemove!{
                         objectRemoverDes.deleteInBackground(block: nil)
                     }
                     self.refreshVC()
-                }else{
+                }else{ // Sino lanzamos un error
                     print("Error \((errorRemove! as NSError).userInfo)")
                     // Ocultamos la carga y lanzamos cualquier evento.
                     muestraCarga(muestra: false, view: self.view, imageGroupTag: 1)
                     UIApplication.shared.endIgnoringInteractionEvents()
                 }
             })
-        }else{
+        }else{ // Sino lanzamos un error.
             present(showAlertVC("ATENCION", messageData: "Error al eliminar el cliente."), animated: true, completion: nil)
             // Ocultamos la carga y lanzamos cualquier evento.
             muestraCarga(muestra: false, view: self.view, imageGroupTag: 1)
@@ -238,10 +242,11 @@ class SK_Clientes_TableViewController: UITableViewController {
         // Creamos el boton deleteAction.
         let deleteAction = UITableViewRowAction(style: .default, title: "Eliminar"){ Void in
             
+            // Creamos un ActionSheet con varias opciones.
             let deleteMenu = UIAlertController(title: nil, message: "¿Desea eliminar el cliente?", preferredStyle: .actionSheet)
             let deleteAction = UIAlertAction(title: "Eliminar", style: .default, handler: { (eliminar) in
                 let dataModel = self.informacionClientes[indexPath.row]
-                self.eliminarClienteACTION(telefono: dataModel.telefonoClienteData!)
+                self.eliminarCliente(telefono: dataModel.telefonoClienteData!)
             })
             let cancelAction = UIAlertAction(title: "Cancelar", style: .cancel, handler: nil)
             deleteMenu.addAction(deleteAction)
