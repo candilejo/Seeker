@@ -96,74 +96,17 @@ class SK_Captacion_InfoCliente_ViewController: UIViewController {
 
     // ELIMINAR CLIENTE
     @IBAction func eliminarClienteACTION(_ sender: Any) {
-        var error = false
-        
-        // Realizamos la consulta.
-        let queryRemover = PFQuery(className: "Client")
-        queryRemover.whereKey("telefonoCliente", equalTo: self.myTelefonoClienteTF.text!)
-        
-        // Mostramos la carga e ignoramos cualquier evento.
-        muestraCarga(muestra: true, view: self.view, imageGroupTag: 1)
-        UIApplication.shared.beginIgnoringInteractionEvents()
-        
-        // Buscamos los objetos.
-        queryRemover.findObjectsInBackground(block: { (objectRemove, errorRemove) in
-            if errorRemove == nil{ // Si no hay error eliminamos el cliente.
-                for objectRemoverDes in objectRemove!{
-                    objectRemoverDes.deleteInBackground(block: nil)
-                }
-            }else{ // Si no lanzamos un error.
-                print("Error \((errorRemove! as NSError).userInfo)")
-                
-                // Ocultamos la carga y lanzamos cualquier evento.
-                muestraCarga(muestra: false, view: self.view, imageGroupTag: 1)
-                UIApplication.shared.endIgnoringInteractionEvents()
-                
-                error = true
-            }
-        })
-        if error == false{ // Si no hay error.
-            // Realizamos la consulta
-            let queryRemoverImage = PFQuery(className: "imageClient")
-            queryRemoverImage.whereKey("telefonoCliente", equalTo: self.myTelefonoClienteTF.text!)
-            
-            // Buscamos los objetos.
-            queryRemoverImage.findObjectsInBackground(block: { (objectRemove, errorRemove) in
-                // Ocultamos la carga y lanzamos cualquier evento.
-                muestraCarga(muestra: false, view: self.view, imageGroupTag: 1)
-                UIApplication.shared.endIgnoringInteractionEvents()
-                
-                if errorRemove == nil{ // Si no hay error eliminamos la foto
-                    for objectRemoverDes in objectRemove!{
-                        objectRemoverDes.deleteInBackground(block: nil)
-                    }
-                    haPasado = true
-                    // Lanzamos un mensaje de eliminación y limpiamos los campos.
-                    let alertVC = UIAlertController(title: "INFORMACIÓN", message: "Cliente eliminado correctamente", preferredStyle: .alert)
-                    let okAction = UIAlertAction(title: "OK", style: .default, handler: { (cerrar) in
-                        if self.origen == "Tabla"{
-                            self.performSegue(withIdentifier: "tabla", sender: self.view)
-                        }else{
-                            self.performSegue(withIdentifier: "unWind", sender: self.view)
-                        }
-                    })
-                    alertVC.addAction(okAction)
-                    limpiaCampos([self.myNombreClienteTF, self.myTelefonoClienteTF, self.myCalleClienteTF])
-                    self.myImagenClienteIV.image = UIImage(named: "clienteGrande")
-                        self.present(alertVC, animated: true, completion: nil)
-                }else{ // Si no pintamos el error.
-                    print("Error \((errorRemove! as NSError).userInfo)")
-                    // Ocultamos la carga y lanzamos cualquier evento.
-                    muestraCarga(muestra: false, view: self.view, imageGroupTag: 1)
-                    UIApplication.shared.endIgnoringInteractionEvents()
-                }
-            })
-        }else{ // Sino lanzamos un error.
-            present(showAlertVC("ATENCION", messageData: "Error al eliminar el cliente."), animated: true, completion: nil)
-            // Ocultamos la carga y lanzamos cualquier evento.
-            muestraCarga(muestra: false, view: self.view, imageGroupTag: 1)
-            UIApplication.shared.endIgnoringInteractionEvents()
+        // Creamos un ActionSheet con varias opciones.
+        let alertVC = UIAlertController(title: "ELIMINAR", message: "¿Desea Eliminar el cliente?", preferredStyle: .actionSheet)
+        let eliminarAction = UIAlertAction(title: "Eliminar", style: .default) { (Eliminar) in
+            self.eliminarCliente()
         }
+        let cancelarAction = UIAlertAction(title: "Cancelar", style: .cancel, handler: nil)
+        
+        alertVC.addAction(eliminarAction)
+        alertVC.addAction(cancelarAction)
+        
+        present(alertVC, animated: true, completion: nil)
     }
     
     // LLAMAR AL CLIENTE
@@ -264,17 +207,18 @@ class SK_Captacion_InfoCliente_ViewController: UIViewController {
                             if errorDos == nil{
                                 if let objectDosDes = objectDos{
                                     for objectDataDosDes in objectDosDes{
-                                        let usernameFile = objectDataDosDes["imagenCliente"] as! PFFile
-                                        
-                                        // Cargamos el valor a la imagen.
-                                        usernameFile.getDataInBackground(block: { (imageData, imageError) in
-                                            if imageError == nil{
-                                                if let imageDataDes = imageData{
-                                                    self.myImagenClienteIV.image = UIImage(data: imageDataDes)
-                                                    self.imagen = String(describing: self.myImagenClienteIV.image)
+                                        if objectDataDosDes["usuarioCliente"] as! String == (PFUser.current()?.username)!{
+                                            let usernameFile = objectDataDosDes["imagenCliente"] as! PFFile
+                                            // Cargamos el valor a la imagen.
+                                            usernameFile.getDataInBackground(block: { (imageData, imageError) in
+                                                if imageError == nil{
+                                                    if let imageDataDes = imageData{
+                                                        self.myImagenClienteIV.image = UIImage(data: imageDataDes)
+                                                        self.imagen = String(describing: self.myImagenClienteIV.image)
+                                                    }
                                                 }
-                                            }
-                                        })
+                                            })
+                                        }
                                     }
                                 }
                             }
@@ -320,7 +264,7 @@ class SK_Captacion_InfoCliente_ViewController: UIViewController {
     // COMPRUEBA SI EL CLIENTE EXISTE.
     func existeCliente(){
         // Realizamos la consulta de los datos del cliente.
-        let usuario = String(describing: PFUser.current()!)
+        let usuario = String(describing: (PFUser.current()?.username)!)
         let queryUser = PFQuery(className: "Client")
         queryUser.whereKey("telefonoCliente", equalTo: myTelefonoClienteTF.text!)
         
@@ -330,7 +274,7 @@ class SK_Captacion_InfoCliente_ViewController: UIViewController {
                 if let objectUnoDes = objectUno{
                     if objectUnoDes.count != 0{
                         for objectDataUnoDes  in objectUnoDes{
-                            // Si el cliente existe lanzamos un error sino lo actualizamos.
+                            // Si el cliente existe lanzamos un error sino lo guardamos.
                             if self.myTelefonoClienteTF.text! == objectDataUnoDes["telefonoCliente"] as? String && usuario == objectDataUnoDes["usuarioCliente"] as? String{
                                 self.present(showAlertVC("ATENCIÓN", messageData: "El número ya esta dado de alta en la base de datos"), animated: true, completion: nil)
                             }else{
@@ -406,6 +350,79 @@ class SK_Captacion_InfoCliente_ViewController: UIViewController {
                 }
             }
         }
+    }
+    
+    // ELIMINAR CLIENTE
+    func eliminarCliente(){
+        var error = false
+        
+        // Realizamos la consulta.
+        let queryRemover = PFQuery(className: "Client")
+        queryRemover.whereKey("telefonoCliente", equalTo: self.myTelefonoClienteTF.text!)
+        
+        // Mostramos la carga e ignoramos cualquier evento.
+        muestraCarga(muestra: true, view: self.view, imageGroupTag: 1)
+        UIApplication.shared.beginIgnoringInteractionEvents()
+        
+        // Buscamos los objetos.
+        queryRemover.findObjectsInBackground(block: { (objectRemove, errorRemove) in
+            if errorRemove == nil{ // Si no hay error eliminamos el cliente.
+                for objectRemoverDes in objectRemove!{
+                    objectRemoverDes.deleteInBackground(block: nil)
+                }
+            }else{ // Si no lanzamos un error.
+                print("Error \((errorRemove! as NSError).userInfo)")
+                
+                // Ocultamos la carga y lanzamos cualquier evento.
+                muestraCarga(muestra: false, view: self.view, imageGroupTag: 1)
+                UIApplication.shared.endIgnoringInteractionEvents()
+                
+                error = true
+            }
+        })
+        if error == false{ // Si no hay error.
+            // Realizamos la consulta
+            let queryRemoverImage = PFQuery(className: "imageClient")
+            queryRemoverImage.whereKey("telefonoCliente", equalTo: self.myTelefonoClienteTF.text!)
+            
+            // Buscamos los objetos.
+            queryRemoverImage.findObjectsInBackground(block: { (objectRemove, errorRemove) in
+                // Ocultamos la carga y lanzamos cualquier evento.
+                muestraCarga(muestra: false, view: self.view, imageGroupTag: 1)
+                UIApplication.shared.endIgnoringInteractionEvents()
+                
+                if errorRemove == nil{ // Si no hay error eliminamos la foto
+                    for objectRemoverDes in objectRemove!{
+                        objectRemoverDes.deleteInBackground(block: nil)
+                    }
+                    haPasado = true
+                    // Lanzamos un mensaje de eliminación y limpiamos los campos.
+                    let alertVC = UIAlertController(title: "INFORMACIÓN", message: "Cliente eliminado correctamente", preferredStyle: .alert)
+                    let okAction = UIAlertAction(title: "OK", style: .default, handler: { (cerrar) in
+                        if self.origen == "Tabla"{
+                            self.performSegue(withIdentifier: "tabla", sender: self.view)
+                        }else{
+                            self.performSegue(withIdentifier: "unWind", sender: self.view)
+                        }
+                    })
+                    alertVC.addAction(okAction)
+                    limpiaCampos([self.myNombreClienteTF, self.myTelefonoClienteTF, self.myCalleClienteTF])
+                    self.myImagenClienteIV.image = UIImage(named: "clienteGrande")
+                    self.present(alertVC, animated: true, completion: nil)
+                }else{ // Si no pintamos el error.
+                    print("Error \((errorRemove! as NSError).userInfo)")
+                    // Ocultamos la carga y lanzamos cualquier evento.
+                    muestraCarga(muestra: false, view: self.view, imageGroupTag: 1)
+                    UIApplication.shared.endIgnoringInteractionEvents()
+                }
+            })
+        }else{ // Sino lanzamos un error.
+            present(showAlertVC("ATENCION", messageData: "Error al eliminar el cliente."), animated: true, completion: nil)
+            // Ocultamos la carga y lanzamos cualquier evento.
+            muestraCarga(muestra: false, view: self.view, imageGroupTag: 1)
+            UIApplication.shared.endIgnoringInteractionEvents()
+        }
+
     }
     
     //ACTUALIZAR FOTO DEL PERFIL
@@ -625,7 +642,6 @@ extension SK_Captacion_InfoCliente_ViewController : UIImagePickerControllerDeleg
     
     // CERRAMOS LA CAMARA CUANDO SELECCIONEMOS LA IMAGEN
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingImage image: UIImage, editingInfo: [String : AnyObject]?) {
-        fotoSeleccionada = true
         myImagenClienteIV.image = image
         if imagen == String(describing: myImagenClienteIV.image){
             imagenCambiada = false

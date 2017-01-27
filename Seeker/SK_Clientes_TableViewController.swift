@@ -63,6 +63,12 @@ class SK_Clientes_TableViewController: UITableViewController {
         var telefono = ""
         var calle = ""
         
+        // Limpiamos los array.
+        informacionClientes.removeAll()
+        latitudCliente.removeAll()
+        longitudCliente.removeAll()
+        telefonoCliente.removeAll()
+        
         // Realizamos la consulta.
         let clientes = PFQuery(className: "Client")
         clientes.whereKey("usuarioCliente", equalTo: (PFUser.current()?.username)!)
@@ -73,12 +79,6 @@ class SK_Clientes_TableViewController: UITableViewController {
         
         // Realizamos la busqueda de los objetos.
         clientes.findObjectsInBackground { (objetoCliente, errorCliente) in
-            
-            // Limpiamos los array.
-            self.informacionClientes.removeAll()
-            self.latitudCliente.removeAll()
-            self.longitudCliente.removeAll()
-            self.telefonoCliente.removeAll()
             
             // Si el objeto esta vacio lanzamos el error.
             if let objetoClienteData = objetoCliente{
@@ -117,8 +117,10 @@ class SK_Clientes_TableViewController: UITableViewController {
             
             if let objetoImagenDes = objetoImagen{
                 for objetoImagenData in objetoImagenDes{ // Buscamos los objetos y cargamos el modelo.
-                    let imagenDataModel = SK_ModeloClientes(pTelefonoClienteData: telefono,pDireccionClienteData: calle, pImagenClienteData: objetoImagenData["imagenCliente"] as! PFFile)
-                    self.informacionClientes.append(imagenDataModel)
+                    if objetoImagenData["usuarioCliente"] as! String == (PFUser.current()?.username)!{
+                        let imagenDataModel = SK_ModeloClientes(pTelefonoClienteData: telefono,pDireccionClienteData: calle, pImagenClienteData: objetoImagenData["imagenCliente"] as! PFFile)
+                        self.informacionClientes.append(imagenDataModel)
+                    }
                 }
                     self.tableView.reloadData()
             }

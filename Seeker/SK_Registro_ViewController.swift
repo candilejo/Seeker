@@ -13,10 +13,6 @@ import Parse
 
 
 class SK_Registro_ViewController: UIViewController {
-
-    
-    //MARK: - VARIABLES LOCALES GLOBALES.
-    var fotoSeleccionada = false
     
     //MARK: - IBOUTLETS.
     @IBOutlet weak var myImagenUsuarioIV: UIImageView!
@@ -243,7 +239,6 @@ extension SK_Registro_ViewController : UIImagePickerControllerDelegate, UINaviga
     
     // CERRAMOS LA CAMARA CUANDO SELECCIONEMOS LA IMAGEN
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingImage image: UIImage, editingInfo: [String : AnyObject]?) {
-        fotoSeleccionada = true
         myImagenUsuarioIV.image = image
         self.dismiss(animated: true, completion: nil)
     }

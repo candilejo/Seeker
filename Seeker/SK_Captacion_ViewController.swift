@@ -142,7 +142,11 @@ class SK_Captacion_ViewController: UIViewController {
     
     // EMPEZAR CAPTACIÓN.
     @IBAction func empezarCaptacionACTION(_ sender: Any) {
-        lanzarPararCaptacion(parar: false)
+        if calle == ""{
+            present(showAlertVC("ATENCIÓN", messageData: "Espere a que su localización sea correcta."), animated: true, completion: nil)
+        }else{
+            lanzarPararCaptacion(parar: false)
+        }
     }
     
     
@@ -205,7 +209,6 @@ class SK_Captacion_ViewController: UIViewController {
             myBotonPararCaptacionBTN.isEnabled = false
             myBotonEmpezarCaptacionBTN.isEnabled = true
             myBotonAddClienteBTN.isEnabled = false
-            myBotonClientesBTN.isEnabled = true
             myBotonRutaBTN.isEnabled = true
             // Dejamos de pintar.
             pintar = false
@@ -220,7 +223,6 @@ class SK_Captacion_ViewController: UIViewController {
             myBotonPararCaptacionBTN.isEnabled = true
             myBotonEmpezarCaptacionBTN.isEnabled = false
             myBotonAddClienteBTN.isEnabled = true
-            myBotonClientesBTN.isEnabled = false
             myBotonRutaBTN.isEnabled = false
             // Lanzamos la actualización de la localización
             locationManager.startUpdatingLocation()

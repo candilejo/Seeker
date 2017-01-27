@@ -83,8 +83,7 @@ class SK_Acceso_ViewController: UIViewController {
                     self.present(showAlertVC("Error", messageData: "Error en el Login."), animated: true, completion: nil)
                 }
             }
-            // Limpiamos los campos y bloqueamos myBotonAccederBTN.
-            limpiaCampos([self.myUsuarioTF, self.myPasswordTF])
+            // Bloqueamos myBotonAccederBTN.
             cambiaEstadoBTN(boton: self.myBotonAccederBTN, estado: false)
         }
     }
@@ -102,13 +101,6 @@ class SK_Acceso_ViewController: UIViewController {
     // CIERRA EL TECLADO AL PULSAR ACEPTAR.
     @IBAction func cierraTecladoACTION(_ sender: Any) {
     }
-    
-/*    // UNWIND LOGOUT.
-    @IBAction func logoutACTION(storyboard : UIStoryboardSegue){
-        PFUser.logOut() // Realizamos el logout del usuario.
-        // Lanzamos un mensaje de información.
-        present(showAlertVC("INFORMACIÓN", messageData: "La sesión se ha cerrado correctamente."), animated: true, completion: nil)
-    }*/
     
     //MARK -------------------------- UTILIDADES --------------------------
     

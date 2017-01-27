@@ -166,7 +166,7 @@ class SK_InformacionRuta_ViewController: UIViewController{
             UIApplication.shared.endIgnoringInteractionEvents()
             if actualizacionExitosa{ // Si todo es correcto lanzamos un mensaje.
                 guardado = true
-                let alertVC = UIAlertController(title: "ATENCION", message: "Datos salvados exitosamente", preferredStyle: .alert)
+                let alertVC = UIAlertController(title: "INFORMACIÓN", message: "Datos salvados exitosamente", preferredStyle: .alert)
                 let okAction = UIAlertAction(title: "OK", style: .default, handler: { (cerrar) in
                     self.performSegue(withIdentifier: "volverRuta", sender: self.view)
                 })

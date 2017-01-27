@@ -15,7 +15,6 @@ class SK_Yo_Editar_ViewController: UIViewController {
 
     
     //MARK: - VARIABLES LOCALES GLOBALES
-    var fotoSeleccionada = false
     var inicial = true
     
     //MARK: - IBOUTLETS
@@ -359,7 +358,6 @@ extension SK_Yo_Editar_ViewController : UIImagePickerControllerDelegate, UINavig
     
     // CERRAMOS LA CAMARA CUANDO SELECCIONEMOS LA IMAGEN
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingImage image: UIImage, editingInfo: [String : AnyObject]?) {
-        fotoSeleccionada = true
         myImagenUsuarioIV.image = image
         self.dismiss(animated: true, completion: nil)
     }

@@ -14,7 +14,6 @@ import Parse
 class SK_Captacion_AddClient_ViewController: UIViewController {
 
     //MARK: - VARIABLES LOCALES GLOBALES
-    var fotoSeleccionada = false
     var latitud : Double?
     var longitud : Double?
     var calle : String?
@@ -29,7 +28,7 @@ class SK_Captacion_AddClient_ViewController: UIViewController {
     @IBOutlet weak var myObservacionesClienteTF: UITextField!
     
     
-    
+
     //MARK: - LIFE VC
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -86,8 +85,7 @@ class SK_Captacion_AddClient_ViewController: UIViewController {
 
 
     // CERRAR TECLADO AL CLICAR EN ACEPTAR.
-    @IBAction func cerrarTcladoACTION(_ sender: Any) {
-    }
+    @IBAction func cerrarTcladoACTION(_ sender: Any) {}
     
     
     // ACTUALIZAR VALOR DEL TEXTFIELD
@@ -181,12 +179,12 @@ class SK_Captacion_AddClient_ViewController: UIViewController {
     func compruebaCampos() -> Bool{
         // Comprobamos que el campo telefono tiene que estar relleno y tener los caracteres correctos.
         if myTelefonoClienteTF.text == ""{
-            present(showAlertVC("ATENCIÓN", messageData: "El cliente debe contener un número de teléfono."), animated: true, completion: nil)
+            present(showAlertVC("ATENCIÓN", messageData: "El cliente debe contener un número de teléfono o una imagen."), animated: true, completion: nil)
             return false
         }else if myTelefonoClienteTF.text?.characters.count != 9 {
             present(showAlertVC("ATENCIÓN", messageData: "El número de Telefono no es correcto."), animated: true, completion: nil)
             return false
-        }else {
+        }else{
             return true
         }
     }
@@ -194,7 +192,7 @@ class SK_Captacion_AddClient_ViewController: UIViewController {
     // COMPRUEBA SI EL CLIENTE EXISTE.
     func existeCliente(){
         // Realizamos la consulta de los datos del cliente.
-        let usuario = String(describing: PFUser.current()!)
+        let usuario = String(describing: (PFUser.current()?.username)!)
         let queryUser = PFQuery(className: "Client")
         queryUser.whereKey("telefonoCliente", equalTo: myTelefonoClienteTF.text!)
         
@@ -267,6 +265,7 @@ class SK_Captacion_AddClient_ViewController: UIViewController {
         let imageFile = PFFile(name: "imagePerfilCliente" + myTelefonoClienteTF.text! + ".jpg", data: imageData!)
         
         // Asignamos el fichero y el usuario.
+        postImagen["usuarioCliente"] = (PFUser.current()?.username)!
         postImagen["imagenCliente"] = imageFile
         postImagen["telefonoCliente"] = myTelefonoClienteTF.text!
         
@@ -317,7 +316,6 @@ extension SK_Captacion_AddClient_ViewController : UIImagePickerControllerDelegat
     
     // CERRAMOS LA CAMARA CUANDO SELECCIONEMOS LA IMAGEN
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingImage image: UIImage, editingInfo: [String : AnyObject]?) {
-        fotoSeleccionada = true
         myImagenClienteIV.image = image
         self.dismiss(animated: true, completion: nil)
     }

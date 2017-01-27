@@ -56,7 +56,6 @@ class SK_Rutas_Mapa_ViewController: UIViewController {
         
         let deleteAction = UIAlertAction(title: "Eliminar", style: .default, handler: { (eliminar) in
             self.eliminarRuta(usuario: (PFUser.current()?.username)!, nombreRuta: self.titulo!)
-            self.performSegue(withIdentifier: "volverRutas", sender: self.view)
         })
         let cancelAction = UIAlertAction(title: "Cancelar", style: .cancel, handler: nil)
         
@@ -139,6 +138,12 @@ class SK_Rutas_Mapa_ViewController: UIViewController {
                     if (objectRemoverDes["nombreRuta"] as! String == nombreRuta){ // Si el nombre de la ruta coincide la eliminamos.
                         objectRemoverDes.deleteInBackground(block: nil)
                         otroView = true
+                        let alertVC = UIAlertController(title: "INFORMACIÓN", message: "Datos eliminados exitosamente", preferredStyle: .alert)
+                        let okAction = UIAlertAction(title: "OK", style: .default, handler: { (cerrar) in
+                            self.performSegue(withIdentifier: "volverRutas", sender: self.view)
+                        })
+                        alertVC.addAction(okAction)
+                        self.present(alertVC, animated: true, completion: nil)
                     }
                 }
             }else{
