@@ -40,10 +40,10 @@
 		6682AE2F1DF80B9E00C20582 /* SK_Captacion_ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6682AE2E1DF80B9E00C20582 /* SK_Captacion_ViewController.swift */; };
 		6682AE321DF80F5300C20582 /* SK_Captacion_AddClient_ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6682AE311DF80F5300C20582 /* SK_Captacion_AddClient_ViewController.swift */; };
 		66AA0B341DF18D6200C4F7C2 /* SK_Registro_ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66AA0B331DF18D6200C4F7C2 /* SK_Registro_ViewController.swift */; };
+		66B9BC1D1E3F3CCA00D736E1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 66B9BC1C1E3F3CCA00D736E1 /* Assets.xcassets */; };
 		66C11D851E378757008CCBCD /* SK_InformacionRuta_ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66C11D841E378757008CCBCD /* SK_InformacionRuta_ViewController.swift */; };
 		66E8F6C41E2787BA00E0E0B7 /* SK_Opciones_CambiarContrasena_ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66E8F6C31E2787BA00E0E0B7 /* SK_Opciones_CambiarContrasena_ViewController.swift */; };
 		66E8F6C61E2787D500E0E0B7 /* SK_Opciones_CambiarEmail_ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66E8F6C51E2787D500E0E0B7 /* SK_Opciones_CambiarEmail_ViewController.swift */; };
-		66E8F6CA1E2F60F100E0E0B7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 66E8F6C91E2F60F100E0E0B7 /* Assets.xcassets */; };
 		66E8F6CC1E30D13200E0E0B7 /* SK_Rutas_TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66E8F6CB1E30D13200E0E0B7 /* SK_Rutas_TableViewController.swift */; };
 		66E8F6CF1E30D1E800E0E0B7 /* SK_Rutas_TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66E8F6CE1E30D1E800E0E0B7 /* SK_Rutas_TableViewCell.swift */; };
 		66E8F6D11E30D4A000E0E0B7 /* SK_ModeloRutas.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66E8F6D01E30D4A000E0E0B7 /* SK_ModeloRutas.swift */; };
@@ -89,10 +89,10 @@
 		6682AE2E1DF80B9E00C20582 /* SK_Captacion_ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SK_Captacion_ViewController.swift; sourceTree = "<group>"; };
 		6682AE311DF80F5300C20582 /* SK_Captacion_AddClient_ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SK_Captacion_AddClient_ViewController.swift; sourceTree = "<group>"; };
 		66AA0B331DF18D6200C4F7C2 /* SK_Registro_ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SK_Registro_ViewController.swift; sourceTree = "<group>"; };
+		66B9BC1C1E3F3CCA00D736E1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		66C11D841E378757008CCBCD /* SK_InformacionRuta_ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SK_InformacionRuta_ViewController.swift; sourceTree = "<group>"; };
 		66E8F6C31E2787BA00E0E0B7 /* SK_Opciones_CambiarContrasena_ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SK_Opciones_CambiarContrasena_ViewController.swift; sourceTree = "<group>"; };
 		66E8F6C51E2787D500E0E0B7 /* SK_Opciones_CambiarEmail_ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SK_Opciones_CambiarEmail_ViewController.swift; sourceTree = "<group>"; };
-		66E8F6C91E2F60F100E0E0B7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		66E8F6CB1E30D13200E0E0B7 /* SK_Rutas_TableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SK_Rutas_TableViewController.swift; sourceTree = "<group>"; };
 		66E8F6CE1E30D1E800E0E0B7 /* SK_Rutas_TableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SK_Rutas_TableViewCell.swift; sourceTree = "<group>"; };
 		66E8F6D01E30D4A000E0E0B7 /* SK_ModeloRutas.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SK_ModeloRutas.swift; sourceTree = "<group>"; };
@@ -161,7 +161,7 @@
 		6628E5391DF07994006C7213 /* OTROS */ = {
 			isa = PBXGroup;
 			children = (
-				66E8F6C91E2F60F100E0E0B7 /* Assets.xcassets */,
+				66B9BC1C1E3F3CCA00D736E1 /* Assets.xcassets */,
 				6628E5271DF07836006C7213 /* AppDelegate.swift */,
 				6628E5301DF07836006C7213 /* LaunchScreen.storyboard */,
 				6628E5331DF07836006C7213 /* Info.plist */,
@@ -438,7 +438,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6628E5321DF07836006C7213 /* LaunchScreen.storyboard in Resources */,
-				66E8F6CA1E2F60F100E0E0B7 /* Assets.xcassets in Resources */,
+				66B9BC1D1E3F3CCA00D736E1 /* Assets.xcassets in Resources */,
 				6628E52D1DF07836006C7213 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
