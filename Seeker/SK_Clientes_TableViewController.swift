@@ -50,6 +50,11 @@ class SK_Clientes_TableViewController: UITableViewController {
     // UNWIND
     @IBAction func unWindTabla(storyboard : UIStoryboardSegue){}
     
+    // FILTAR CLIENTES PENDIENTES
+    @IBAction func filtrarClientesACTION(_ sender: Any) {
+        print("ok")
+    }
+    
     //MARK: -------------------------- UTILIDADES --------------------------
     
     // REFRESCAR TABLA

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="Gan-0i-mjM">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="Gan-0i-mjM">
     <device id="retina4_0" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -2102,6 +2102,11 @@ Ante cualquier conflicto, la Ley aplicable será la Española, con expresa renun
                     </tableView>
                     <navigationItem key="navigationItem" title="CLIENTES" id="MIT-jv-b2v">
                         <barButtonItem key="backBarButtonItem" title=" " id="d2c-LL-bpx"/>
+                        <barButtonItem key="rightBarButtonItem" image="guardar2" id="CJY-oP-rhl">
+                            <connections>
+                                <action selector="filtrarClientesACTION:" destination="Jak-dm-ED7" id="tEo-kb-2ai"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Jak-dm-ED7" userLabel="First Responder" sceneMemberID="firstResponder"/>
