@@ -538,7 +538,7 @@ Ante cualquier conflicto, la Ley aplicable será la Española, con expresa renun
                         <rect key="frame" x="0.0" y="0.0" width="320" height="519"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Introduca su Email actúal." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lLF-Z5-wDL">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Introduca su Email Actual." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lLF-Z5-wDL">
                                 <rect key="frame" x="16" y="82" width="288" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="chb-fp-n1q"/>
@@ -576,7 +576,7 @@ Ante cualquier conflicto, la Ley aplicable será la Española, con expresa renun
                                     <constraint firstAttribute="height" constant="30" id="fIq-CS-DXB"/>
                                 </constraints>
                             </imageView>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Email Actúal" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="zNr-yR-wFb">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Email Actual" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="zNr-yR-wFb">
                                 <rect key="frame" x="54" y="120" width="250" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="XSX-ET-9sf"/>
@@ -589,7 +589,7 @@ Ante cualquier conflicto, la Ley aplicable será la Española, con expresa renun
                                     <action selector="compruebaCamposACTION:" destination="xHW-X4-zqX" eventType="editingChanged" id="fn6-AG-BzN"/>
                                 </connections>
                             </textField>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Introduca su nuevo Email." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xkO-l2-BDG">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Introduca su Nuevo Email." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xkO-l2-BDG">
                                 <rect key="frame" x="16" y="169" width="288" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="sNd-YL-gad"/>
@@ -625,7 +625,7 @@ Ante cualquier conflicto, la Ley aplicable será la Española, con expresa renun
                                     <action selector="compruebaCamposACTION:" destination="xHW-X4-zqX" eventType="editingChanged" id="WQt-SA-Amc"/>
                                 </connections>
                             </textField>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Repita su nuevo Email." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WUl-dD-DHh">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Repita su Nuevo Email." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WUl-dD-DHh">
                                 <rect key="frame" x="16" y="256" width="288" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="Rid-AX-0WC"/>
@@ -733,7 +733,7 @@ Ante cualquier conflicto, la Ley aplicable será la Española, con expresa renun
                         <rect key="frame" x="0.0" y="0.0" width="320" height="519"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Introduca su contraseña actúal." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Eqd-LN-AD6">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Introduca su Contraseña Actual." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Eqd-LN-AD6">
                                 <rect key="frame" x="16" y="82" width="288" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="UyH-Ev-JlN"/>
@@ -770,7 +770,7 @@ Ante cualquier conflicto, la Ley aplicable será la Española, con expresa renun
                                     <constraint firstAttribute="height" constant="30" id="yN3-Kv-a8W"/>
                                 </constraints>
                             </imageView>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Contraseña Actúal" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="kV8-NA-rd2">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Contraseña Actual" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="kV8-NA-rd2">
                                 <rect key="frame" x="54" y="120" width="250" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="mob-GR-mXz"/>
@@ -783,7 +783,7 @@ Ante cualquier conflicto, la Ley aplicable será la Española, con expresa renun
                                     <action selector="compruebaCamposPasswordACTION:" destination="ZNl-bY-lfz" eventType="editingChanged" id="nCD-sX-rzO"/>
                                 </connections>
                             </textField>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Introduca su nueva contraseña." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WBk-HF-LY9">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Introduca su Nueva Contraseña." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WBk-HF-LY9">
                                 <rect key="frame" x="16" y="169" width="288" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="5sv-yR-fmG"/>
@@ -819,7 +819,7 @@ Ante cualquier conflicto, la Ley aplicable será la Española, con expresa renun
                                     <action selector="compruebaCamposPasswordACTION:" destination="ZNl-bY-lfz" eventType="editingChanged" id="H2T-Po-J36"/>
                                 </connections>
                             </textField>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Repita su nueva contraseña." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9Zj-Rz-KaD">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Repita su Nueva Contraseña." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9Zj-Rz-KaD">
                                 <rect key="frame" x="16" y="256" width="288" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="pcs-s8-OKa"/>
@@ -1128,7 +1128,7 @@ Ante cualquier conflicto, la Ley aplicable será la Española, con expresa renun
                                 </constraints>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                <textInputTraits key="textInputTraits" autocorrectionType="no" keyboardAppearance="alert" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no" keyboardAppearance="alert" returnKeyType="done"/>
                                 <connections>
                                     <action selector="cerrarTcladoACTION:" destination="Ehn-cX-DFx" eventType="editingDidEndOnExit" id="yHc-ej-nIz"/>
                                 </connections>
@@ -1140,7 +1140,7 @@ Ante cualquier conflicto, la Ley aplicable será la Española, con expresa renun
                                 </constraints>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                <textInputTraits key="textInputTraits" autocorrectionType="no" keyboardType="numberPad" keyboardAppearance="alert" enablesReturnKeyAutomatically="YES"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no" keyboardType="numberPad" keyboardAppearance="alert"/>
                             </textField>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Calle" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="fry-Hs-6dt">
                                 <rect key="frame" x="38" y="294" width="266" height="21"/>
@@ -1183,7 +1183,7 @@ Ante cualquier conflicto, la Ley aplicable será la Española, con expresa renun
                                 </constraints>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                <textInputTraits key="textInputTraits" keyboardAppearance="alert" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
+                                <textInputTraits key="textInputTraits" keyboardAppearance="alert" returnKeyType="done"/>
                                 <connections>
                                     <action selector="actualizaValorACTION:" destination="Ehn-cX-DFx" eventType="editingChanged" id="l76-jY-5Da"/>
                                     <action selector="cerrarTcladoACTION:" destination="fIk-OG-kRJ" eventType="editingDidEndOnExit" id="JWy-iS-yAz"/>
@@ -1789,7 +1789,7 @@ Ante cualquier conflicto, la Ley aplicable será la Española, con expresa renun
                                 </constraints>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                <textInputTraits key="textInputTraits" autocorrectionType="no" keyboardAppearance="alert" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no" keyboardAppearance="alert" returnKeyType="done"/>
                             </textField>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Teléfono (Opcional)" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="OUk-xl-JxT">
                                 <rect key="frame" x="38" y="296" width="266" height="21"/>
@@ -1798,7 +1798,7 @@ Ante cualquier conflicto, la Ley aplicable será la Española, con expresa renun
                                 </constraints>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                <textInputTraits key="textInputTraits" autocorrectionType="no" keyboardType="numberPad" keyboardAppearance="alert" enablesReturnKeyAutomatically="YES"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no" keyboardType="numberPad" keyboardAppearance="alert"/>
                             </textField>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Calle" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="qvD-KX-lQQ">
                                 <rect key="frame" x="38" y="373" width="266" height="21"/>
@@ -2102,9 +2102,9 @@ Ante cualquier conflicto, la Ley aplicable será la Española, con expresa renun
                     </tableView>
                     <navigationItem key="navigationItem" title="CLIENTES" id="MIT-jv-b2v">
                         <barButtonItem key="backBarButtonItem" title=" " id="d2c-LL-bpx"/>
-                        <barButtonItem key="rightBarButtonItem" image="guardar2" id="CJY-oP-rhl">
+                        <barButtonItem key="rightBarButtonItem" image="filtro" id="CJY-oP-rhl">
                             <connections>
-                                <action selector="filtrarClientesACTION:" destination="Jak-dm-ED7" id="tEo-kb-2ai"/>
+                                <action selector="filtrarClientesACTION:" destination="uQF-yj-q7x" id="2Cg-Aa-42y"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -2266,7 +2266,7 @@ Ante cualquier conflicto, la Ley aplicable será la Española, con expresa renun
                                 </constraints>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                <textInputTraits key="textInputTraits" autocorrectionType="no" keyboardAppearance="alert" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no" keyboardAppearance="alert" returnKeyType="done"/>
                                 <connections>
                                     <action selector="cerrarTcladoACTION:" destination="IdQ-3j-Xzc" eventType="editingDidEndOnExit" id="ndZ-8i-qjg"/>
                                     <action selector="compruebaCamposACTION:" destination="ebG-dZ-ZBB" eventType="editingChanged" id="ElG-n3-BwN"/>
@@ -2279,7 +2279,7 @@ Ante cualquier conflicto, la Ley aplicable será la Española, con expresa renun
                                 </constraints>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                <textInputTraits key="textInputTraits" autocorrectionType="no" keyboardType="numberPad" keyboardAppearance="alert" enablesReturnKeyAutomatically="YES"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no" keyboardType="numberPad" keyboardAppearance="alert"/>
                                 <connections>
                                     <action selector="cerrarTecladoACTION:" destination="IdQ-3j-Xzc" eventType="editingDidEndOnExit" id="09o-5k-wp8"/>
                                     <action selector="compruebaCamposACTION:" destination="IdQ-3j-Xzc" eventType="editingChanged" id="xpp-s5-6QL"/>
@@ -2368,7 +2368,7 @@ Ante cualquier conflicto, la Ley aplicable será la Española, con expresa renun
                                 </constraints>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                <textInputTraits key="textInputTraits" keyboardAppearance="alert" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
+                                <textInputTraits key="textInputTraits" keyboardAppearance="alert" returnKeyType="done"/>
                                 <connections>
                                     <action selector="cerrarTecladoACTION:" destination="IdQ-3j-Xzc" eventType="editingDidEndOnExit" id="AEv-gk-w4G"/>
                                     <action selector="compruebaCamposACTION:" destination="IdQ-3j-Xzc" eventType="editingChanged" id="4Uv-N5-0Od"/>
@@ -2731,6 +2731,7 @@ Ante cualquier conflicto, la Ley aplicable será la Española, con expresa renun
         <image name="editar" width="30" height="30"/>
         <image name="emailGrande2" width="389" height="379"/>
         <image name="estadoGrande" width="389" height="379"/>
+        <image name="filtro" width="30" height="30"/>
         <image name="front" width="450" height="280"/>
         <image name="gpsGrande" width="388" height="296"/>
         <image name="guardar2" width="30" height="30"/>
@@ -2746,7 +2747,7 @@ Ante cualquier conflicto, la Ley aplicable será la Española, con expresa renun
         <image name="usuarioGrande" width="389" height="379"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="Q5p-pE-CNx"/>
         <segue reference="hCF-cI-QeG"/>
+        <segue reference="Q5p-pE-CNx"/>
     </inferredMetricsTieBreakers>
 </document>

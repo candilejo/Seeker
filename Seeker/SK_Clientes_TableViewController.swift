@@ -52,7 +52,25 @@ class SK_Clientes_TableViewController: UITableViewController {
     
     // FILTAR CLIENTES PENDIENTES
     @IBAction func filtrarClientesACTION(_ sender: Any) {
-        print("ok")
+        
+        let alertVC = UIAlertController(title: "CLIENTES", message: "Seleccione una opción.", preferredStyle: .actionSheet)
+        let todosAction = UIAlertAction(title: "Todos", style: .default) { (todos) in
+            self.refreshVC()
+        }
+        let pendienteAction = UIAlertAction(title: "Pendientes", style: .default) { (pendientes) in
+            self.obtenerDatosClientesFiltro(estado: "Pendiente")
+            self.tableView.reloadData()
+        }
+        let contactadoAction = UIAlertAction(title: "Contactados", style: .default) { (contactados) in
+            self.obtenerDatosClientesFiltro(estado: "Contactado")
+            self.tableView.reloadData()
+        }
+        
+        alertVC.addAction(todosAction)
+        alertVC.addAction(pendienteAction)
+        alertVC.addAction(contactadoAction)
+        
+        self.present(alertVC, animated: true, completion: nil)
     }
     
     //MARK: -------------------------- UTILIDADES --------------------------
@@ -108,6 +126,62 @@ class SK_Clientes_TableViewController: UITableViewController {
     
     }
     
+    // OBTENER LOS DATOS DE LOS CLIENTES PENDIENTES / CONTACTADOS
+    func obtenerDatosClientesFiltro(estado : String){
+        var telefono = ""
+        var calle = ""
+        var existe = false
+        
+        // Limpiamos los array.
+        informacionClientes.removeAll()
+        latitudCliente.removeAll()
+        longitudCliente.removeAll()
+        telefonoCliente.removeAll()
+        
+        // Realizamos la consulta.
+        let clientes = PFQuery(className: "Client")
+        clientes.whereKey("usuarioCliente", equalTo: (PFUser.current()?.username)!)
+        
+        // Mostramos la carga e ignoramos cualquier evento.
+        muestraCarga(muestra: true, view: self.view, imageGroupTag: 1)
+        UIApplication.shared.beginIgnoringInteractionEvents()
+        
+        // Realizamos la busqueda de los objetos.
+        clientes.findObjectsInBackground { (objetoCliente, errorCliente) in
+            
+            // Si el objeto esta vacio lanzamos el error.
+            if let objetoClienteData = objetoCliente{
+                if objetoClienteData == []{
+                    // Ocultamos la carga y lanzamos los eventos.
+                    muestraCarga(muestra: false, view: self.view, imageGroupTag: 1)
+                    UIApplication.shared.endIgnoringInteractionEvents()
+                    
+                    self.present(showAlertVC("ATENCIÓN", messageData: "No existe ningún cliente."), animated: true, completion: nil)
+                }else{// Sino lo buscamos y obtenemos la imagen.
+                    for objetoClienteDes in objetoCliente!{
+                        if objetoClienteDes["estadoCliente"] as! String == estado{
+                            telefono = objetoClienteDes["telefonoCliente"] as! String
+                            calle = objetoClienteDes["calleCliente"] as! String
+                            self.latitudCliente.append(objetoClienteDes["latitudCliente"] as! Double)
+                            self.longitudCliente.append(objetoClienteDes["longitudCliente"] as! Double)
+                            self.telefonoCliente.append(telefono)
+                            existe = true
+                            self.obtenerImagen(telefono: telefono, calle: calle)
+                        }
+                    }
+                    if existe == false{
+                        // Ocultamos la carga y lanzamos los eventos.
+                        muestraCarga(muestra: false, view: self.view, imageGroupTag: 1)
+                        UIApplication.shared.endIgnoringInteractionEvents()
+                        
+                        self.present(showAlertVC("ATENCIÓN", messageData: "No existe ningún cliente \(estado)."), animated: true, completion: nil)
+                    }
+                }
+            }
+        }
+        
+    }
+    
     // OBTENEMOS LAS IMAGENES DE LOS CLIENTES
     func obtenerImagen(telefono : String, calle : String){
         // Realizamos la consulta.
@@ -133,7 +207,9 @@ class SK_Clientes_TableViewController: UITableViewController {
     }
     
     // ELIMINAR CLIENTE
-    func eliminarCliente(telefono : String) {
+    func eliminarCliente(telefono : String){
+        let usuario = String(describing: (PFUser.current()?.username)!)
+        print(usuario)
         var error = false
         
         // Realizamos la consulta.
@@ -148,9 +224,11 @@ class SK_Clientes_TableViewController: UITableViewController {
         queryRemover.findObjectsInBackground(block: { (objectRemove, errorRemove) in
             if errorRemove == nil{ // Si no hay error eliminamos el cliente.
                 for objectRemoverDes in objectRemove!{
-                    objectRemoverDes.deleteInBackground(block: nil)
+                    if objectRemoverDes["usuarioCliente"] as! String == usuario{
+                        objectRemoverDes.deleteInBackground(block: nil)
+                    }
                 }
-            }else{
+            }else{ // Si no lanzamos un error.
                 print("Error \((errorRemove! as NSError).userInfo)")
                 
                 // Ocultamos la carga y lanzamos cualquier evento.
@@ -160,8 +238,8 @@ class SK_Clientes_TableViewController: UITableViewController {
                 error = true
             }
         })
-        if error == false{ // Si no hay error
-            // Realizamos la consulta.
+        if error == false{ // Si no hay error.
+            // Realizamos la consulta
             let queryRemoverImage = PFQuery(className: "imageClient")
             queryRemoverImage.whereKey("telefonoCliente", equalTo: telefono)
             
@@ -171,12 +249,16 @@ class SK_Clientes_TableViewController: UITableViewController {
                 muestraCarga(muestra: false, view: self.view, imageGroupTag: 1)
                 UIApplication.shared.endIgnoringInteractionEvents()
                 
-                if errorRemove == nil{ // Si no hay error eliminamos la imagen del cliente.
+                if errorRemove == nil{ // Si no hay error eliminamos la foto
                     for objectRemoverDes in objectRemove!{
-                        objectRemoverDes.deleteInBackground(block: nil)
+                        if objectRemoverDes["usuarioCliente"] as! String == usuario{
+                            objectRemoverDes.deleteInBackground(block: nil)
+                        }
                     }
+                    // Lanzamos un mensaje y refrescamos la tabla.
+                    self.present(showAlertVC("INFORMACIÓN", messageData: "El cliente se ha eliminado correctamente."), animated: true, completion: nil)
                     self.refreshVC()
-                }else{ // Sino lanzamos un error
+                }else{
                     print("Error \((errorRemove! as NSError).userInfo)")
                     // Ocultamos la carga y lanzamos cualquier evento.
                     muestraCarga(muestra: false, view: self.view, imageGroupTag: 1)
@@ -189,7 +271,9 @@ class SK_Clientes_TableViewController: UITableViewController {
             muestraCarga(muestra: false, view: self.view, imageGroupTag: 1)
             UIApplication.shared.endIgnoringInteractionEvents()
         }
+        
     }
+
     
     //MARK: -------------------------- CONFIGURACION DE LA TABLA --------------------------
     
@@ -282,6 +366,12 @@ class SK_Clientes_TableViewController: UITableViewController {
         callAction.backgroundColor = UIColor.darkGray
         
         return[deleteAction,gpsAction,callAction]
+    }
+    
+    override func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        let item = informacionClientes[sourceIndexPath.row]
+        informacionClientes.remove(at: sourceIndexPath.row)
+        informacionClientes.insert(item, at: destinationIndexPath.row)
     }
     
 

@@ -142,10 +142,10 @@ class SK_Captacion_InfoCliente_ViewController: UIViewController {
     
     // COMPRUEBA SI LOS CAMPOS SON IGUALES.
     @IBAction func compruebaCamposACTION(_ sender: Any) {
-        if myNombreClienteTF.text != nombreCliente || myTelefonoClienteTF.text != telefonoCliente || myEstadoClienteLBL.text != estadoCliente || imagenCambiada == true || myComentarioTF.text != observacionesCliente{
+        if compruebaCampos(){
             cambiaEstadoBTN(boton: myBotonActualizarBTN, estado: true)
         }else{
-        
+            print ("llega")
             cambiaEstadoBTN(boton: myBotonActualizarBTN, estado: false)
         }
         textField.text = myComentarioTF.text
@@ -158,6 +158,14 @@ class SK_Captacion_InfoCliente_ViewController: UIViewController {
     
     //MARK -------------------------- UTILIDADES --------------------------
     
+    // COMPRUEBA ESTADO DE LOS CAMPOS
+    func compruebaCampos() -> Bool{
+        if myNombreClienteTF.text != nombreCliente || myTelefonoClienteTF.text != telefonoCliente || myEstadoClienteLBL.text != estadoCliente || imagenCambiada == true || myComentarioTF.text != observacionesCliente{
+            return true
+        }else{
+            return false
+        }
+    }
     // CONFIGURAR TEXTFIELD DEL TECLADO.
     func configurarTextField(){
         textField = UITextField(frame: CGRect(x: 0, y: 0, width: 300, height: 30))
@@ -181,7 +189,7 @@ class SK_Captacion_InfoCliente_ViewController: UIViewController {
     func cargarDatosCliente(){
         // Realizamos la consulta de los datos del cliente.
         let queryClient = PFQuery(className: "Client")
-        queryClient.whereKey("telefonoCliente", equalTo: self.myTelefonoClienteTF.text!)
+        queryClient.whereKey("telefonoCliente", equalTo: self.telefonoCliente!)
         
         // Mostramos la carga e ignoramos cualquier evento.
         muestraCarga(muestra: true, view: self.view, imageGroupTag: 1)
@@ -195,7 +203,7 @@ class SK_Captacion_InfoCliente_ViewController: UIViewController {
                         
                         // Realizamos la consulta de las imagenes del cliente.
                         let queryImage = PFQuery(className: "imageClient")
-                        queryImage.whereKey("telefonoCliente", equalTo: self.myTelefonoClienteTF.text!)
+                        queryImage.whereKey("telefonoCliente", equalTo: self.telefonoCliente!)
                         
                         // Buscamos los objetos del cliente comprobando si hay errores.
                         queryImage.findObjectsInBackground(block: { (objectDos, errorDos) in
@@ -224,33 +232,35 @@ class SK_Captacion_InfoCliente_ViewController: UIViewController {
                             }
                         })
                         // Cargamos los datos del cliente.
-                        if objectDataUnoDes["nombreCliente"] != nil{
-                            self.myNombreClienteTF.text = objectDataUnoDes["nombreCliente"] as? String
-                            self.nombreCliente = self.myNombreClienteTF.text
+                        if objectDataUnoDes["usuarioCliente"] as! String == (PFUser.current()?.username)!{
+                            if objectDataUnoDes["nombreCliente"] != nil{
+                                self.myNombreClienteTF.text = objectDataUnoDes["nombreCliente"] as? String
+                                self.nombreCliente = self.myNombreClienteTF.text
+                            }
+                            if objectDataUnoDes["telefonoCliente"] != nil{
+                                self.myTelefonoClienteTF.text = objectDataUnoDes["telefonoCliente"] as? String
+                                self.telefonoCliente = self.myTelefonoClienteTF.text
+                            }
+                            if objectDataUnoDes["calleCliente"] != nil{
+                                self.myCalleClienteTF.text = objectDataUnoDes["calleCliente"] as? String
+                            }
+                            if objectDataUnoDes["estadoCliente"] != nil{
+                                self.myEstadoClienteLBL.text = objectDataUnoDes["estadoCliente"] as? String
+                                self.estadoCliente = self.myEstadoClienteLBL.text
+                                self.compruebaSwitch(estado: self.estadoCliente!)
+                            }else{
+                                self.myEstadoClienteLBL.text = "Pendiente"
+                                self.estadoCliente = self.myEstadoClienteLBL.text
+                                self.compruebaSwitch(estado: self.estadoCliente!)
+                            }
+                            if objectDataUnoDes["observacionesCliente"] != nil{
+                                self.myComentarioTF.text = objectDataUnoDes["observacionesCliente"] as? String
+                                self.observacionesCliente = self.myComentarioTF.text
+                                self.textField.text = self.observacionesCliente
+                            }
+                            self.latitudCliente = objectDataUnoDes["latitudCliente"] as? Double
+                            self.longitudCliente = objectDataUnoDes["longitudCliente"] as? Double
                         }
-                        if objectDataUnoDes["telefonoCliente"] != nil{
-                            self.myTelefonoClienteTF.text = objectDataUnoDes["telefonoCliente"] as? String
-                            self.telefonoCliente = self.myTelefonoClienteTF.text
-                        }
-                        if objectDataUnoDes["calleCliente"] != nil{
-                            self.myCalleClienteTF.text = objectDataUnoDes["calleCliente"] as? String
-                        }
-                        if objectDataUnoDes["estadoCliente"] != nil{
-                            self.myEstadoClienteLBL.text = objectDataUnoDes["estadoCliente"] as? String
-                            self.estadoCliente = self.myEstadoClienteLBL.text
-                            self.compruebaSwitch(estado: self.estadoCliente!)
-                        }else{
-                            self.myEstadoClienteLBL.text = "Pendiente"
-                            self.estadoCliente = self.myEstadoClienteLBL.text
-                            self.compruebaSwitch(estado: self.estadoCliente!)
-                        }
-                        if objectDataUnoDes["observacionesCliente"] != nil{
-                            self.myComentarioTF.text = objectDataUnoDes["observacionesCliente"] as? String
-                            self.observacionesCliente = self.myComentarioTF.text
-                            self.textField.text = self.observacionesCliente
-                        }
-                        self.latitudCliente = objectDataUnoDes["latitudCliente"] as? Double
-                        self.longitudCliente = objectDataUnoDes["longitudCliente"] as? Double
                     }
                 }
             }else{
@@ -274,11 +284,17 @@ class SK_Captacion_InfoCliente_ViewController: UIViewController {
                 if let objectUnoDes = objectUno{
                     if objectUnoDes.count != 0{
                         for objectDataUnoDes  in objectUnoDes{
-                            // Si el cliente existe lanzamos un error sino lo guardamos.
-                            if self.myTelefonoClienteTF.text! == objectDataUnoDes["telefonoCliente"] as? String && usuario == objectDataUnoDes["usuarioCliente"] as? String{
-                                self.present(showAlertVC("ATENCIÓN", messageData: "El número ya esta dado de alta en la base de datos"), animated: true, completion: nil)
+                            if self.telefonoCliente != self.myTelefonoClienteTF.text{
+                                // Si el cliente existe lanzamos un error sino lo guardamos.
+                                if self.myTelefonoClienteTF.text! == objectDataUnoDes["telefonoCliente"] as? String && usuario == objectDataUnoDes["usuarioCliente"] as? String{
+                                    self.present(showAlertVC("ATENCIÓN", messageData: "El número ya esta dado de alta en la base de datos"), animated: true, completion: nil)
+                                }else{
+                                    self.actualizarDatos()
+                                }
                             }else{
-                                self.actualizarDatos()
+                                if usuario == objectDataUnoDes["usuarioCliente"] as? String{
+                                    self.actualizarDatos()
+                                }
                             }
                         }
                     }else{
@@ -291,6 +307,7 @@ class SK_Captacion_InfoCliente_ViewController: UIViewController {
     
     //ACTUALIZAR DATOS DEL CLIENTE
     func actualizarDatos(){
+        let usuario = String(describing: (PFUser.current()?.username)!)
         var correcto = true
         
         // Si myTelefonoClienteTF es correcto actualizamos si no lanzamos un error.
@@ -313,7 +330,9 @@ class SK_Captacion_InfoCliente_ViewController: UIViewController {
             queryRemover.findObjectsInBackground(block: { (objectRemove, errorRemove) in
                 if errorRemove == nil{ // Si no hay errores eliminamos el cliente.
                     for objectRemoverDes in objectRemove!{
-                        objectRemoverDes.deleteInBackground(block: nil)
+                        if objectRemoverDes["usuarioCliente"] as! String == usuario{
+                            objectRemoverDes.deleteInBackground(block: nil)
+                        }
                     }
                 }else{ // Si no lanzamos un error.
                     print("Error \((errorRemove! as NSError).userInfo)")
@@ -354,11 +373,12 @@ class SK_Captacion_InfoCliente_ViewController: UIViewController {
     
     // ELIMINAR CLIENTE
     func eliminarCliente(){
+        let usuario = String(describing: (PFUser.current()?.username)!)
         var error = false
         
         // Realizamos la consulta.
         let queryRemover = PFQuery(className: "Client")
-        queryRemover.whereKey("telefonoCliente", equalTo: self.myTelefonoClienteTF.text!)
+        queryRemover.whereKey("telefonoCliente", equalTo: self.telefonoCliente!)
         
         // Mostramos la carga e ignoramos cualquier evento.
         muestraCarga(muestra: true, view: self.view, imageGroupTag: 1)
@@ -368,7 +388,9 @@ class SK_Captacion_InfoCliente_ViewController: UIViewController {
         queryRemover.findObjectsInBackground(block: { (objectRemove, errorRemove) in
             if errorRemove == nil{ // Si no hay error eliminamos el cliente.
                 for objectRemoverDes in objectRemove!{
-                    objectRemoverDes.deleteInBackground(block: nil)
+                    if objectRemoverDes["usuarioCliente"] as! String == usuario{
+                        objectRemoverDes.deleteInBackground(block: nil)
+                    }
                 }
             }else{ // Si no lanzamos un error.
                 print("Error \((errorRemove! as NSError).userInfo)")
@@ -383,7 +405,7 @@ class SK_Captacion_InfoCliente_ViewController: UIViewController {
         if error == false{ // Si no hay error.
             // Realizamos la consulta
             let queryRemoverImage = PFQuery(className: "imageClient")
-            queryRemoverImage.whereKey("telefonoCliente", equalTo: self.myTelefonoClienteTF.text!)
+            queryRemoverImage.whereKey("telefonoCliente", equalTo: self.telefonoCliente!)
             
             // Buscamos los objetos.
             queryRemoverImage.findObjectsInBackground(block: { (objectRemove, errorRemove) in
@@ -393,7 +415,9 @@ class SK_Captacion_InfoCliente_ViewController: UIViewController {
                 
                 if errorRemove == nil{ // Si no hay error eliminamos la foto
                     for objectRemoverDes in objectRemove!{
-                        objectRemoverDes.deleteInBackground(block: nil)
+                        if objectRemoverDes["usuarioCliente"] as! String == usuario{
+                            objectRemoverDes.deleteInBackground(block: nil)
+                        }
                     }
                     haPasado = true
                     // Lanzamos un mensaje de eliminación y limpiamos los campos.
@@ -427,6 +451,8 @@ class SK_Captacion_InfoCliente_ViewController: UIViewController {
     
     //ACTUALIZAR FOTO DEL PERFIL
     func upatePhoto(){
+        let usuario = String(describing: (PFUser.current()?.username)!)
+        
         // Realizamos la consulta.
         let queryRemover = PFQuery(className: "imageClient")
         queryRemover.whereKey("telefonoCliente", equalTo: telefonoCliente!)
@@ -435,7 +461,9 @@ class SK_Captacion_InfoCliente_ViewController: UIViewController {
         queryRemover.findObjectsInBackground(block: { (objectRemove, errorRemove) in
             if errorRemove == nil{ // Si no existe ningún error eliminamos la foto.
                 for objectRemoverDes in objectRemove!{
-                    objectRemoverDes.deleteInBackground(block: nil)
+                    if objectRemoverDes["usuarioCliente"] as! String == usuario{
+                        objectRemoverDes.deleteInBackground(block: nil)
+                    }
                 }
             }else{ // Sino lanzamos un error.
                 print("Error \((errorRemove! as NSError).userInfo)")
@@ -452,6 +480,7 @@ class SK_Captacion_InfoCliente_ViewController: UIViewController {
         let imagenData = UIImageJPEGRepresentation(myImagenClienteIV.image!, 0.2)
         let imageFile = PFFile(name: "imagePerfilCliente" + myTelefonoClienteTF.text! + ".jpg", data: imagenData!)
         
+        postImagen["usuarioCliente"] = usuario
         postImagen["imagenCliente"] = imageFile
         postImagen["telefonoCliente"] = myTelefonoClienteTF.text
         
